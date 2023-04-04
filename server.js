@@ -16,14 +16,6 @@ app.get('/game', (req, res) => {
   res.render('game');
 });
 
-app.get('/cloudcore', (req, res) => {
-  res.render('cloudcore');
-});
-
-app.get('/gameception', (req, res) => {
-  res.render('gameception');
-});
-
 const PORT = process.env.PORT || 8080;
 app.listen(PORT, () => {
   console.log(`Server listening on port ${PORT}...`);
@@ -47,3 +39,9 @@ app.listen(PORT, () => {
 // . . nav.ejs
 // . game.ejs
 // . index.ejs
+// .gcloudignore
+// .gitattributes
+// app.yaml
+// .package-lock.json
+// .package.json
+// .server.js
