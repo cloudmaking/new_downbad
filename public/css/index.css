@@ -3,14 +3,13 @@
 .title-img {
     width: 300px;
     height: 150px;
-    border-radius: 25%;
+    border-radius: 2%;
 }
 
 .app-header {
-    /* make everythign align center */
     display: flex;
     flex-direction: column;
     justify-content: center;
     align-items: center;
-
+    gap: 1px;
 }

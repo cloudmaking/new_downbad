@@ -1,18 +1,11 @@
-body {
-    font-family: Arial, sans-serif;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    height: 100vh;
-    margin: 0;
-    background-color: #222;
-}
+/* public/css/game_v1.css */
 
 #game {
     text-align: center;
     background-color: #333;
     padding: 20px;
     border-radius: 10px;
+    color: aliceblue;
 }
 
 canvas {
@@ -39,26 +32,61 @@ button:hover {
     background-color: #45a049;
 }
 
+/* public/css/game.css */
 
-/* public/css/game.css 
+/* ... previous styles ... */
 
-.game-container {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    height: 100vh;
-    margin: 0;
-    background-color: #f0f0f0;
+#home-btn, #instructions-btn {
+    position: fixed;
+    top: 10px;
+    font-size: 14px;
+    padding: 5px 10px;
 }
 
-canvas {
-    border: 1px solid #000;
+#home-btn {
+    left: 10px;
 }
 
-#score-container {
-    text-align: center;
-    margin-top: 20px;
-    font-size: 24px;
+#instructions-btn {
+    right: 10px;
 }
-*/
+
+/* Popup styles */
+.popup {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5);
+    z-index: 10;
+}
+
+.popup-content {
+    background-color: white;
+    color: black;
+    padding: 20px;
+    border-radius: 10px;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    max-width: 80%;
+    }
+    
+    .popup-content h2 {
+    margin-top: 0;
+    }
+    
+    .close {
+    color: #aaa;
+    float: right;
+    font-size: 28px;
+    font-weight: bold;
+    cursor: pointer;
+    }
+    
+    .close:hover {
+    color: black;
+    }

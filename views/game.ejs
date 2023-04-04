@@ -10,31 +10,40 @@
 </head>
 
 <body>
-    <%- include('partials/navbar') %>
+    <button id="home-btn" onclick="window.location.href='/'">Home</button>
+    <button id="instructions-btn" onclick="toggleInstructionsPopup()">Instructions</button>
+    
     <div id="game">
-        <canvas id="board"></canvas>
+        <canvas id="board" width="600" height="600"></canvas>
         <div id="btns">
-            <button onclick="startGame(1)">Start with 1 player</button>
-            <button onclick="startGame(2)">Start with 2 players</button>
-            <button onclick="startGame(3)">Start with 3 players</button>
-            <button onclick="startGame(4)">Start with 4 players</button>
+            <button onclick="startGame(1)">1 player</button>
+            <button onclick="startGame(2)">2 players</button>
+            <button onclick="startGame(3)">3 players</button>
+            <button onclick="startGame(4)">4 players</button>
         </div>
         <div id="scores"></div>
     </div>
-    <script src="js/game_v1.js"></script>
 
-    <!--
-    <div class="game-container">
-        <h1>sKeKay</h1>
-        <p>Use the arrow keys to move the snake.</p>
-        <canvas id="gameCanvas" width="300" height="300"></canvas>
+    <div id="instructions-popup" class="popup">
+        <div class="popup-content">
+            <span class="close" onclick="toggleInstructionsPopup()">&times;</span>
+            <h2>Controls</h2>
+            <p>Player 1: Arrow keys</p>
+            <p>Player 2: W (up), A (left), S (down), D (right)</p>
+            <p>Player 3: Num pad 8 (up), 4 (left), 5 (down), 6 (right)</p>
+            <p>Player 4: U (up), H (left), J (down), K (right)</p>
+            <h2>Game Rules</h2>
+            <ul>
+                <li>Each player starts in their own corner.</li>
+                <li>Players compete to eat the red apple.</li>
+                <li>When a snake collides with the wall, itself, or another snake, it resets.</li>
+                <li>Each player's score resets when they reset.</li>
+                <li>The first player to reach 25 points wins the game.</li>
+            </ul>
+        </div>
     </div>
-    <div id="score-container">
-        Score: <span id="score">0</span>
-    </div>
-    <script src="js/game_v1.js"></script>
-    -->
+
+    <script src="/js/game_v1.js"></script>
 </body>
-
 
 </html>

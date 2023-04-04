@@ -41,33 +41,3 @@ p {
     margin-bottom: 1rem;
 }
 
-/* Navbar */
-nav {
-    position: fixed;
-    top: 0;
-    z-index: 1000;
-    width: 100%;
-    background-color: var(--main-color);
-    font-family: var(--font-secondary);
-}
-
-nav ul {
-    display: flex;
-    justify-content: center;
-    list-style-type: none;
-    margin: 0;
-    padding: 0;
-}
-
-nav li {
-    padding: 1rem;
-}
-
-nav a {
-    color: #ffffff;
-    text-decoration: none;
-}
-
-nav a:hover {
-    color: #cccccc;
-}
