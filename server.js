@@ -28,3 +28,22 @@ const PORT = process.env.PORT || 8080;
 app.listen(PORT, () => {
   console.log(`Server listening on port ${PORT}...`);
 });
+
+
+// Current directory structure
+// node_modules
+// public
+// . css
+// . . game.css
+// . . index.css
+// . . styles.css
+// . images
+// . . wer.jpg
+// . js
+// . . game_v0.js
+// . . game_v1.js
+// views
+// . partials
+// . . nav.ejs
+// . game.ejs
+// . index.ejs
