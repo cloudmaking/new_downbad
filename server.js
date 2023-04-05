@@ -16,6 +16,10 @@ app.get('/game', (req, res) => {
   res.render('game');
 });
 
+app.get('/game_v3', (req, res) => {
+  res.render('game_v3'); // Render the game_v3.ejs file
+});
+
 const PORT = process.env.PORT || 8080;
 app.listen(PORT, () => {
   console.log(`Server listening on port ${PORT}...`);
@@ -34,9 +38,9 @@ app.listen(PORT, () => {
 // . js
 // . . game_v0.js
 // . . game_v1.js
+// . . game_v3.js
 // views
-// . partials
-// . . nav.ejs
+// . game_v3.ejs
 // . game.ejs
 // . index.ejs
 // .gcloudignore

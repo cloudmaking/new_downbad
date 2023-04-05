@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Snake Game - Human vs AI</title>
+    <link rel="stylesheet" href="/css/styles.css">
+    <link rel="stylesheet" href="/css/game.css">
+</head>
+
+<body>
+    <button id="home-btn" onclick="window.location.href='/'">Home</button>
+    <button id="instructions-btn" onclick="toggleInstructionsPopup()">Instructions</button>
+
+    <div id="game">
+        <canvas id="board" width="600" height="600"></canvas>
+        <div id="btns">
+            <button onclick="startGame()">Start Game</button>
+        </div>
+        <div id="scores"></div>
+    </div>
+
+    <div id="instructions-popup" class="popup">
+        <div class="popup-content">
+            <span class="close" onclick="toggleInstructionsPopup()">&times;</span>
+            <h2>Controls</h2>
+            <p>Player 1 (Human): Arrow keys</p>
+            <p>Player 2 (AI): Computer-controlled</p>
+            <h2>Game Rules</h2>
+            <ul>
+                <li>Each player starts in their own corner.</li>
+                <li>Players compete to eat the red apple.</li>
+                <li>When a snake collides with the wall, itself, or another snake, it resets.</li>
+                <li>Each player's score resets when they reset.</li>
+                <li>The first player to reach 25 points wins the game.</li>
+            </ul>
+        </div>
+    </div>
+
+    <script src="/js/game_v3.js"></script>
+</body>
+
+</html>
