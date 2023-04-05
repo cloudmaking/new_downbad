@@ -1,15 +1,85 @@
 /* public/css/index.css */
 
-.title-img {
-    width: 300px;
-    height: 150px;
-    border-radius: 2%;
+body {
+    font-family: 'Roboto', sans-serif;
+}
+
+h1 {
+    font-size: 3rem;
+    color: #380000dc;
+    text-shadow: 7px 7px 5px rgba(7, 59, 94, 0.5);
+    text-align: center;
+    margin-top: 17px;
 }
 
 .app-header {
+    background-color: rgba(255, 255, 255, 0.8);
+    padding: 30px;
+    border-radius: 15px;
+    max-width: 600px;
+    margin: 50px auto;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1), 0 1px 3px rgba(0, 0, 0, 0.08);
+}
+
+.app-header img {
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+    width: 50%;
+    border-radius: 15px;
+}
+
+.app-header p {
+    font-size: 1.2rem;
+    line-height: 0.5;
+    text-align: center;
+}
+
+.app-header a {
+    color: #4CAF50;
+    text-decoration: none;
+    transition: color 0.3s;
+}
+
+.app-header a:hover {
+    color: #d122c8;
+}
+
+.game-buttons {
     display: flex;
     flex-direction: column;
-    justify-content: center;
     align-items: center;
-    gap: 1px;
+    justify-content: center;
+    gap: 10px;
+    margin-top: 45px;
 }
+
+#game-btn, #aigame-btn {
+    background-color: #c47f17;
+    border: none;
+    color: white;
+    padding: 10px 32px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 20px;
+    margin: 4px 2px;
+    cursor: pointer;
+    border-radius: 5px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.3);
+    transition: background-color 0.3s, transform 0.3s, box-shadow 0.3s;
+}
+
+#game-btn:hover {
+    background-color: #b9ca1c;
+    transform: translateY(-2px);
+    box-shadow: 0 6px 8px rgba(0, 0, 0, 0.3);
+}
+
+#aigame-btn:hover {
+    background-color: #ad492b;
+    transform: translateY(-2px);
+    box-shadow: 0 6px 8px rgba(0, 0, 0, 0.3);
+}
+
+

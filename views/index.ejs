@@ -5,18 +5,20 @@
     <title>DownBad</title>
     <link rel="stylesheet" href="/css/styles.css">
     <link rel="stylesheet" href="/css/index.css">
+
 </head>
 
 <body>
     <div class="app-header">
-        <a href="game">
-            <img class="title-img" src="/images/wer.jpg" alt="wer" style="cursor:pointer;">
-        </a>
-        <h1>Hello DownBad World!</h1>
+        <img src="/images/7.jpg" alt="DownBad Logo" class="logo">
+        <h1>DownBad World!</h1>
         <p>This is your capitan Cloud.</p>
         <p>This website is still under construction.</p>
         <p>But you can still visit my <a href="https://www.aliraza.cloud" target="_blank">personal website</a>.</p>
-        <p>Click the image ^, i dare you.</p>
+        <div class="game-buttons">
+            <button id="game-btn" onclick="window.location.href='/game'">Snake Game</button>
+            <button id="aigame-btn" onclick="window.location.href='/game_v3'">Snake Game vs AI</button>
+        </div>
     </div>
 </body>
 

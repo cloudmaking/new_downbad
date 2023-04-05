@@ -86,7 +86,7 @@ class Snake {
     constructor(x, y, id) {
         this.body = [{ x, y }];
         this.id = id;
-        this.color = ['blue', 'green', 'yellow', 'magenta'][id - 1];
+        this.color = ['#3a71e8', '#9de83a', '#e8c83a', '#d64f83'][id - 1];
         this.direction = id === 1 ? 'right' : id === 2 ? 'left' : id === 3 ? 'down' : 'up';
         this.score = 0;
         this.setControls();
@@ -206,7 +206,7 @@ class Apple {
     constructor() {
         this.x = Math.floor(Math.random() * cols);
         this.y = Math.floor(Math.random() * rows);
-        this.color = 'red';
+        this.color = '#e8463a';
     }
 
     draw() {
