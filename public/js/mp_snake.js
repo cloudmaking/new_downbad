@@ -1,9 +1,3 @@
-//1
-//This code selects the canvas element using its ID, gets its 2D context, 
-//and initializes the rows, columns, and size of each cell in the grid. 
-//Additionally, it initializes the apple and players variables, 
-//which will be used later in the script.
-
 const cvs = document.getElementById('board');
 const ctx = cvs.getContext('2d');
 const rows = 30;
@@ -12,15 +6,6 @@ const size = 20; // The size of each cell (20x20)
 let apple;
 let players = [];
 
-//2
-//The startGame function takes the number of players as an argument and 
-//initializes the players array with new Snake instances for each player. 
-//It also creates a new Apple instance and calls the updateScores function 
-//to display the initial scores. Finally, it starts the game loop by calling 
-//the gameLoop function.
-
-//The updateScores function generates the HTML for the scores of all players 
-//and updates the innerHTML of the scores element.
 function startGame(numPlayers) {
     players = [];
     for (let i = 0; i < numPlayers; i++) {
@@ -42,14 +27,6 @@ function updateScores() {
     document.getElementById('scores').innerHTML = scoresHTML;
 }
 
-//3
-//The gameLoop function handles the game logic. 
-//It clears the canvas, moves and draws each player's snake, 
-//and draws the apple. Then it checks if any snake has collided with itself, 
-//another snake, or the wall. If so, the snake resets. If a snake eats the 
-//apple, a new apple is created, and the scores are updated. The loop checks 
-//for a winner and, if there's no winner yet, it schedules the next iteration 
-//of the game loop with a timeout.
 function gameLoop() {
     ctx.clearRect(0, 0, cvs.width, cvs.height);
 
@@ -77,11 +54,6 @@ function gameLoop() {
     }
 }
 
-//4
-//The Snake class represents a snake in the game. 
-//It has methods for setting controls, checking for 
-//opposite directions, moving, drawing, checking collisions, 
-//resetting, and eating apples. 
 class Snake {
     constructor(x, y, id) {
         this.body = [{ x, y }];
@@ -117,9 +89,6 @@ class Snake {
         return this.direction === oppositeDirections[newDirection];
     }
 
-    //5
-    //These methods handle the movement, drawing, collision detection, 
-    //resetting, and apple eating for each snake. Now the Snake class is complete.
     move() {
         let dx = 0;
         let dy = 0;
@@ -193,15 +162,8 @@ class Snake {
         }
         return false;
     }
-    //These methods handle the movement, drawing, collision detection, 
-    //resetting, and apple eating for each snake. Now the Snake class is complete.
 }
 
-//6
-//The Apple class represents an apple in the game. 
-//The constructor generates random x and y coordinates within the grid, 
-//and sets the color to red. The draw method is responsible for drawing 
-//the apple on the canvas.
 class Apple {
     constructor() {
         this.x = Math.floor(Math.random() * cols);

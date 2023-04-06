@@ -12,7 +12,7 @@
 <body>
     <button id="home-btn" onclick="window.location.href='/'">Home</button>
     <button id="instructions-btn" onclick="toggleInstructionsPopup()">Instructions</button>
-    
+
     <div id="game">
         <canvas id="board" width="600" height="600"></canvas>
         <div id="btns">
@@ -43,7 +43,14 @@
         </div>
     </div>
 
-    <script src="/js/mp_snake.js"></script>
+    <!-- ... -->
+    <script type="module">
+        import { startGame, toggleInstructionsPopup } from '/js/mp_snake.js';
+        window.startGame = startGame;
+        window.toggleInstructionsPopup = toggleInstructionsPopup;
+    </script>
+    <!-- ... -->
+
 </body>
 
 </html>

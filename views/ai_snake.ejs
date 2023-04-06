@@ -38,7 +38,15 @@
         </div>
     </div>
 
-    <script src="/js/ai_snake.js"></script>
+    <!-- ... -->
+    <script type="module">
+        import { startGame, toggleInstructionsPopup } from '/js/mp_snake.js';
+        window.startGame = startGame;
+        window.toggleInstructionsPopup = toggleInstructionsPopup;
+    </script>
+    <!-- ... -->
+
+
 </body>
 
 </html>
