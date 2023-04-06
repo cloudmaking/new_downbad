@@ -16,7 +16,7 @@
     <div id="game">
         <canvas id="board" width="600" height="600"></canvas>
         <div id="btns">
-            <button onclick="startAIGame()">Start Game</button>
+            <button onclick="startGame()">Start Game</button>
         </div>
         <div id="scores"></div>
     </div>
@@ -38,11 +38,13 @@
         </div>
     </div>
 
-    <script type="module" src="/js/Game.js"></script>
-    <script type="module" src="/js/Snake.js"></script>
-    <script type="module" src="/js/Apple.js"></script>
-    <script type="module" src="/js/ai_snake.js"></script>
-
+    <!-- ... -->
+    <script type="module">
+        import { startGame, toggleInstructionsPopup } from '/js/mp_snake.js';
+        window.startGame = startGame;
+        window.toggleInstructionsPopup = toggleInstructionsPopup;
+    </script>
+    <!-- ... -->
 
 
 </body>
