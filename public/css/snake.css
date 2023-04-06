@@ -40,7 +40,8 @@ button:hover {
     box-shadow: 0 6px 8px rgba(0, 0, 0, 0.3);
 }
 
-#home-btn, #instructions-btn {
+#home-btn,
+#instructions-btn {
     background-color: #af704c;
     position: fixed;
     top: 20px;
@@ -95,4 +96,31 @@ button:hover {
 
 .close:hover {
     color: black;
+}
+
+.player-score {
+    display: inline-block;
+    text-align: center;
+    margin-right: 20px;
+    padding-top: 25px;
+}
+
+.score-circle {
+    width: 60px;
+    height: 40px;
+    border-radius: 50% / 50%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.score-text {
+    font-size: 24px;
+    color: white;
+    font-weight: bold;
+}
+
+.score-label {
+    font-size: 14px;
+    margin-top: 5px;
 }

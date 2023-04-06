@@ -19,12 +19,20 @@ function startGame() {
 }
 
 function updateScores() {
-    let scoresHTML = '';
-    players.forEach((player, index) => {
-        scoresHTML += `<p>Player ${index + 1}: ${player.score}</p>`;
-    });
-    document.getElementById('scores').innerHTML = scoresHTML;
-}
+    for (let i = 0; i < players.length; i++) {
+      let player = players[i];
+      let scoreElem = document.getElementById(`player${i + 1}-score`);
+      if (scoreElem !== null) { // add a null check
+        scoreElem.innerHTML = `
+          <div class="score-circle" style="background-color: ${player.color}">
+            <span class="score-text">${player.score}</span>
+          </div>
+          <span class="score-label">Player ${i + 1}</span>
+        `;
+      }
+    }
+  }
+  
 
 //3
 function gameLoop() {
@@ -58,8 +66,6 @@ function gameLoop() {
 }
 
 
-
-//4
 class Snake {
     constructor(x, y, id, ai = false) {
         this.body = [{ x, y }];
@@ -67,7 +73,6 @@ class Snake {
         this.color = ['#3a71e8', '#9de83a', '#e8c83a', '#d64f83'][id - 1];
         this.direction = id === 1 ? 'right' : id === 2 ? 'left' : id === 3 ? 'down' : 'up';
         this.score = 0;
-        this.setControls();
         this.ai = ai;
         if (!this.ai) {
             this.setControls();
@@ -77,32 +82,61 @@ class Snake {
     setControls() {
         document.addEventListener('keydown', e => {
             const keyMap = {
-                '1': { 37: 'left', 38: 'up', 39: 'right', 40: 'down' },
-                '2': { 65: 'left', 87: 'up', 68: 'right', 83: 'down' },
-                '3': { 100: 'left', 104: 'up', 102: 'right', 101: 'down' },
-                '4': { 72: 'left', 85: 'up', 75: 'right', 74: 'down' },
+                '1': { 37: 'left', 39: 'right' },
+                '2': { 65: 'left', 68: 'right' },
+                '3': { 100: 'left', 102: 'right' },
+                '4': { 72: 'left', 75: 'right' },
             };
-            const newDirection = keyMap[this.id][e.keyCode];
-            if (newDirection && !this.isOppositeDirection(newDirection)) {
-                this.direction = newDirection;
+            const turnDirection = keyMap[this.id][e.keyCode];
+            if (turnDirection) {
+                this.turn(turnDirection);
             }
         });
     }
 
-    aiMove(apple) {
-        const head = this.body[0];
-
-        if (head.x < apple.x && !this.isOppositeDirection('right')) {
-            this.direction = 'right';
-        } else if (head.x > apple.x && !this.isOppositeDirection('left')) {
-            this.direction = 'left';
-        } else if (head.y < apple.y && !this.isOppositeDirection('down')) {
-            this.direction = 'down';
-        } else if (head.y > apple.y && !this.isOppositeDirection('up')) {
-            this.direction = 'up';
-        }
+    turn(turnDirection) {
+        const turns = {
+            left: { up: 'left', down: 'right', left: 'down', right: 'up' },
+            right: { up: 'right', down: 'left', left: 'up', right: 'down' },
+        };
+        this.direction = turns[turnDirection][this.direction];
     }
 
+    aiMove(apple) {
+        const head = this.body[0];
+        const dx = apple.x - head.x;
+        const dy = apple.y - head.y;
+        const turnLeft = {
+            up: 'left',
+            left: 'down',
+            down: 'right',
+            right: 'up',
+        };
+        const turnRight = {
+            up: 'right',
+            left: 'up',
+            down: 'left',
+            right: 'down',
+        };
+
+        if (Math.abs(dx) > Math.abs(dy)) {
+            if (dx > 0 && !this.isOppositeDirection('right')) {
+                this.direction = 'right';
+            } else if (dx < 0 && !this.isOppositeDirection('left')) {
+                this.direction = 'left';
+            } else {
+                this.direction = dy > 0 ? turnRight[this.direction] : turnLeft[this.direction];
+            }
+        } else {
+            if (dy > 0 && !this.isOppositeDirection('down')) {
+                this.direction = 'down';
+            } else if (dy < 0 && !this.isOppositeDirection('up')) {
+                this.direction = 'up';
+            } else {
+                this.direction = dx > 0 ? turnRight[this.direction] : turnLeft[this.direction];
+            }
+        }
+    }
 
     isOppositeDirection(newDirection) {
         const oppositeDirections = {
@@ -114,9 +148,6 @@ class Snake {
         return this.direction === oppositeDirections[newDirection];
     }
 
-    //5
-    //These methods handle the movement, drawing, collision detection, 
-    //resetting, and apple eating for each snake. Now the Snake class is complete.
     move() {
         let dx = 0;
         let dy = 0;
@@ -190,11 +221,8 @@ class Snake {
         }
         return false;
     }
-    //These methods handle the movement, drawing, collision detection, 
-    //resetting, and apple eating for each snake. Now the Snake class is complete.
 }
 
-//6
 class Apple {
     constructor() {
         this.x = Math.floor(Math.random() * cols);

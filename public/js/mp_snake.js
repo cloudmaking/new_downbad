@@ -22,10 +22,18 @@ function startGame(numPlayers) {
 function updateScores() {
     let scoresHTML = '';
     players.forEach((player, index) => {
-        scoresHTML += `<p>Player ${index + 1}: ${player.score}</p>`;
+      scoresHTML += `
+        <div class="player-score">
+          <div class="score-circle" style="background-color: ${player.color};">
+            <span class="score-text">${player.score}</span>
+          </div>
+          <p class="score-label">Player ${index + 1}</p>
+        </div>
+      `;
     });
     document.getElementById('scores').innerHTML = scoresHTML;
-}
+  }
+  
 
 function gameLoop() {
     ctx.clearRect(0, 0, cvs.width, cvs.height);
@@ -67,16 +75,24 @@ class Snake {
     setControls() {
         document.addEventListener('keydown', e => {
             const keyMap = {
-                '1': { 37: 'left', 38: 'up', 39: 'right', 40: 'down' },
-                '2': { 65: 'left', 87: 'up', 68: 'right', 83: 'down' },
-                '3': { 100: 'left', 104: 'up', 102: 'right', 101: 'down' },
-                '4': { 72: 'left', 85: 'up', 75: 'right', 74: 'down' },
+                '1': { 37: 'left', 39: 'right' },
+                '2': { 65: 'left', 68: 'right' },
+                '3': { 100: 'left', 102: 'right' },
+                '4': { 72: 'left', 75: 'right' },
             };
-            const newDirection = keyMap[this.id][e.keyCode];
-            if (newDirection && !this.isOppositeDirection(newDirection)) {
-                this.direction = newDirection;
+            const turnDirection = keyMap[this.id][e.keyCode];
+            if (turnDirection) {
+                this.turn(turnDirection);
             }
         });
+    }
+
+    turn(turnDirection) {
+        const turns = {
+            left: { up: 'left', down: 'right', left: 'down', right: 'up' },
+            right: { up: 'right', down: 'left', left: 'up', right: 'down' },
+        };
+        this.direction = turns[turnDirection][this.direction];
     }
 
     isOppositeDirection(newDirection) {
