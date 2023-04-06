@@ -12,12 +12,12 @@ app.get('/', (req, res) => {
   res.render('index');
 });
 
-app.get('/game', (req, res) => {
-  res.render('game');
+app.get('/mp_snake', (req, res) => {
+  res.render('mp_snake');
 });
 
-app.get('/game_v3', (req, res) => {
-  res.render('game_v3'); // Render the game_v3.ejs file
+app.get('/ai_snake', (req, res) => {
+  res.render('ai_snake'); 
 });
 
 const PORT = process.env.PORT || 8080;
@@ -30,19 +30,19 @@ app.listen(PORT, () => {
 // node_modules
 // public
 // . css
-// . . game.css
 // . . index.css
+// . . snake.css
 // . . styles.css
 // . images
-// . . wer.jpg
+// . . 7.jpg
 // . js
-// . . game_v0.js
-// . . game_v1.js
-// . . game_v3.js
+// . . ai_snake.js
+// . . mp_snake.js
+// . . sp_snake_bk.js
 // views
-// . game_v3.ejs
-// . game.ejs
+// . ai_snake.ejs
 // . index.ejs
+// . mp_snake.ejs
 // .gcloudignore
 // .gitattributes
 // app.yaml
