@@ -20,6 +20,10 @@ app.get('/ai_snake', (req, res) => {
   res.render('ai_snake'); 
 });
 
+app.get('/gpt_guide', (req, res) => {
+  res.render('gpt_guide'); 
+});
+
 const PORT = process.env.PORT || 8080;
 app.listen(PORT, () => {
   console.log(`Server listening on port ${PORT}...`);
