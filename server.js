@@ -38,7 +38,6 @@ app.listen(PORT, () => {
 // . js
 // . . ai_snake.js
 // . . mp_snake.js
-// . . sp_snake_bk.js
 // views
 // . ai_snake.ejs
 // . index.ejs
