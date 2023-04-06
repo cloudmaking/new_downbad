@@ -16,10 +16,10 @@
     <div id="game">
         <canvas id="board" width="600" height="600"></canvas>
         <div id="btns">
-            <button onclick="startGame(1)">1 player</button>
-            <button onclick="startGame(2)">2 players</button>
-            <button onclick="startGame(3)">3 players</button>
-            <button onclick="startGame(4)">4 players</button>
+            <button onclick="startMP_Game(1)">1 player</button>
+            <button onclick="startMP_Game(2)">2 players</button>
+            <button onclick="startMP_Game(3)">3 players</button>
+            <button onclick="startMP_Game(4)">4 players</button>
         </div>
         <div id="scores"></div>
     </div>
@@ -43,14 +43,10 @@
         </div>
     </div>
 
-    <!-- ... -->
-    <script type="module">
-        import { startGame, toggleInstructionsPopup } from '/js/mp_snake.js';
-        window.startGame = startGame;
-        window.toggleInstructionsPopup = toggleInstructionsPopup;
-    </script>
-    <!-- ... -->
-
+    <script type="module" src="/js/Game.js"></script>
+    <script type="module" src="/js/Snake.js"></script>
+    <script type="module" src="/js/Apple.js"></script>
+    <script type="module" src="/js/mp_snake.js"></script>
 </body>
 
 </html>
