@@ -20,19 +20,19 @@ function startGame() {
 
 function updateScores() {
     for (let i = 0; i < players.length; i++) {
-      let player = players[i];
-      let scoreElem = document.getElementById(`player${i + 1}-score`);
-      if (scoreElem !== null) { // add a null check
-        scoreElem.innerHTML = `
+        let player = players[i];
+        let scoreElem = document.getElementById(`player${i + 1}-score`);
+        if (scoreElem !== null) { // add a null check
+            scoreElem.innerHTML = `
           <div class="score-circle" style="background-color: ${player.color}">
             <span class="score-text">${player.score}</span>
           </div>
           <span class="score-label">Player ${i + 1}</span>
         `;
-      }
+        }
     }
-  }
-  
+}
+
 
 //3
 function gameLoop() {
@@ -40,7 +40,7 @@ function gameLoop() {
 
     players.forEach((player, index) => {
         if (index === 1) { // AI-controlled snake (player 2)
-            player.aiMove(apple);
+            player.aiMove(apple, players[0]); // Pass the player's snake
         }
         player.move();
         player.draw();
@@ -103,40 +103,64 @@ class Snake {
         this.direction = turns[turnDirection][this.direction];
     }
 
-    aiMove(apple) {
+    aiMove(apple, player) {
         const head = this.body[0];
         const dx = apple.x - head.x;
         const dy = apple.y - head.y;
-        const turnLeft = {
-            up: 'left',
-            left: 'down',
-            down: 'right',
-            right: 'up',
-        };
-        const turnRight = {
-            up: 'right',
-            left: 'up',
-            down: 'left',
-            right: 'down',
+
+        const directions = ['left', 'right', 'up', 'down'];
+
+        // Calculate next positions based on the current direction
+        const nextPositions = {
+            left: { x: head.x - 1, y: head.y },
+            right: { x: head.x + 1, y: head.y },
+            up: { x: head.x, y: head.y - 1 },
+            down: { x: head.x, y: head.y + 1 },
         };
 
-        if (Math.abs(dx) > Math.abs(dy)) {
-            if (dx > 0 && !this.isOppositeDirection('right')) {
-                this.direction = 'right';
-            } else if (dx < 0 && !this.isOppositeDirection('left')) {
-                this.direction = 'left';
-            } else {
-                this.direction = dy > 0 ? turnRight[this.direction] : turnLeft[this.direction];
+        // Remove directions that would cause the AI snake to collide with itself
+        directions.forEach(dir => {
+            if (this.isOppositeDirection(dir) || this.willCollideWithItself(nextPositions[dir])) {
+                directions.splice(directions.indexOf(dir), 1);
             }
-        } else {
-            if (dy > 0 && !this.isOppositeDirection('down')) {
-                this.direction = 'down';
-            } else if (dy < 0 && !this.isOppositeDirection('up')) {
-                this.direction = 'up';
-            } else {
-                this.direction = dx > 0 ? turnRight[this.direction] : turnLeft[this.direction];
+        });
+
+        // Remove directions that would cause the AI snake to collide with the player's snake
+        directions.forEach(dir => {
+            if (this.willCollideWithPlayer(nextPositions[dir], player)) {
+                directions.splice(directions.indexOf(dir), 1);
+            }
+        });
+
+        // Calculate distance to the apple for each remaining direction
+        const distances = directions.map(dir => {
+            const newPos = nextPositions[dir];
+            return { dir, distance: Math.abs(newPos.x - apple.x) + Math.abs(newPos.y - apple.y) };
+        });
+
+        // Sort the distances in ascending order
+        distances.sort((a, b) => a.distance - b.distance);
+
+        // Choose the safest direction with the shortest distance to the apple
+        this.direction = distances.length > 0 ? distances[0].dir : this.direction;
+    }
+
+    willCollideWithItself(nextPosition) {
+        for (const segment of this.body) {
+            if (nextPosition.x === segment.x && nextPosition.y === segment.y) {
+                return true;
             }
         }
+        return false;
+    }
+
+    willCollideWithPlayer(nextPosition, player) {
+        for (const segment of player.body) {
+            if (nextPosition.x === segment.x && nextPosition.y === segment.y) {
+                return true;
+            }
+        }
+        return false;
     }
 
     isOppositeDirection(newDirection) {
