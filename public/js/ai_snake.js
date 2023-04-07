@@ -73,6 +73,7 @@ class Snake {
         this.color = ['#3a71e8', '#9de83a', '#e8c83a', '#d64f83'][id - 1];
         this.direction = id === 1 ? 'right' : id === 2 ? 'left' : id === 3 ? 'down' : 'up';
         this.score = 0;
+        this.setControls();
         this.ai = ai;
         if (!this.ai) {
             this.setControls();
@@ -82,14 +83,14 @@ class Snake {
     setControls() {
         document.addEventListener('keydown', e => {
             const keyMap = {
-                '1': { 37: 'left', 39: 'right' },
-                '2': { 65: 'left', 68: 'right' },
-                '3': { 100: 'left', 102: 'right' },
-                '4': { 72: 'left', 75: 'right' },
+                '1': { 37: 'left', 38: 'up', 39: 'right', 40: 'down' },
+                '2': { 65: 'left', 87: 'up', 68: 'right', 83: 'down' },
+                '3': { 100: 'left', 104: 'up', 102: 'right', 101: 'down' },
+                '4': { 72: 'left', 85: 'up', 75: 'right', 74: 'down' },
             };
-            const turnDirection = keyMap[this.id][e.keyCode];
-            if (turnDirection) {
-                this.turn(turnDirection);
+            const newDirection = keyMap[this.id][e.keyCode];
+            if (newDirection && !this.isOppositeDirection(newDirection)) {
+                this.direction = newDirection;
             }
         });
     }
