@@ -24,6 +24,10 @@ app.get('/gpt_guide', (req, res) => {
   res.render('gpt_guide'); 
 });
 
+app.get('/daw_checklist', (req, res) => {
+  res.render('daw_checklist');
+});
+
 const PORT = process.env.PORT || 8080;
 app.listen(PORT, () => {
   console.log(`Server listening on port ${PORT}...`);
