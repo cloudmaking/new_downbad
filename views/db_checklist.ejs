@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>DownBad Checklist</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+        }
+
+        h1 {
+            margin-top: 30px;
+            margin-bottom: 10px;
+        }
+
+        ul {
+            list-style-type: none;
+        }
+
+        li {
+            margin-bottom: 10px;
+            font-size: large;
+        }
+
+        .completed {
+            text-decoration: line-through;
+            color: green;
+        }
+
+        #home-btn {
+            background-color: #af704c;
+            top: 20px;
+            font-size: 14px;
+            color: white;
+            padding: 10px 15px;
+        }
+    </style>
+</head>
+
+<body>
+    <button id="home-btn" onclick="window.location.href='/'">Home</button>
+    <h1>Snake Game Checklist</h1>
+    <ul>
+        <li class="completed">
+            <input type="checkbox" checked disabled> Make single player snake game clone.
+        </li>
+        <li class="completed">
+            <input type="checkbox" checked disabled> Make Multiplayer snake game.
+        </li>
+        <li class="completed">
+            <input type="checkbox" checked disabled> Style the game and score board.
+        </li>
+        <li class="completed">
+            <input type="checkbox" checked disabled> Create a single player snake game with a computer opponent.
+        </li>
+        <li class="completed">
+            <input type="checkbox" checked disabled> Make Computer opponent smarter.
+        </li>
+        <li>
+            <input type="checkbox" disabled> Make it so the apple doesn't spawn on either snake.
+        </li>
+        <li>
+            <input type="checkbox" disabled> Online Multiplayer?. - you are only allowed to do this after v1 of CloudCore DAW is done.
+        </li>
+    </ul>
+
+    <!---add a spacer with a line-->
+    <div style="height: 10px; width: 100%; background-color: #1c213f; margin-top: 50px;"></div>
+    <h1>CloudCore DAW Checklist</h1>
+    <ul>
+        <li class="completed">
+            <input type="checkbox" checked disabled> Practice making duplicating components using just JavaScript.
+        </li>
+        <li class="completed">
+            <input type="checkbox" checked disabled> Practice Implementing MIDI input through external instrument and Text.
+        </li>
+        <li class="completed">
+            <input type="checkbox" checked disabled> Practice Implementing a Metronome.
+        </li>
+        <li class="completed">
+            <input type="checkbox" checked disabled> Research and select suitable libraries and frameworks.
+        </li>
+        <li>
+            <input type="checkbox" disabled> Implement the user interface using HTML, CSS, and JavaScript.
+        </li>
+        <li>
+            <input type="checkbox" disabled> Add the ability to create multiple tracks. - might me abel to do this through ejs partials
+        </li>
+        <li>
+            <input type="checkbox" disabled> Implement recording and playback functionality.
+        </li>
+        <li>
+            <input type="checkbox" disabled> Deploy v1!!!
+        </li>
+        <li>
+            <input type="checkbox" disabled> Integrate audio effects and controls (EQ, reverb, delay, saturation,etc.).
+        </li>
+        <li>
+            <input type="checkbox" disabled> Implement global controls (play, stop, record, metronome, etc.).
+        </li>
+        <li>
+            <input type="checkbox" disabled> Test and debug the application.
+        </li>
+        <li>
+            <input type="checkbox" disabled> Optimize the application for performance and usability.
+        </li>
+    </ul>
+</body>
+
+</html>

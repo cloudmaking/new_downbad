@@ -24,8 +24,8 @@ app.get('/gpt_guide', (req, res) => {
   res.render('gpt_guide'); 
 });
 
-app.get('/daw_checklist', (req, res) => {
-  res.render('daw_checklist');
+app.get('/db_checklist', (req, res) => {
+  res.render('db_checklist');
 });
 
 const PORT = process.env.PORT || 8080;
