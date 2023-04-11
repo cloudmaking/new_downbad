@@ -24,8 +24,12 @@ app.get('/gpt_guide', (req, res) => {
   res.render('gpt_guide'); 
 });
 
-app.get('/db_checklist', (req, res) => {
-  res.render('db_checklist');
+app.get('/firefly', (req, res) => {
+  res.render('firefly'); 
+});
+
+app.get('/pixel_art', (req, res) => {
+  res.render('pixel_art'); 
 });
 
 const PORT = process.env.PORT || 8080;
