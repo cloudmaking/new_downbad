@@ -8,6 +8,12 @@ app.set('views', path.join(__dirname, 'views'));
 
 app.use(express.static('public'));
 
+app.use('/static', express.static(path.join(__dirname, 'build', 'static')));
+app.use('/cloudcore', express.static(path.join(__dirname, 'build')));
+app.use('/manifest.json', express.static(path.join(__dirname, 'build', 'manifest.json')));
+app.use('/favicon.ico', express.static(path.join(__dirname, 'build', 'favicon.ico')));
+
+
 app.get('/', (req, res) => {
   res.render('index');
 });
@@ -20,10 +26,6 @@ app.get('/ai_snake', (req, res) => {
   res.render('ai_snake'); 
 });
 
-app.get('/gpt_guide', (req, res) => {
-  res.render('gpt_guide'); 
-});
-
 app.get('/firefly', (req, res) => {
   res.render('firefly'); 
 });
@@ -32,6 +34,11 @@ app.get('/pixel_art', (req, res) => {
   res.render('pixel_art'); 
 });
 
+app.get('/cloudcore/*', (req, res) => {
+  res.sendFile(path.join(__dirname, 'build', 'index.html'));
+});
+
+
 const PORT = process.env.PORT || 8080;
 app.listen(PORT, () => {
   console.log(`Server listening on port ${PORT}...`);
@@ -39,6 +46,7 @@ app.listen(PORT, () => {
 
 
 // Current directory structure
+// build
 // node_modules
 // public
 // . css

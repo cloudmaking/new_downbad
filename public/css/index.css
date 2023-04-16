@@ -45,7 +45,7 @@ h1 {
     color: #d122c8;
 }
 
-.game-buttons {
+.app-buttons {
     display: flex;
     flex-direction: column;
     align-items: center;
