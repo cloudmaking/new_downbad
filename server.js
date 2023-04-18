@@ -8,10 +8,10 @@ app.set('views', path.join(__dirname, 'views'));
 
 app.use(express.static('public'));
 
-app.use('/static', express.static(path.join(__dirname, 'build', 'static')));
-app.use('/cloudcore', express.static(path.join(__dirname, 'build')));
-app.use('/manifest.json', express.static(path.join(__dirname, 'build', 'manifest.json')));
-app.use('/favicon.ico', express.static(path.join(__dirname, 'build', 'favicon.ico')));
+app.use('/static', express.static(path.join(__dirname, 'cloudcore', 'static')));
+app.use('/cloudcore', express.static(path.join(__dirname, 'cloudcore')));
+app.use('/manifest.json', express.static(path.join(__dirname, 'cloudcore', 'manifest.json')));
+app.use('/favicon.ico', express.static(path.join(__dirname, 'cloudcore', 'favicon.ico')));
 
 
 app.get('/', (req, res) => {
@@ -35,7 +35,7 @@ app.get('/pixel_art', (req, res) => {
 });
 
 app.get('/cloudcore/*', (req, res) => {
-  res.sendFile(path.join(__dirname, 'build', 'index.html'));
+  res.sendFile(path.join(__dirname, 'cloudcore', 'index.html'));
 });
 
 
@@ -46,7 +46,7 @@ app.listen(PORT, () => {
 
 
 // Current directory structure
-// build
+// cloudcore
 // node_modules
 // public
 // . css
