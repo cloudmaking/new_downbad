@@ -1,4 +1,3 @@
-
 // Create an array to store the audio elements
 let audioElements = [];
 
@@ -80,3 +79,41 @@ masterVolume.oninput = function() {
         audio.volume = this.value;
     }
 };
+
+// Create an array to store the key codes
+let keyCodes = [];
+
+// Add a calibration button
+let calibrationButton = document.createElement('button');
+calibrationButton.textContent = 'Calibrate';
+calibrationButton.addEventListener('click', calibrate);
+document.body.appendChild(calibrationButton);
+
+function calibrate() {
+    keyCodes = [];
+    alert('Press the number keys from 0 to 9 in order.');
+    window.addEventListener('keydown', storeKeyCode);
+}
+
+function storeKeyCode(e) {
+    keyCodes.push(e.keyCode);
+    if (keyCodes.length === 10) {
+        window.removeEventListener('keydown', storeKeyCode);
+        alert('Calibration complete.');
+    }
+}
+
+// Modify the keydown and keyup event listeners
+window.addEventListener('keydown', function(e) {
+    let key = keyCodes.indexOf(e.keyCode);
+    if (key !== -1) {
+        playSound(key);
+    }
+});
+
+window.addEventListener('keyup', function(e) {
+    let key = keyCodes.indexOf(e.keyCode);
+    if (key !== -1) {
+        pauseSound(key);
+    }
+});
