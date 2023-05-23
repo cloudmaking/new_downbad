@@ -96,18 +96,23 @@ function calibrate() {
 }
 
 function storeKeyCode(e) {
-    keyCodes.push(e.keyCode);
+    if (!keyCodes.includes(e.keyCode)) {
+        keyCodes.push(e.keyCode);
+    }
     if (keyCodes.length === 10) {
         window.removeEventListener('keydown', storeKeyCode);
         alert('Calibration complete.');
     }
 }
 
+
 // Modify the keydown and keyup event listeners
 window.addEventListener('keydown', function(e) {
     let key = keyCodes.indexOf(e.keyCode);
     if (key !== -1) {
         playSound(key);
+        let button = document.querySelector(`button[data-key="${key}"]`);
+        button.classList.add('active');
     }
 });
 
@@ -115,5 +120,7 @@ window.addEventListener('keyup', function(e) {
     let key = keyCodes.indexOf(e.keyCode);
     if (key !== -1) {
         pauseSound(key);
+        let button = document.querySelector(`button[data-key="${key}"]`);
+        button.classList.remove('active');
     }
 });

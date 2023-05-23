@@ -25,6 +25,20 @@ body {
 #calibrationButton:hover {
     background-color: #777;
 }
+#home-btn {
+    position: absolute;
+    top: 10px;
+    left: 10px;
+    padding: 10px;
+    background-color: #555;
+    color: #fff;
+    border: none;
+    cursor: pointer;
+}
+
+#home-btn:hover {
+    background-color: #777;
+}
 
 #dropBox {
     width: 300px;
@@ -67,4 +81,8 @@ body {
 #master-volume {
     width: 80%;
     margin-top: 20px;
+}
+
+#sound-box button.active {
+    background-color: #777;
 }
