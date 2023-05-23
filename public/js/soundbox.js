@@ -1,30 +1,42 @@
-// Create an array to store the audio elements
+// JavaScript (soundbox.js)
+
 let audioElements = [];
+let keyCodes = [49, 50, 51, 52, 53, 54, 55, 56, 57, 48]; // Default key codes for number keys 1-0
 
-// Get the drop box and file input elements
+//make it so the home button takes you to the home page
+document.getElementById("homeButton").addEventListener("click", function(){
+    window.location.href = "index.html";
+});
+
+// make soundPackButton this button go to a link in a new tab
+document.getElementById("soundPackButton").addEventListener("click", function(){
+    window.open("https://www.mediafire.com/file/ppgtly6e6ddzpsz/COUCH_KIT_VOL._1.zip/file");
+});
+
+// make recordButton this button go to a link in a new tab
+document.getElementById("recordButton").addEventListener("click", function(){
+    window.open("https://chrome.google.com/webstore/detail/sample/kpkcennohgffjdgaelocingbmkjnpjgc");
+});
+
+
+
+// Handle file drop
 let dropBox = document.getElementById('dropBox');
-let fileInput = document.getElementById('fileInput');
-
-// Add event listeners for the drag and drop events
-dropBox.addEventListener('dragover', function(event) {
-    event.preventDefault();
+dropBox.addEventListener('dragover', function(e) {
+    e.preventDefault();
 });
-
-dropBox.addEventListener('drop', function(event) {
-    event.preventDefault();
-    handleFiles(event.dataTransfer.files);
+dropBox.addEventListener('drop', function(e) {
+    e.preventDefault();
+    handleFiles(e.dataTransfer.files);
 });
-
-// Add a click event listener to the drop box
 dropBox.addEventListener('click', function() {
-    fileInput.click();
+    document.getElementById('fileInput').click();
+});
+document.getElementById('fileInput').addEventListener('change', function(e) {
+    handleFiles(e.target.files);
 });
 
-// Add a change event listener to the file input
-fileInput.addEventListener('change', function() {
-    handleFiles(this.files);
-});
-
+// Handle file selection
 function handleFiles(files) {
     for (let i = 0; i < files.length; i++) {
         if (files[i].type.startsWith('audio/')) {
@@ -35,65 +47,51 @@ function handleFiles(files) {
     }
 }
 
+// Add button for audio element
 function addButton(index) {
     let button = document.createElement('button');
     button.textContent = index;
     button.dataset.key = index - 1;
     button.addEventListener('mousedown', function() {
-        playSound(index - 1);
+        playSound(button.dataset.key);
     });
     button.addEventListener('mouseup', function() {
-        pauseSound(index - 1);
+        pauseSound(button.dataset.key);
     });
-    let deleteButton = document.createElement('button');
-    deleteButton.textContent = 'x';
-    deleteButton.className = 'deleteButton';
-    deleteButton.addEventListener('click', function() {
-        deleteSound(index - 1);
-        button.remove();
-    });
-    button.appendChild(deleteButton);
     document.getElementById('sound-box').appendChild(button);
 }
 
+// Play sound
 function playSound(index) {
     audioElements[index].play();
 }
 
+// Pause sound
 function pauseSound(index) {
     audioElements[index].pause();
 }
 
-function deleteSound(index) {
-    audioElements.splice(index, 1);
-    let buttons = document.getElementById('sound-box').children;
-    for (let i = index; i < buttons.length; i++) {
-        buttons[i].textContent = i + 1;
+// Handle key press
+window.addEventListener('keydown', function(e) {
+    let key = keyCodes.indexOf(e.keyCode);
+    if (key !== -1) {
+        playSound(key);
     }
-}
-
-// Get master volume slider
-let masterVolume = document.getElementById('master-volume');
-masterVolume.oninput = function() {
-    for (let audio of audioElements) {
-        audio.volume = this.value;
+});
+window.addEventListener('keyup', function(e) {
+    let key = keyCodes.indexOf(e.keyCode);
+    if (key !== -1) {
+        pauseSound(key);
     }
-};
+});
 
-// Create an array to store the key codes
-let keyCodes = [];
-
-// Add a calibration button
-let calibrationButton = document.createElement('button');
-calibrationButton.textContent = 'Calibrate';
-calibrationButton.addEventListener('click', calibrate);
-document.body.appendChild(calibrationButton);
-
-function calibrate() {
+// Handle calibration
+document.getElementById('calibrationButton').addEventListener('click', function() {
+    // prompt user to press each key
+    alert('After pressing OK \nPress each key in order, starting with 1 and ending with 0.\n Dont be slow!');
     keyCodes = [];
-    alert('Press the number keys from 0 to 9 in order.');
     window.addEventListener('keydown', storeKeyCode);
-}
+});
 
 function storeKeyCode(e) {
     if (!keyCodes.includes(e.keyCode)) {
@@ -105,22 +103,9 @@ function storeKeyCode(e) {
     }
 }
 
-
-// Modify the keydown and keyup event listeners
-window.addEventListener('keydown', function(e) {
-    let key = keyCodes.indexOf(e.keyCode);
-    if (key !== -1) {
-        playSound(key);
-        let button = document.querySelector(`button[data-key="${key}"]`);
-        button.classList.add('active');
-    }
-});
-
-window.addEventListener('keyup', function(e) {
-    let key = keyCodes.indexOf(e.keyCode);
-    if (key !== -1) {
-        pauseSound(key);
-        let button = document.querySelector(`button[data-key="${key}"]`);
-        button.classList.remove('active');
+// Handle master volume
+document.getElementById('master-volume').addEventListener('input', function(e) {
+    for (let i = 0; i < audioElements.length; i++) {
+        audioElements[i].volume = e.target.value;
     }
 });
