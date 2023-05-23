@@ -1,0 +1,54 @@
+body {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    height: 100vh;
+    margin: 0;
+    background-color: #333;
+    color: #fff;
+    font-family: Arial, sans-serif;
+}
+
+#dropBox {
+    width: 300px;
+    height: 300px;
+    border: 2px dashed #fff;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 20px;
+    cursor: pointer;
+    padding: 20px;
+    text-align: center;
+}
+
+#dropBox:hover {
+    background-color: #444;
+}
+
+#sound-box {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+
+#sound-box button {
+    margin: 10px;
+    padding: 10px 20px;
+    font-size: 18px;
+    cursor: pointer;
+    background-color: #555;
+    color: #fff;
+    border: none;
+}
+
+#sound-box button:active {
+    background-color: #777;
+}
+
+#master-volume {
+    width: 80%;
+    margin-top: 20px;
+}

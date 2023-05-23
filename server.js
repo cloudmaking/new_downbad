@@ -38,6 +38,10 @@ app.get('/cloudcore/*', (req, res) => {
   res.sendFile(path.join(__dirname, 'cloudcore', 'index.html'));
 });
 
+app.get('/soundbox', function(req, res) {
+  res.render('soundbox');
+});
+
 
 const PORT = process.env.PORT || 8080;
 app.listen(PORT, () => {
