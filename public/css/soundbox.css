@@ -5,16 +5,16 @@ body {
     justify-content: center;
     height: 100vh;
     margin: 0;
-    background-color: #333;
+    background: linear-gradient(to right, #333, #444);
     color: #fff;
     font-family: Arial, sans-serif;
     position: relative;
 }
 
+#homeButton,
 #calibrationButton {
     position: absolute;
     top: 10px;
-    right: 10px;
     padding: 10px;
     background-color: #555;
     color: #fff;
@@ -22,23 +22,20 @@ body {
     cursor: pointer;
 }
 
+#homeButton:hover,
 #calibrationButton:hover {
     background-color: #777;
 }
-#home-btn {
-    position: absolute;
-    top: 10px;
+
+#homeButton {
     left: 10px;
-    padding: 10px;
-    background-color: #555;
-    color: #fff;
-    border: none;
-    cursor: pointer;
 }
 
-#home-btn:hover {
-    background-color: #777;
+#calibrationButton {
+    right: 10px;
 }
+
+/* Rest of the CSS... */
 
 #dropBox {
     width: 300px;
@@ -59,30 +56,26 @@ body {
 
 #sound-box {
     display: flex;
-    flex-direction: column;
-    align-items: center;
+    flex-wrap: wrap;
     justify-content: center;
 }
 
 #sound-box button {
     margin: 10px;
-    padding: 10px 20px;
-    font-size: 18px;
+    padding: 5px 10px;
+    font-size: 16px;
     cursor: pointer;
     background-color: #555;
     color: #fff;
     border: none;
 }
 
-#sound-box button:active {
+#sound-box button:active,
+#sound-box button.active {
     background-color: #777;
 }
 
 #master-volume {
     width: 80%;
     margin-top: 20px;
-}
-
-#sound-box button.active {
-    background-color: #777;
 }
