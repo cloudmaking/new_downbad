@@ -18,8 +18,6 @@ document.getElementById("recordButton").addEventListener("click", function(){
     window.open("https://chrome.google.com/webstore/detail/sample/kpkcennohgffjdgaelocingbmkjnpjgc");
 });
 
-
-
 // Handle file drop
 let dropBox = document.getElementById('dropBox');
 dropBox.addEventListener('dragover', function(e) {
@@ -61,29 +59,28 @@ function addButton(index) {
     document.getElementById('sound-box').appendChild(button);
 }
 
-// Play sound
 function playSound(index) {
+    audioElements[index].loop = true;
     audioElements[index].play();
 }
 
-// Pause sound
 function pauseSound(index) {
     audioElements[index].pause();
 }
 
-// Handle key press
 window.addEventListener('keydown', function(e) {
-    let key = keyCodes.indexOf(e.keyCode);
-    if (key !== -1) {
-        playSound(key);
+    if (keyCodes.includes(e.keyCode)) {
+        playSound(keyCodes.indexOf(e.keyCode));
     }
 });
+
 window.addEventListener('keyup', function(e) {
-    let key = keyCodes.indexOf(e.keyCode);
-    if (key !== -1) {
-        pauseSound(key);
+    if (keyCodes.includes(e.keyCode)) {
+        pauseSound(keyCodes.indexOf(e.keyCode));
     }
 });
+
+
 
 // Handle calibration
 document.getElementById('calibrationButton').addEventListener('click', function() {
@@ -109,3 +106,10 @@ document.getElementById('master-volume').addEventListener('input', function(e) {
         audioElements[i].volume = e.target.value;
     }
 });
+
+
+// this current code works fine but when an additional key to the one being pressed is pressed
+// the first sound doesnt loop once finished
+// can we make the code more robust so that it can handle multiple keys being pressed at once
+// and also make it so that the sound loops when the key is pressed and stops when the key is released
+// please suggest code changes
