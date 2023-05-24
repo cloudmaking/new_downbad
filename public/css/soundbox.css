@@ -1,3 +1,4 @@
+/* General Styles */
 body {
     display: flex;
     flex-direction: column;
@@ -11,32 +12,34 @@ body {
     position: relative;
 }
 
-#homeButton,
-#calibrationButton {
-    position: absolute;
-    top: 10px;
+/* Button Styles */
+button {
     padding: 10px;
     background-color: #555;
     color: #fff;
     border: none;
     cursor: pointer;
+    margin: 10px;
 }
 
-#homeButton:hover,
-#calibrationButton:hover {
+button:hover {
     background-color: #777;
 }
 
+/* Specific Button Styles */
 #homeButton {
+    position: absolute;
+    top: 10px;
     left: 10px;
 }
 
 #calibrationButton {
+    position: absolute;
+    top: 10px;
     right: 10px;
 }
 
-/* Rest of the CSS... */
-
+/* Drop Box Styles */
 #dropBox {
     width: 300px;
     height: 300px;
@@ -54,6 +57,7 @@ body {
     background-color: #444;
 }
 
+/* Sound Box Styles */
 #sound-box {
     display: flex;
     flex-wrap: wrap;
@@ -75,17 +79,14 @@ body {
     background-color: #777;
 }
 
-#master-volume {
-    width: 80%;
-    margin-top: 20px;
-}
-
-#soundPackButton, #recordButton {
-    margin-top: 20px;
-    margin-bottom: 20px;
-    padding: 10px;
-    background-color: #555;
-    color: #fff;
-    border: none;
-    cursor: pointer;
+/* Master Volume Slider Styles */
+.slider {
+    position: absolute;
+    right: 20px;
+    top: 30%;
+    height: 6px;
+    width: 150px;
+    -webkit-appearance: none;
+    transform: rotate(270deg) translateX(25%);
+    transform-origin: right;
 }

@@ -7,9 +7,7 @@
 <body>
     <button id="homeButton">Home</button>
     <button id="calibrationButton">Calibrate</button>
-    <!--add a link to a free sound pack-->
     <button id="soundPackButton">Free Sound Pack</button>
-    <!---add a link to an extension that records your browser-->
     <button id="recordButton">Record</button>
     <div id="dropBox">
         Drop your audio files here or click to select files
@@ -18,10 +16,8 @@
     <div id="sound-box">
         <!-- Audio elements and number buttons will be added here dynamically -->
     </div>
-
     <!-- Master volume slider -->
-    <input id="master-volume" type="range" min="0" max="1" step="0.01" value="1">
-
+    <input id="master-volume" class="slider" type="range" min="0" max="1" step="0.01" value="0.7" orient="vertical">
     <script src="/js/soundbox.js"></script>
 </body>
 </html>
