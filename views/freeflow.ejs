@@ -1,0 +1,28 @@
+<!---this is a development file where i test the second version of my osundbox page, with editional features and improvements-->
+<!-- i want all the buttons to be at the top of the screen in a line, aligned int he middle -->
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Sound Box v2</title>
+    <link rel="stylesheet" href="/css/soundbox.css">
+</head>
+<body>
+    <div id="topButtons">
+        <button id="homeButton">Home</button>
+        <button id="calibrationButton">Calibrate</button>
+        <button id="soundPackButton">Free Sound Pack</button>
+        <button id="recordButton">Record</button>
+    </div>
+    <div id="dropBox">
+        Drop your audio files here or click to select files
+        <input type="file" id="fileInput" style="display: none;" accept="audio/*" multiple>
+    </div>
+    <div id="sound-box">
+        <!-- Audio elements and number buttons will be added here dynamically -->
+    </div>
+    <!-- Master volume slider -->
+    <input id="master-volume" class="slider" type="range" min="0" max="1" step="0.01" value="0.7" orient="vertical">
+    <script src="/js/soundbox.js"></script>
+</body>
+</html>
+<!-- Path: views\soundbox.ejs -->
