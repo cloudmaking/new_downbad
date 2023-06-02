@@ -4,7 +4,7 @@ const path = require('path');
 const { spawn } = require('child_process');
 
 // Start the WebSocket server file is in public, js, game.js
-const gameServer = spawn('node', ['public/js/game.js']);
+const gameServer = spawn('node', ['public/js/game.js']); 
 
 gameServer.stdout.on('data', (data) => {
   console.log(`gameServer stdout: ${data}`);
