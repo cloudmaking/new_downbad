@@ -1,6 +1,22 @@
 const express = require('express');
 const app = express();
 const path = require('path');
+const { spawn } = require('child_process');
+
+// Start the WebSocket server file is in public, js, game.js
+const gameServer = spawn('node', ['public/js/game.js']); 
+
+gameServer.stdout.on('data', (data) => {
+  console.log(`gameServer stdout: ${data}`);
+});
+
+gameServer.stderr.on('data', (data) => {
+  console.error(`gameServer stderr: ${data}`);
+});
+
+gameServer.on('close', (code) => {
+  console.log(`gameServer process exited with code ${code}`);
+});
 
 // Add this line to set EJS as the view engine
 app.set('view engine', 'ejs');
@@ -42,33 +58,13 @@ app.get('/soundbox', function(req, res) {
   res.render('soundbox');
 });
 
+app.get('/snake-game', (req, res) => {
+  res.render('snake-game');
+});
+
+
 
 const PORT = process.env.PORT || 8080;
 app.listen(PORT, () => {
   console.log(`Server listening on port ${PORT}...`);
 });
-
-
-// Current directory structure
-// cloudcore
-// node_modules
-// public
-// . css
-// . . index.css
-// . . snake.css
-// . . styles.css
-// . images
-// . . 7.jpg
-// . js
-// . . ai_snake.js
-// . . mp_snake.js
-// views
-// . ai_snake.ejs
-// . index.ejs
-// . mp_snake.ejs
-// .gcloudignore
-// .gitattributes
-// app.yaml
-// .package-lock.json
-// .package.json
-// .server.js
