@@ -1,3 +1,9 @@
+name: Deploy to Google App Engine
+
+on:
+  push:
+    branches: [ main ]  # Deploy on push to main branch
+
 jobs:
   deploy:
     runs-on: ubuntu-latest
