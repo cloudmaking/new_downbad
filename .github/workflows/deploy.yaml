@@ -2,33 +2,21 @@ name: Deploy to Google App Engine
 
 on:
   push:
-    branches:
-      - main
+    branches: [ main ]  # Deploy on push to main branch
 
 jobs:
   deploy:
     runs-on: ubuntu-latest
-
     steps:
-      - name: Checkout code
-        uses: actions/checkout@v2
+      - uses: actions/checkout@v3
 
-      - name: Authenticate to Google Cloud
-        uses: google-github-actions/auth@v2
+      - name: Setup Google Cloud SDK        
+        uses: google-github-actions/setup-gcloud@v1
         with:
-          workload_identity_provider: 'projects/123456789/locations/global/workloadIdentityPools/my-pool/providers/my-provider'
-          service_account: 'git-action@crack-case-346514.iam.gserviceaccount.com'
+          project_id: ${{ secrets.GCP_PROJECT_ID }}
+          service_account_key: ${{ secrets.GCP_SA_KEY }}
+          export_default_credentials: true 
 
       - name: Deploy to App Engine
-        uses: google-github-actions/deploy-appengine@v2
-        # Add any additional configurations like 'project_id' or 'deliverables' if needed
-        with:
-          project_id: 'crack-case-346514'
-          version: 'main'
-          service: 'default'
-          configuration: 'app.yaml'
-          promote: true
+        uses: google-github-actions/deploy-appengine@v2  
 
-        
-
-      
