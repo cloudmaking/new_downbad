@@ -3,29 +3,59 @@
 
 <head>
     <title>DownBad-Auto</title>
-    <link rel="stylesheet" href="/css/styles.css">
+    <!-- <link rel="stylesheet" href="/css/styles.css"> -->
     <link rel="stylesheet" href="/css/index.css">
-
 </head>
 
 <body>
-    <div class="app-header">
-        <a href="https://script.google.com/macros/s/AKfycbzQWpMdLc5X4_st_pRHJ_irCyxEokufjQaCYNvJXudg03UbclY_wyv86vktPXeyasg/exec"
-            target="_blank">
-            <img src="/images/7.jpg" alt="DownBad Logo" class="logo" style="width:300px;height:300px;">
-        </a>
-        <h1>DownBad World!</h1>
-        <p>This is your capitan Cloud.</p>
-        <p>Find below a set of apps and games.</p>
-        <p>Visit my <a href="https://www.aliraza.cloud" target="_blank">personal website</a> for more about me.</p>
-        <div class="app-buttons">
-            <button id="cloudcore-btn" onclick="window.location.href='/soundbox'">Sound Box</button>
-            <button id="game-btn" onclick="window.location.href='/mp_snake'">Snake [1p, 2p, 3p, 4p]</button>
-            <button id="aigame-btn" onclick="window.location.href='/ai_snake'">Snake vs Computer</button>
-            <button id="firefly-btn" onclick="window.location.href='/firefly'">Firefly - Dynamic Screensaver</button>
-            <button id="pixel_art-btn" onclick="window.location.href='/pixel_art'">Generative Pixel-Art</button>
-            
+    <div class="hero-section">
+        <div class="hero-text">
+            <h1>DownBad World!</h1>
+            <p>A collection of webapps made by Ali Raza @cloudmaking</p>
         </div>
     </div>
+    <main>
+        <div class="app-card">
+            <img src="images/soundbox.webp" alt="Sound Box" class="app-image">
+            <div class="app-content">
+                <h2>Sound Box</h2>
+                <p>Explore a variety of sounds.</p>
+                <button onclick="window.location.href='/soundbox'">Go to Sound Box</button>
+            </div>
+        </div>
+        <div class="app-card">
+            <img src="/images/snake.webp" alt="Snake" class="app-image">
+            <div class="app-content">
+                <h2>Snake - Local Multiplayer</h2>
+                <p>Classic snake game for up to 4 players.</p>
+                <button onclick="window.location.href='/mp_snake'">Play Snake</button>
+            </div>
+        </div>
+        <div class="app-card">
+            <img src="/images/ai_snake.webp" alt="Snake vs Computer" class="app-image">
+            <div class="app-content">
+                <h2>Snake vs Computer</h2>
+                <p>Challenge the AI in Snake.</p>
+                <button onclick="window.location.href='/ai_snake'">Play vs AI</button>
+            </div>
+        </div>
+        <div class="app-card">
+            <img src="/images/firefly.webp" alt="Firefly Screensaver" class="app-image">
+            <div class="app-content">
+                <h2>Firefly - Dynamic Screensaver</h2>
+                <p>Enjoy a dynamic firefly screensaver.</p>
+                <button onclick="window.location.href='/firefly'">View Screensaver</button>
+            </div>
+        </div>
+        <div class="app-card">
+            <img src="/images/pixel_art.webp" alt="Generative Pixel-Art" class="app-image">
+            <div class="app-content">
+                <h2>Generative Pixel-Art</h2>
+                <p>Create unique pixel art.</p>
+                <button onclick="window.location.href='/pixel_art'">Create Pixel-Art</button>
+            </div>
+        </div>
+    </main>
 </body>
+
 </html>
