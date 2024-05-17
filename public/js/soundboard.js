@@ -1,5 +1,16 @@
 let audioElements = {};
 let keyCodes = {}; // This will map key codes to audio elements
+let audioContext;
+
+document.body.addEventListener('click', () => {
+    if (!audioContext) {
+        audioContext = new (window.AudioContext || window.webkitAudioContext)();
+        console.log("AudioContext created");
+    } else if (audioContext.state === 'suspended') {
+        audioContext.resume();
+        console.log("AudioContext resumed");
+    }
+});
 
 // Key labels for QWERTY layout
 const keys = [
@@ -12,16 +23,19 @@ const keys = [
 // Home button functionality
 document.getElementById("homeButton").addEventListener("click", function () {
     window.location.href = "/";
+    console.log("Home button clicked");
 });
 
 // Sound pack button functionality
 document.getElementById("soundPackButton").addEventListener("click", function () {
     window.open("https://www.mediafire.com/file/ppgtly6e6ddzpsz/COUCH_KIT_VOL._1.zip/file");
+    console.log("Sound pack button clicked");
 });
 
 // Record button functionality
 document.getElementById("recordButton").addEventListener("click", function () {
     window.open("https://chrome.google.com/webstore/detail/sample/kpkcennohgffjdgaelocingbmkjnpjgc");
+    console.log("Record button clicked");
 });
 
 // Create soundboard layout
@@ -78,6 +92,7 @@ function handleFiles(files, key) {
         audioElements[key] = audio;
         keyCodes[key.charCodeAt(0)] = key;
         document.querySelector(`#key-${key} .delete-button`).style.display = 'inline-block';
+        console.log(`Audio file loaded for key ${key}`);
     }
 }
 
@@ -93,6 +108,7 @@ function addSound(key) {
             audioElements[key] = audio;
             keyCodes[key.charCodeAt(0)] = key;
             document.querySelector(`#key-${key} .delete-button`).style.display = 'inline-block';
+            console.log(`Audio file added for key ${key}`);
         }
     });
     fileInput.click();
@@ -104,12 +120,14 @@ function deleteSound(key) {
         delete audioElements[key];
         delete keyCodes[key.charCodeAt(0)];
         document.querySelector(`#key-${key} .delete-button`).style.display = 'none';
+        console.log(`Audio file deleted for key ${key}`);
     }
 }
 
 function playSound(key) {
     if (audioElements[key] && audioElements[key].paused) {
         audioElements[key].play();
+        console.log(`Playing sound for key ${key}`);
     }
 }
 
@@ -117,6 +135,7 @@ function pauseSound(key) {
     if (audioElements[key] && !audioElements[key].paused) {
         audioElements[key].pause();
         audioElements[key].currentTime = 0;
+        console.log(`Paused sound for key ${key}`);
     }
 }
 
@@ -124,6 +143,7 @@ window.addEventListener('keydown', function (e) {
     if (keyCodes[e.keyCode]) {
         playSound(keyCodes[e.keyCode]);
         document.getElementById(`key-${keyCodes[e.keyCode]}`).classList.add('active');
+        console.log(`Key down: ${keyCodes[e.keyCode]}`);
     }
 });
 
@@ -131,6 +151,7 @@ window.addEventListener('keyup', function (e) {
     if (keyCodes[e.keyCode]) {
         pauseSound(keyCodes[e.keyCode]);
         document.getElementById(`key-${keyCodes[e.keyCode]}`).classList.remove('active');
+        console.log(`Key up: ${keyCodes[e.keyCode]}`);
     }
 });
 
@@ -139,16 +160,19 @@ document.getElementById('calibrationButton').addEventListener('click', function 
     alert('After pressing OK, please press each key in the order displayed. \nMake sure to press the keys quickly.');
     keyCodes = {};
     window.addEventListener('keydown', storeKeyCode);
+    console.log("Calibration started");
 });
 
 function storeKeyCode(e) {
     const key = String.fromCharCode(e.keyCode);
     if (!keyCodes[e.keyCode] && keys.includes(key)) {
         keyCodes[e.keyCode] = key;
+        console.log(`Key code stored: ${key}`);
     }
     if (Object.keys(keyCodes).length === keys.length) {
         window.removeEventListener('keydown', storeKeyCode);
         alert('Calibration complete.');
+        console.log("Calibration complete");
     }
 }
 
@@ -157,4 +181,5 @@ document.getElementById('master-volume').addEventListener('input', function (e) 
     for (let key in audioElements) {
         audioElements[key].volume = e.target.value;
     }
+    console.log(`Master volume changed: ${e.target.value}`);
 });

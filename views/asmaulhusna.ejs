@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>99 Names of Allah</title>
+    <%- include('partials/html_head') %>
+    <link rel="stylesheet" href="/css/asmaulhusna.css">
+</head>
+<body>
+    <div class="container">
+        <h1>99 Names of Allah</h1>
+        <div id="names-container">
+            <!-- The names will be populated here -->
+        </div>
+    </div>
+    <div id="popup" class="hidden">
+        <div id="popup-content">
+            <span id="close-btn">&times;</span>
+            <h2 id="popup-name"></h2>
+            <p id="popup-meaning"></p>
+            <p id="popup-message"></p>
+        </div>
+    </div>
+    <script src="/js/asmaulhusna.js"></script>
+</body>
+</html>

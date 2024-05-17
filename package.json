@@ -2,10 +2,15 @@
   "dependencies": {
     "ejs": "^3.1.9",
     "express": "^4.19.2",
-    "express-static": "^1.2.6",
-    "ws": "^8.13.0"
+    "express-static": "^1.2.6"
   },
   "scripts": {
     "start": "node server.js"
-  }
+  },
+  "name": "new_downbad",
+  "description": "",
+  "version": "1.0.0",
+  "main": "server.js",
+  "author": "",
+  "license": "ISC"
 }
