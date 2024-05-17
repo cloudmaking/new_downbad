@@ -1,4 +1,5 @@
-General Styles
+/* public/css/soundbox.css */
+
 body {
     display: flex;
     flex-direction: column;
@@ -12,81 +13,129 @@ body {
     position: relative;
 }
 
-/* Button Styles */
+.container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+}
+
+.header {
+    display: flex;
+    justify-content: center;
+    gap: 20px;
+    padding: 20px;
+}
+
 button {
-    padding: 10px;
+    padding: 10px 20px;
     background-color: #555;
     color: #fff;
     border: none;
     cursor: pointer;
     margin: 10px;
+    border-radius: 5px;
+    transition: background-color 0.3s, transform 0.3s;
 }
 
 button:hover {
     background-color: #777;
+    transform: translateY(-2px);
 }
 
-/* Specific Button Styles */
-#homeButton {
-    position: absolute;
-    top: 10px;
-    left: 10px;
-}
-
-#calibrationButton {
-    position: absolute;
-    top: 10px;
-    right: 10px;
-}
-
-/* Drop Box Styles */
 #dropBox {
     width: 300px;
     height: 300px;
     border: 2px dashed #fff;
     display: flex;
+    flex-direction: column;
     align-items: center;
     justify-content: center;
     margin-bottom: 20px;
     cursor: pointer;
     padding: 20px;
     text-align: center;
+    position: relative; /* for volume slider positioning */
 }
 
 #dropBox:hover {
     background-color: #444;
 }
 
-/* Sound Box Styles */
 #sound-box {
     display: flex;
     flex-wrap: wrap;
     justify-content: center;
 }
 
-#sound-box button {
+.button-container {
+    position: relative;
     margin: 10px;
+}
+
+.button-container button {
     padding: 5px 10px;
     font-size: 16px;
     cursor: pointer;
     background-color: #555;
     color: #fff;
     border: none;
+    border-radius: 5px;
+    transition: background-color 0.3s, transform 0.3s;
 }
 
-#sound-box button:active,
-#sound-box button.active {
+.button-container button:active,
+.button-container button.active {
     background-color: #777;
+    transform: translateY(-2px);
 }
 
-/* Master Volume Slider Styles */
-.slider {
+.delete-button {
     position: absolute;
-    right: 20px;
-    top: 30%;
+    top: -5px;
+    right: -5px;
+    background: #ff0000;
+    color: white;
+    border-radius: 50%;
+    padding: 2px 5px;
+    cursor: pointer;
+}
+
+.volume-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    border: 2px solid #fff;
+    padding: 10px;
+    margin-bottom: 20px;
+}
+
+.slider-label {
+    margin-bottom: 10px;
+    font-size: 14px;
+}
+
+.slider {
     height: 6px;
     width: 150px;
     -webkit-appearance: none;
-    transform: rotate(270deg) translateX(25%);
-    transform-origin: right;
+    background-color: #777;
+    outline: none;
+    opacity: 0.7;
+    transition: opacity 0.2s;
+}
+
+.slider:hover {
+    opacity: 1;
+}
+
+.slider::-webkit-slider-thumb {
+    width: 20px;
+    height: 20px;
+    border-radius: 50%;
+    background: #4CAF50;
+    cursor: pointer;
+    -webkit-appearance: none;
 }

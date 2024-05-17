@@ -1,91 +1,122 @@
-// JavaScript (soundbox.js)
-
 let audioElements = [];
 let keyCodes = [49, 50, 51, 52, 53, 54, 55, 56, 57, 48]; // Default key codes for number keys 1-0
 
-//make it so the home button takes you to the home page
-document.getElementById("homeButton").addEventListener("click", function(){
-    window.location.href = "index.html";
+// Home button functionality
+document.getElementById("homeButton").addEventListener("click", function () {
+    window.location.href = '/';
 });
 
-// make soundPackButton this button go to a link in a new tab
-document.getElementById("soundPackButton").addEventListener("click", function(){
+// Sound pack button functionality
+document.getElementById("soundPackButton").addEventListener("click", function () {
     window.open("https://www.mediafire.com/file/ppgtly6e6ddzpsz/COUCH_KIT_VOL._1.zip/file");
 });
 
-// make recordButton this button go to a link in a new tab
-document.getElementById("recordButton").addEventListener("click", function(){
+// Record button functionality
+document.getElementById("recordButton").addEventListener("click", function () {
     window.open("https://chrome.google.com/webstore/detail/sample/kpkcennohgffjdgaelocingbmkjnpjgc");
 });
 
 // Handle file drop
 let dropBox = document.getElementById('dropBox');
-dropBox.addEventListener('dragover', function(e) {
+dropBox.addEventListener('dragover', function (e) {
     e.preventDefault();
 });
-dropBox.addEventListener('drop', function(e) {
+dropBox.addEventListener('drop', function (e) {
     e.preventDefault();
     handleFiles(e.dataTransfer.files);
 });
-dropBox.addEventListener('click', function() {
+dropBox.addEventListener('click', function () {
     document.getElementById('fileInput').click();
 });
-document.getElementById('fileInput').addEventListener('change', function(e) {
+document.getElementById('fileInput').addEventListener('change', function (e) {
     handleFiles(e.target.files);
 });
 
 // Handle file selection
 function handleFiles(files) {
+    if (audioElements.length + files.length > 10) {
+        alert("Maximum 10 sounds are allowed.");
+        return;
+    }
     for (let i = 0; i < files.length; i++) {
         if (files[i].type.startsWith('audio/')) {
             let audio = new Audio(URL.createObjectURL(files[i]));
+            audio.loop = true; // Ensure audio loops by default
             audioElements.push(audio);
-            addButton(audioElements.length);
+            addButton(audioElements.length - 1);
         }
     }
 }
 
-// Add button for audio element
+// Add button for audio element with delete functionality
 function addButton(index) {
+    let buttonContainer = document.createElement('div');
+    buttonContainer.classList.add('button-container');
+
     let button = document.createElement('button');
-    button.textContent = index;
-    button.dataset.key = index - 1;
-    button.addEventListener('mousedown', function() {
+    button.textContent = index + 1;
+    button.dataset.key = index;
+    button.addEventListener('mousedown', function () {
         playSound(button.dataset.key);
     });
-    button.addEventListener('mouseup', function() {
+    button.addEventListener('mouseup', function () {
         pauseSound(button.dataset.key);
     });
-    document.getElementById('sound-box').appendChild(button);
+
+    let deleteButton = document.createElement('span');
+    deleteButton.textContent = '×';
+    deleteButton.classList.add('delete-button');
+    deleteButton.addEventListener('click', function () {
+        deleteSound(index);
+    });
+
+    buttonContainer.appendChild(button);
+    buttonContainer.appendChild(deleteButton);
+    document.getElementById('sound-box').appendChild(buttonContainer);
+}
+
+// Delete sound
+function deleteSound(index) {
+    audioElements[index].pause();
+    audioElements.splice(index, 1);
+    updateButtons();
+}
+
+// Update buttons after deletion
+function updateButtons() {
+    let soundBox = document.getElementById('sound-box');
+    soundBox.innerHTML = '';
+    audioElements.forEach((_, index) => addButton(index));
 }
 
 function playSound(index) {
-    audioElements[index].loop = true;
-    audioElements[index].play();
+    if (audioElements[index].paused) {
+        audioElements[index].play();
+    }
 }
 
 function pauseSound(index) {
-    audioElements[index].pause();
+    if (!audioElements[index].paused) {
+        audioElements[index].pause();
+        audioElements[index].currentTime = 0; // Reset audio to start
+    }
 }
 
-window.addEventListener('keydown', function(e) {
+window.addEventListener('keydown', function (e) {
     if (keyCodes.includes(e.keyCode)) {
         playSound(keyCodes.indexOf(e.keyCode));
     }
 });
 
-window.addEventListener('keyup', function(e) {
+window.addEventListener('keyup', function (e) {
     if (keyCodes.includes(e.keyCode)) {
         pauseSound(keyCodes.indexOf(e.keyCode));
     }
 });
 
-
-
 // Handle calibration
-document.getElementById('calibrationButton').addEventListener('click', function() {
-    // prompt user to press each key
-    alert('After pressing OK \nPress each key in order, starting with 1 and ending with 0.\n Dont be slow!');
+document.getElementById('calibrationButton').addEventListener('click', function () {
+    alert('After pressing OK \nPress each key in order, starting with 1 and ending with 0.\n Don\'t be slow!');
     keyCodes = [];
     window.addEventListener('keydown', storeKeyCode);
 });
@@ -101,15 +132,8 @@ function storeKeyCode(e) {
 }
 
 // Handle master volume
-document.getElementById('master-volume').addEventListener('input', function(e) {
+document.getElementById('master-volume').addEventListener('input', function (e) {
     for (let i = 0; i < audioElements.length; i++) {
         audioElements[i].volume = e.target.value;
     }
 });
-
-
-// this current code works fine but when an additional key to the one being pressed is pressed
-// the first sound doesnt loop once finished
-// can we make the code more robust so that it can handle multiple keys being pressed at once
-// and also make it so that the sound loops when the key is pressed and stops when the key is released
-// please suggest code changes
