@@ -58,6 +58,10 @@ app.get('/soundbox', function(req, res) {
   res.render('soundbox');
 });
 
+app.get('/soundboard', function(req, res) {
+  res.render('soundboard');
+});
+
 app.get('/snake-game', (req, res) => {
   res.render('snake-game');
 });

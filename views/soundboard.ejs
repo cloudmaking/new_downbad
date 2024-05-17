@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Soundboard</title>
+    <link rel="stylesheet" href="/css/soundboard.css">
+</head>
+<body>
+    <div class="container">
+        
+        <div class="heading">
+            <img src="images\soundboard_logo.webp" alt="Cute Image" class="cute-image">
+            <h1>Soundboard</h1>
+            <p>Play your custom sounds in the browser on your Keyboard!</p>
+        </div>
+        <div class="header">
+            <button id="homeButton">Home</button>
+            <button id="calibrationButton">Calibrate</button>
+            <button id="soundPackButton">Free Sound Pack</button>
+            <button id="recordButton">Record</button>
+        </div>
+        <div class="volume-container">
+            <label for="master-volume" class="slider-label">Volume</label>
+            <input id="master-volume" class="slider" type="range" min="0" max="1" step="0.01" value="0.7" orient="vertical">
+        </div>
+        <div class="soundboard">
+            <!-- Keys and their buttons will be added here dynamically -->
+        </div>
+    </div>
+    <script src="/js/soundboard.js"></script>
+</body>
+</html>
