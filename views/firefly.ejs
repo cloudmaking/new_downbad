@@ -1,45 +1,64 @@
+<!DOCTYPE html>
 <html>
 
 <head>
     <title>FireFly Screensaver</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <%- include('partials/html_head') %>
     <style>
-        body {
+        html, body {
+            width: 100%;
+            height: 100%;
+            margin: 0;
+            overflow: hidden;
             background: rgb(0, 0, 14);
         }
 
-        /* the div particle is a tiny circle in the middle of the page */
         .particle {
             position: absolute;
-            top: 50%;
-            left: 50%;
-            width: 2px;
-            height: 2px;
-            margin: -5px 0 0 -5px;
             background: rgb(255, 217, 0);
-            border-radius: 10%;
-            box-shadow: 0 0 30px 4px rgb(255, 115, 0);
+            border-radius: 50%;
+            animation: glow 2s infinite alternate;
         }
+
+        #home-btn, #fullscreen-btn {
+            background-color: rgba(0, 0, 0, 1);
+            font-size: 14px;
+            color: rgba(255, 255, 255, 0.5);
+            padding: 10px 15px;
+            position: absolute;
+            top: 20px;
+            border: none;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+
         #home-btn {
-            background-color: #af704c;
-            top: 20px;
-            font-size: 14px;
-            color: white;
-            padding: 10px 15px;
+            left: 20px;
         }
+
         #fullscreen-btn {
+            left: 110px;
+        }
+
+        #home-btn:hover, #fullscreen-btn:hover {
             background-color: #af704c;
-            top: 20px;
-            font-size: 14px;
             color: white;
-            padding: 10px 15px;
+        }
+
+        @keyframes glow {
+            0% {
+                box-shadow: 0 0 5px 4px rgb(255, 115, 0);
+            }
+            100% {
+                box-shadow: 0 0 30px 4px rgb(255, 115, 0);
+            }
         }
     </style>
 </head>
 
 <body>
     <button id="home-btn" onclick="window.location.href='/'">Home</button>
-    <!--make a button that toggles fullscreen on and off-->
     <button id="fullscreen-btn" onclick="toggleFullScreen()">Toggle Fullscreen</button>
     <script>
         function toggleFullScreen() {
@@ -53,80 +72,99 @@
         }
     </script>
     <script>
-        // create a variable to store the browser size
-        let browserSize = {
-            width: window.innerWidth,
-            height: window.innerHeight
-        };
+        // Customization Variables
+        const minParticleSize = 0.5; // Minimum size of particles in pixels
+        const maxParticleSize = 3.5; // Maximum size of particles in pixels
+        const maxSpeed = 0.5; // Maximum speed for particles
+        const particleDensity = 10; // Determines the number of particles based on screen size
+        const glowDuration = 1.5; // Duration of the glow animation in seconds
 
-        // create a function to update the browser size variable
-        function updateBrowserSize() {
-            browserSize = {
-                width: window.innerWidth,
-                height: window.innerHeight
-            };
-        }
+        const particles = [];
+        let particleCount = 0;
+        let browserWidth = window.innerWidth;
+        let browserHeight = window.innerHeight;
 
-        // update the browser size variable every 1000 milliseconds (1 second)
-        setInterval(updateBrowserSize, 1000);
-
-        // create a variable for the amount of particles, let it be the horizontal resolution of the screen divided by 10
-        let particleCount = (browserSize.width + browserSize.height) / 10;
-        // Create the particles and append them to the screen
-        for (let i = 0; i < particleCount; i++) {
-            // Create a new particle
-            let particle = document.createElement('div');
+        function createParticle() {
+            const particle = document.createElement('div');
             particle.className = 'particle';
 
-            // Generate random x and y coordinates for the particle
-            let x = Math.random() * browserSize.width;
-            let y = Math.random() * browserSize.height;
+            // Randomize size and initial glow
+            const size = Math.random() * (maxParticleSize - minParticleSize) + minParticleSize;
+            const initialGlowSize = Math.random() * 5 + 5; // 5px to 10px
+            const maxGlowSize = Math.random() * 25 + 10; // 10px to 35px
+
+            particle.style.width = size + 'px';
+            particle.style.height = size + 'px';
+            particle.style.boxShadow = `0 0 ${initialGlowSize}px 4px rgb(255, 115, 0)`;
+
+            // Randomize animation duration
+            const duration = glowDuration + Math.random();
+            particle.style.animationDuration = `${duration}s`;
 
             // Set the particle's initial position
-            particle.style.left = x + 'px';
-            particle.style.top = y + 'px';
+            particle.style.left = Math.random() * browserWidth + 'px';
+            particle.style.top = Math.random() * browserHeight + 'px';
 
-            // Append the particle to the screen
+            // Add the particle to the body and the particles array
             document.body.appendChild(particle);
+            particles.push({
+                element: particle,
+                vx: (Math.random() * 2 - 1) * maxSpeed, // Randomize speed slightly, reduce max speed
+                vy: (Math.random() * 2 - 1) * maxSpeed,
+                maxGlowSize
+            });
         }
+
+        function initializeParticles() {
+            particleCount = Math.round((browserWidth + browserHeight) / particleDensity);
+            for (let i = 0; i < particleCount; i++) {
+                createParticle();
+            }
+        }
+
+        function updateBrowserSize() {
+            browserWidth = window.innerWidth;
+            browserHeight = window.innerHeight;
+        }
+
+        window.addEventListener('resize', () => {
+            updateBrowserSize();
+            const newParticleCount = Math.round((browserWidth + browserHeight) / particleDensity);
+            const diff = newParticleCount - particleCount;
+            if (diff > 0) {
+                for (let i = 0; i < diff; i++) {
+                    createParticle();
+                }
+            } else {
+                for (let i = 0; i < -diff; i++) {
+                    const particle = particles.pop();
+                    particle.element.remove();
+                }
+            }
+            particleCount = newParticleCount;
+        });
 
         function animate() {
-            // Iterate through the particles and update their positions
-            let particles = document.querySelectorAll('.particle');
-            for (let particle of particles) {
-                // Generate random x and y velocities for the particle
-                let vx = Math.random() * 2 - 1; // random value between -4 and 4
-                let vy = Math.random() * 2 - 1; // random value between -4 and 4
+            particles.forEach(particle => {
+                const { element, vx, vy } = particle;
+                let x = parseFloat(element.style.left);
+                let y = parseFloat(element.style.top);
 
-                // Get the current position of the particle
-                let x = parseInt(particle.style.left);
-                let y = parseInt(particle.style.top);
+                x += vx;
+                y += vy;
 
-                // Update the position of the particle by adding its velocity,
-                // but only if the particle is not too close to the edge of the screen
-                let margin = 4; // The distance from the edge of the screen at which the particle will turn back
-                let newX = x + vx * Math.random();
-                let newY = y + vy * Math.random();
-                if (newX >= margin && newX <= browserSize.width - margin && newY >= margin && newY <= browserSize.height - margin) {
-                    // If the particle is not too close to the edge of the screen, update its position
-                    particle.style.left = newX + 'px';
-                    particle.style.top = newY + 'px';
-                } else {
-                    // If the particle is too close to the edge of the screen, destroy it and spawn it again in a random location
-                    particle.remove();
-                    let newParticle = document.createElement('div');
-                    newParticle.classList.add('particle');
-                    newParticle.style.left = Math.random() * browserSize.width + 'px';
-                    newParticle.style.top = Math.random() * browserSize.height + 'px';
-                    document.body.appendChild(newParticle);
-                }
+                if (x < 0) x = browserWidth;
+                if (x > browserWidth) x = 0;
+                if (y < 0) y = browserHeight;
+                if (y > browserHeight) y = 0;
 
-
-            }
-            // Request the next animation frame
+                element.style.left = x + 'px';
+                element.style.top = y + 'px';
+            });
             requestAnimationFrame(animate);
         }
-        // Start the animation
+
+        initializeParticles();
         requestAnimationFrame(animate);
     </script>
 </body>

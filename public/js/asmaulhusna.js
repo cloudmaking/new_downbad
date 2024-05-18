@@ -99,7 +99,6 @@ const names = [
     { number: 98, name: "Ar-Rashid", meaning: "The Righteous Teacher", message: "Seek Allah’s guidance and righteousness." },
     { number: 99, name: "As-Sabur", meaning: "The Patient", message: "Practice patience, knowing Allah’s plan is perfect." }
 ];
-
 document.addEventListener("DOMContentLoaded", () => {
     const namesContainer = document.getElementById("names-container");
     const popup = document.getElementById("popup");
@@ -108,6 +107,12 @@ document.addEventListener("DOMContentLoaded", () => {
     const popupMessage = document.getElementById("popup-message");
     const closeBtn = document.getElementById("close-btn");
     const homeButton = document.getElementById("homeButton");
+    const leftArrow = document.getElementById("left-arrow");
+    const rightArrow = document.getElementById("right-arrow");
+
+    let currentIndex = 0;
+    let touchStartX = 0;
+    let touchEndX = 0;
 
     // Check if popupMessage element exists
     if (!popupMessage) {
@@ -121,18 +126,24 @@ document.addEventListener("DOMContentLoaded", () => {
     });
 
     // Populate the names container with the names
-    names.forEach(nameObj => {
+    names.forEach((nameObj, index) => {
         const nameElement = document.createElement("div");
         nameElement.classList.add("name-item");
         nameElement.innerHTML = `<div class="name-number">${nameObj.number}</div><div class="name-text">${nameObj.name}</div>`;
         nameElement.addEventListener("click", () => {
-            popupName.textContent = nameObj.name;
-            popupMeaning.textContent = nameObj.meaning;
-            popupMessage.textContent = nameObj.message;
-            popup.classList.remove("hidden");
+            currentIndex = index;
+            showPopup(nameObj);
         });
         namesContainer.appendChild(nameElement);
     });
+
+    // Show the popup with the name details
+    function showPopup(nameObj) {
+        popupName.textContent = nameObj.name;
+        popupMeaning.textContent = nameObj.meaning;
+        popupMessage.textContent = nameObj.message;
+        popup.classList.remove("hidden");
+    }
 
     // Close the popup when the close button is clicked
     closeBtn.addEventListener("click", () => {
@@ -145,5 +156,41 @@ document.addEventListener("DOMContentLoaded", () => {
             popup.classList.add("hidden");
         }
     });
-});
 
+    // Show the next name
+    rightArrow.addEventListener("click", () => {
+        currentIndex = (currentIndex + 1) % names.length;
+        showPopup(names[currentIndex]);
+    });
+
+    // Show the previous name
+    leftArrow.addEventListener("click", () => {
+        currentIndex = (currentIndex - 1 + names.length) % names.length;
+        showPopup(names[currentIndex]);
+    });
+
+    // Handle touch start event
+    popup.addEventListener("touchstart", (e) => {
+        touchStartX = e.changedTouches[0].screenX;
+    });
+
+    // Handle touch end event
+    popup.addEventListener("touchend", (e) => {
+        touchEndX = e.changedTouches[0].screenX;
+        handleSwipe();
+    });
+
+    // Handle swipe gestures
+    function handleSwipe() {
+        if (touchEndX < touchStartX - 50) {
+            // Swipe left
+            currentIndex = (currentIndex + 1) % names.length;
+            showPopup(names[currentIndex]);
+        }
+        if (touchEndX > touchStartX + 50) {
+            // Swipe right
+            currentIndex = (currentIndex - 1 + names.length) % names.length;
+            showPopup(names[currentIndex]);
+        }
+    }
+});

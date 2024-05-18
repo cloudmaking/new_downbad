@@ -1,8 +1,19 @@
 const cvs = document.getElementById('board');
 const ctx = cvs.getContext('2d');
-const rows = 30;
-const cols = 30;
+
+// Customization Variables
+const rows = 30; // Number of rows in the game board
+const cols = 30; // Number of columns in the game board
 const size = 20; // The size of each cell (20x20)
+const gameSpeed = 150; // The speed of the game in milliseconds
+const playerColors = ['#3a71e8', '#9de83a', '#e8c83a', '#d64f83']; // Colors for each player
+const appleColor = '#e8463a'; // Color of the apple
+const initialPlayerPositions = [
+    { x: 1, y: 1, direction: 'right' }, // Initial position and direction of player 1
+    { x: cols - 2, y: rows - 2, direction: 'left' } // Initial position and direction of player 2
+];
+const winScore = 25; // Score needed to win the game
+
 let apple;
 let players = [];
 let gameInterval;
@@ -61,10 +72,9 @@ function preventDefault(e) {
 
 function initializeGame() {
     console.log("Initializing game...");
-    players = [
-        new Snake(1, 1, 1), // Human player
-        new Snake(cols - 2, rows - 2, 2, true) // AI player
-    ];
+    players = initialPlayerPositions.map((pos, index) => 
+        new Snake(pos.x, pos.y, index + 1, index === 1) // Second player is AI-controlled
+    );
 
     apple = new Apple();
     updateScores();
@@ -78,7 +88,7 @@ function startGame() {
     }
     isPaused = false;
     startBtn.innerText = "Pause Game";
-    gameInterval = setInterval(gameLoop, 100);
+    gameInterval = setInterval(gameLoop, gameSpeed);
 }
 
 function restartGame() {
@@ -138,20 +148,19 @@ function gameLoop() {
         }
     });
 
-    let winner = players.find(player => player.score >= 10); // Updated win condition
+    let winner = players.find(player => player.score >= winScore); // Updated win condition
     if (winner) {
         alert(`Player ${winner.id} wins!`);
         clearInterval(gameInterval);
     }
 }
 
-
 class Snake {
     constructor(x, y, id, ai = false) {
         this.body = [{ x, y }];
         this.id = id;
-        this.color = ['#3a71e8', '#9de83a', '#e8c83a', '#d64f83'][id - 1];
-        this.direction = id === 1 ? 'right' : id === 2 ? 'left' : id === 3 ? 'down' : 'up';
+        this.color = playerColors[id - 1];
+        this.direction = initialPlayerPositions[id - 1].direction;
         this.score = 0;
         this.ai = ai;
         if (!this.ai) {
@@ -310,9 +319,9 @@ class Snake {
     }
 
     reset() {
-        const startX = this.id % 2 === 0 ? 1 : cols - 2;
-        const startY = this.id < 3 ? 1 : rows - 2;
-        this.body = [{ x: startX, y: startY }];
+        const { x, y, direction } = initialPlayerPositions[this.id - 1];
+        this.body = [{ x, y }];
+        this.direction = direction;
         this.score = 0;
     }
 
@@ -331,7 +340,7 @@ class Apple {
     constructor() {
         this.x = Math.floor(Math.random() * cols);
         this.y = Math.floor(Math.random() * rows);
-        this.color = '#e8463a';
+        this.color = appleColor;
     }
 
     draw() {
