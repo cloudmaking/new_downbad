@@ -4,8 +4,7 @@
 <head>
     <title>Snake Game</title>
     <%- include('partials/html_head') %>
-    <link rel="stylesheet" href="/css/styles.css">
-    <link rel="stylesheet" href="/css/snake.css">
+    <link rel="stylesheet" href="/css/mp_snake.css">
 </head>
 
 <body>
@@ -19,9 +18,13 @@
             <button onclick="startGame(2)">2 players</button>
             <button onclick="startGame(3)">3 players</button>
             <button onclick="startGame(4)">4 players</button>
+            <button id="pause-btn" onclick="togglePause()">Pause Game</button>
+            <button onclick="restartGame()">Restart Game</button>
         </div>
         <div id="scores"></div>
     </div>
+    
+    
 
     <div id="instructions-popup" class="popup">
         <div class="popup-content">
@@ -29,8 +32,9 @@
             <h2>Controls</h2>
             <p>Player 1: Arrow keys</p>
             <p>Player 2: W (up), A (left), S (down), D (right)</p>
-            <p>Player 3: Num pad 8 (up), 4 (left), 5 (down), 6 (right)</p>
-            <p>Player 4: U (up), H (left), J (down), K (right)</p>
+            <p>Player 3: U (up), H (left), J (down), K (right)</p>
+            <p>Player 4: Num pad 8 (up), 4 (left), 5 (down), 6 (right)</p>
+            
             <h2>Game Rules</h2>
             <ul>
                 <li>Each player starts in their own corner.</li>

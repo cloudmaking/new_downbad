@@ -13,6 +13,6 @@ online multiplayer snake game
 > once the game is over the game can be restarted by the players with button
 > only 2 players can join the game but who ever has the link can view the game
 
-style and pause button changes to local multiplayer snake game 
-> copy form snake vs computer
-
+firefly screen save
+> see if you can make it a live walpaper
+> addd a button so the user can take a screen shot of the screen saver as it is adn save it to their device
