@@ -1,175 +1,36 @@
 <!DOCTYPE html>
 <html>
-
 <head>
-  <title>{{x}}</title>
-  <meta charset="utf-8" />
-  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-  <meta name="HandheldFriendly" content="True" />
-  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>NFT Explorer</title>
+  <%- include('partials/html_head') %>
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet">
-  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
-  <link rel="stylesheet" type="text/css" href="./styles.css" />
-  <style>
-    body {
-      font: "Trebuchet MS";
-      background-color: var(--highlight);
-    }
-
-    .nav-link.active {
-      background-color: var(--desaturated);
-      color: var(--shadow);
-    }
-
-    .nav-link.active:hover {
-      color: var(--highlight);
-      background-color: var(--desaturated);
-    }
-
-    .nav-link {
-      color: var(--highlight);
-      font-size: 0.9em;
-    }
-
-    .nav-link:hover {
-      color: var(--dark_pop);
-
-    }
-
-    .slider::-webkit-slider-thumb {
-      -webkit-appearance: none;
-      appearance: none;
-      width: 15px;
-      height: 15px;
-      background: var(--dark_pop);
-      cursor: pointer;
-    }
-
-    .card-img-top {
-      width: 100%;
-      height: 15vw;
-      object-fit: cover;
-    }
-
-    :root {
-      --highlight: #fff1d6;
-      --desaturated: #c4d9df;
-      --washed: #97d3e4;
-      --saturated: #0067c7;
-      --pop: #ffb20f;
-      --dark_pop: #ff5100;
-      --shadow: #2e2e2e;
-    }
-
-    .ccsp-shadow {
-      color: var(--shadow);
-    }
-
-    .ccsp-pop {
-      color: var(--pop);
-    }
-
-    .ccsp-dark_pop {
-      color: var(--dark_pop);
-    }
-
-    .ccsp-desaturated {
-      color: var(--desaturated);
-    }
-
-    .ccsp-saturated {
-      color: var(--saturated);
-    }
-
-    .ccsp-highlight {
-      color: var(--highlight);
-    }
-
-    .ccsp-washed {
-      color: var(--washed);
-    }
-
-    .ccsp-bg-shadow {
-      background-color: var(--shadow);
-    }
-
-    .ccsp-bg-pop {
-      background-color: var(--pop);
-    }
-
-    .ccsp-bg-dark_pop {
-      background-color: var(--dark_pop);
-    }
-
-    .ccsp-bg-desaturated {
-      background-color: var(--desaturated);
-    }
-
-    .ccsp-bg-saturated {
-      background-color: var(--saturated);
-    }
-
-    .ccsp-bg-highlight {
-      background-color: var(--highlight);
-    }
-
-    .ccsp-bg-washed {
-      background-color: var(--washed);
-    }
-
-    .nav-height {
-      height: 45px;
-    }
-  </style>
+  <link rel="stylesheet" type="text/css" href="/css/planet_gen.css" />
 </head>
-
 <body>
   <div class="container-fluid mt-3">
     <div class="row">
       <div class="col-md-3 p-3 text-center ccsp-bg-shadow ccsp-highlight">
-        <form method="POST" action="/explorer" novalidate>
-          <div class="">
-            <label class="form-label">Choose a Collection:</label>
-            <select class="form-select ccsp-bg-highlight ccsp-shadow" id="collections" name="collections">
-              <option value="Lost_Planets">Lost Planets</option>
-            </select>
-          </div>
+        <form id="explorer-form" novalidate>
+          <h2>Planet Explorer</h2>
           <p></p>
-
           <div class="p-3 align-bottom border border-white">
-            <button id="random" class="btn ccsp-highlighted ccsp-bg-dark_pop" onclick="randomize()">Feeling
-              Lucky!!</button>
+            <button id="random" class="btn ccsp-highlighted ccsp-bg-dark_pop" type="button">Feeling Lucky!!</button>
             <p></p>
             <p class="h6">or</p>
-            <input id="nft_slider" type="range" class="form-range slider" min="1" max="10000"
-              oninput="changeInputValue(this.value)">
-            <input id="nft_number" class="form-control ccsp-bg-highlight ccsp-shadow" name="tokenname"
-              placeholder="Enter a number or use the Slider." type="number" onkeyup="changeRangeValue(this.value)">
+            <input id="nft_slider" type="range" class="form-range slider" min="1" max="10000">
+            <input id="nft_number" class="form-control ccsp-bg-highlight ccsp-shadow" name="tokenname" placeholder="Enter a number or use the Slider." type="number">
             <p></p>
-            <button class="btn ccsp-highlighted ccsp-bg-pop" type="submit">Submit</button>
+            <button id="submit-btn" class="btn ccsp-highlighted ccsp-bg-pop" type="button">Submit</button>
           </div>
           <p></p>
-          <div class="">
-
-            <p>
-              All the money made from the nfts will go towards developing this website and my other project,
-              your support is very appreciated, you will not be forgotten. The wallets that buy these NFTs will
-              be immortalized on the Cardano Blockchain, any future coins made in the future by DownBad.Cloud will
-              be airdropped to all the wallets that hold a planet. Collections also available on
-              <a href="https://opensea.io/collection/cryptoverse1" target="_blank">Polygon</a> and
-              <a href="https://opensea.io/collection/cryptoverse0" target="_blank">Ethereum</a>.
-            </p>
+          <div>
+            <p>All the money made from the NFTs will go towards developing this website and my other projects. Your support is very appreciated, you will not be forgotten. The wallets that buy these NFTs will be immortalized on the Cardano Blockchain, any future coins made by DownBad.Cloud will be airdropped to all the wallets that hold a planet. Collections also available on <a href="https://opensea.io/collection/cryptoverse1" target="_blank">Polygon</a> and <a href="https://opensea.io/collection/cryptoverse0" target="_blank">Ethereum</a>.</p>
             <span>&#9749;</span>
-            <p>
-              WANT TO ADD YOUR COLLECTION TO THE EXPLORER? Contact me directly by going to the contact page.
-              Or on Twitter.
-            </p>
+            <p>WANT TO ADD YOUR COLLECTION TO THE EXPLORER? Contact me directly by going to the contact page. Or on Twitter.</p>
             <span>
               <a class="btn btn-outline-light btn-floating m-1" href="https://twitter.com/CloudMaking" role="button">
-                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-twitter"
-                  viewBox="0 0 16 16">
-                  <path
-                    d="M5.026 15c6.038 0 9.341-5.003 9.341-9.334 0-.14 0-.282-.006-.422A6.685 6.685 0 0 0 16 3.542a6.658 6.658 0 0 1-1.889.518 3.301 3.301 0 0 0 1.447-1.817 6.533 6.533 0 0 1-2.087.793A3.286 3.286 0 0 0 7.875 6.03a9.325 9.325 0 0 1-6.767-3.429 3.289 3.289 0 0 0 1.018 4.382A3.323 3.323 0 0 1 .64 6.575v.045a3.288 3.288 0 0 0 2.632 3.218 3.203 3.203 0 0 1-.865.115 3.23 3.23 0 0 1-.614-.057 3.283 3.283 0 0 0 3.067 2.277A6.588 6.588 0 0 1 .78 13.58a6.32 6.32 0 0 1-.78-.045A9.344 9.344 0 0 0 5.026 15z" />
+                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-twitter" viewBox="0 0 16 16">
+                  <path d="M5.026 15c6.038 0 9.341-5.003 9.341-9.334 0-.14 0-.282-.006-.422A6.685 6.685 0 0 0 16 3.542a6.658 6.658 0 0 1-1.889.518 3.301 3.301 0 0 0 1.447-1.817 6.533 6.533 0 0 1-2.087.793A3.286 3.286 0 0 0 7.875 6.03a9.325 9.325 0 0 1-6.767-3.429 3.289 3.289 0 0 0 1.018 4.382A3.323 3.323 0 0 1 .64 6.575v.045a3.288 3.288 0 0 0 2.632 3.218 3.203 3.203 0 0 1-.865.115 3.23 3.23 0 0 1-.614-.057 3.283 3.283 0 0 0 3.067 2.277A6.588 6.588 0 0 1 .78 13.58a6.32 6.32 0 0 1-.78-.045A9.344 9.344 0 0 0 5.026 15z" />
                 </svg>
               </a>
             </span>
@@ -179,33 +40,24 @@
 
       <div class="col-md-9 p-3 text-center ccsp-bg-highlight">
         <p id="dispName" class="list-inline h3 p-2"></p>
-        <img id="nft_display" loading="eager" height="500px" width="500px" alt="Please < pick an NFT."
-          class="img-thumbnail mx-auto d-block">
+        <img id="nft_display" loading="eager" height="500px" width="500px" alt="Please pick an NFT." class="img-thumbnail mx-auto d-block">
         <p></p>
-        <span class="h5"></span><a id="buyNFT" target="_blank" rel="noopener noreferrer" class="btn ccsp-bg-pop">BUY
-          NOW</a>
-        </p>
+        <span class="h5"></span><a id="buyNFT" target="_blank" rel="noopener noreferrer" class="btn ccsp-bg-pop">BUY NOW</a>
+        <p></p>
       </div>
-
     </div>
-    <p> </p>
+    <p></p>
 
     <div class="row ccsp-bg-desaturated ccsp-shadow text-center">
       <p><span>&#8595;</span> Buy Random NFTs from selected collection <span>&#8595;</span></p>
       <div class="btn-group p-4">
-        <button type="button" class="btn btn-secondary p-2 ccsp-bg-shadow" onclick="javascript:openPaymentWindow(1)">1
-          Random NFT
-          <span class="badge rounded-pill ccsp-bg-pop"> 12.50 ADA</span></button>
-        <button type="button" class="btn btn-secondary p-2 ccsp-bg-shadow" onclick="javascript:openPaymentWindow(10)">10
-          Random NFT
-          <span class="badge rounded-pill ccsp-bg-saturated"> 100 ADA</span></button>
-        <button type="button" class="btn btn-secondary p-2 ccsp-bg-shadow" onclick="javascript:openPaymentWindow(20)">20
-          Random NFT
-          <span class="badge rounded-pill ccsp-bg-dark_pop"> 175 ADA</span></button>
+        <button type="button" class="btn btn-secondary p-2 ccsp-bg-shadow" onclick="javascript:openPaymentWindow(1)">1 Random NFT <span class="badge rounded-pill ccsp-bg-pop"> 12.50 ADA</span></button>
+        <button type="button" class="btn btn-secondary p-2 ccsp-bg-shadow" onclick="javascript:openPaymentWindow(10)">10 Random NFT <span class="badge rounded-pill ccsp-bg-saturated"> 100 ADA</span></button>
+        <button type="button" class="btn btn-secondary p-2 ccsp-bg-shadow" onclick="javascript:openPaymentWindow(20)">20 Random NFT <span class="badge rounded-pill ccsp-bg-dark_pop"> 175 ADA</span></button>
       </div>
     </div>
 
-    <p> </p>
+    <p></p>
     <div class="ccsp-bg-desaturated ccsp-shadow text-center">
       <p><span>&#8595;</span> Raw Data <span>&#8595;</span></p>
       <p id="raw_nft_data" class="text-break"></p>
@@ -221,49 +73,49 @@
           <tr>
             <th scope="row">1</th>
             <td>NFT #</td>
-            <td id="nft_name" class="text-break">{{tokenname}}</td>
+            <td id="nft_name" class="text-break"></td>
           </tr>
           <tr>
             <th scope="row">2</th>
             <td>Project Name</td>
-            <td id="nft_collection" class="text-break">{{collection_name}}</td>
+            <td id="nft_collection" class="text-break"></td>
           </tr>
           <tr>
             <th scope="row">3</th>
             <td>Policy Id</td>
-            <td id="nft_policy" class="text-break">{{nft_policy}}</td>
+            <td id="nft_policy" class="text-break"></td>
           </tr>
           <tr>
             <th scope="row">4</th>
             <td>Ifps Hash</td>
-            <td id="nft_ipfs" class="text-break">{{nft_ipfs}}</td>
+            <td id="nft_ipfs" class="text-break"></td>
           </tr>
           <tr>
             <th scope="row">5</th>
             <td>Uid</td>
             <td class="text-break">
-              <p id="nft_uid">{{nft_uid}}</p>
+              <p id="nft_uid"></p>
             </td>
           </tr>
           <tr>
             <th scope="row">6</th>
             <td>Minted</td>
-            <td id="nft_minted" class="text-break">{{nft_minted}}</td>
+            <td id="nft_minted" class="text-break"></td>
           </tr>
           <tr>
             <th scope="row">7</th>
             <td>Collection buy link</td>
-            <td id="collection_buy_link" class="text-break">{{collection_buy_link}}</td>
+            <td id="collection_buy_link" class="text-break"></td>
           </tr>
           <tr>
             <th scope="row">7</th>
             <td>Collection sale link</td>
-            <td id="collection_sale_link" class="text-break">{{collection_sale_link}}</td>
+            <td id="collection_sale_link" class="text-break"></td>
           </tr>
           <tr>
             <th scope="row">8</th>
             <td>Collection Website</td>
-            <td id="collection_website" class="text-break">{{collection_website}}</td>
+            <td id="collection_website" class="text-break"></td>
           </tr>
         </tbody>
       </table>
@@ -271,106 +123,7 @@
     <main></main>
   </div>
 
-  <script>
-    const url = "https://docs.google.com/spreadsheets/d/1a6WnoHginIXTNY9pLfnitNUdRCCekpb_sAjDnyqGp5w/export?format=csv";
-    const mian = document.querySelector('main');
-    fetch(url).then(result=>result.text()).then(csvtext=>main.innerHTML=csvtext);
-
-    var nft_name = document.getElementById("nft_name").innerHTML;
-
-    var nft_collection = document.getElementById("nft_collection").innerHTML;
-
-    var nft_policy = document.getElementById("nft_policy").innerHTML;
-
-    var nft_ipfs = document.getElementById("nft_ipfs").innerHTML;
-
-    var nft_uid = document.getElementById("nft_uid").innerHTML;
-
-    var nft_minted = document.getElementById("nft_minted").innerHTML;
-
-    var Collection_sale_link = document.getElementById("collection_sale_link").innerHTML.replace(/&amp;/g, "&");
-
-    var Collection_buy_link = document.getElementById("collection_buy_link").innerHTML.replace(/&amp;/g, "&");
-
-    var nft_website = document.getElementById("collection_website").innerHTML;
-
-
-    var selected_collection = document.getElementById("collections").innerHTML;
-    document.getElementById("dispName").innerHTML = selected_collection + " #" + nft_name;
-    document.getElementById("dispName").innerHTML = document.getElementById("dispName").innerHTML.replace(selected_collection,
-      '<a class="small text-justify" href="' + nft_website + '" target="_blank" rel="noopener noreferrer">' + selected_collection + '</a>');
-
-
-    document.getElementById("nft_display").src = "https://gw3.easy-ipfs.com/ipfs/" + nft_ipfs;
-    nft_Uid = nft_uid;
-    nft_Uid = nft_Uid.replace(/-/g, "");
-
-    if (nft_minted == "FALSE") {
-      nft_buy_link = "https://payment.nft-maker.io/?p" + Collection_buy_link + nft_Uid;
-      document.getElementById("buyNFT").style.backgroundColor = "var(--pop)";
-      document.getElementById("buyNFT").innerHTML = "Buy this NFT!";
-    } else {
-      document.getElementById("buyNFT").style.backgroundColor = "var(--highlight)";
-      document.getElementById("buyNFT").innerHTML = "NFT Sold, Check External Markets.";
-    }
-    document.getElementById("buyNFT").href = nft_buy_link;
-
-    function showValue1(newValue) {
-      document.getElementById("monday").innerHTML = newValue;
-    }
-
-    function changeRangeValue(val) {
-      document.getElementById("nft_slider").value = isNaN(parseInt(val, 10)) ? 0 : parseInt(val, 10);
-      showValue1(val);
-    }
-
-    function changeInputValue(val) {
-      document.getElementById("nft_number").value = isNaN(parseInt(val, 10)) ? 0 : parseInt(val, 10);
-      showValue1(val);
-    }
-
-    //if the user presses the random button, generate a random number and update the slider
-    function randomize() {
-      var randomNumber = Math.floor(Math.random() * 10000);
-      //insert the random number into the input field
-      document.getElementById("nft_number").value = randomNumber;
-    }
-
-    function openPaymentWindow(link) {
-      const paymentUrl = "https://payment.nft-maker.io/?p" + Collection_sale_link + link;
-
-      // Specify the popup width and height
-      const popupWidth = 500;
-      const popupHeight = 700;
-
-      // Calculate the center of the screen
-      const left = window.top.outerWidth / 2 + window.top.screenX - (popupWidth / 2);
-      const top = window.top.outerHeight / 2 + window.top.screenY - (popupHeight / 2);
-
-      const popup = window.open(paymentUrl, "NFT-MAKER PRO Payment Gateway", `popup=1, location=1, width=${popupWidth}, height=${popupHeight}, left=${left}, top=${top}`);
-
-      // Show dim background
-      document.body.style = "background: rgba(0, 0, 0, 0.5)";
-
-      // Continuously check whether the popup has been closed
-      const backgroundCheck = setInterval(function () {
-        if (popup.closed) {
-          clearInterval(backgroundCheck);
-
-          console.log("Popup closed");
-          //console.log(nft_ipfs);
-          console.log(Collection_buy_link);
-
-
-
-
-          // Remove dim background
-          document.body.style = "";
-        }
-      }, 1000);
-    }
-  </script>
-
+  <script src="https://cdn.jsdelivr.net/npm/papaparse@5.3.0/papaparse.min.js"></script>
+  <script src="/js/planet_gen.js"></script>
 </body>
-
 </html>

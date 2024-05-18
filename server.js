@@ -38,6 +38,9 @@ app.get('/soundboard', function(req, res) {
 app.get('/asmaulhusna', function(req, res) {
   res.render('asmaulhusna');
 });
+app.get('/lost-planets', function(req, res) {
+  res.render('planet_gen');
+});
 
 const PORT = process.env.PORT || 8080;
 app.listen(PORT, () => {
