@@ -105,6 +105,11 @@ document.addEventListener("DOMContentLoaded", () => {
         changeRangeValue(this.value);
     });
 
+    // Navigate to home page when home button is clicked
+    homeButton.addEventListener("click", () => {
+        window.location.href = '/';
+    });
+
     window.openPaymentWindow = (link) => {
         console.log("Open payment window for link:", link);
         const paymentUrl = `https://pay.nmkr.io/?p=07af7246f3f1409cb06a831f4fbf8d29&c=${link}`;

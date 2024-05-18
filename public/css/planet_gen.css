@@ -2,6 +2,29 @@ body {
     font-family: "Trebuchet MS";
     background-color: var(--highlight);
   }
+
+  #homeButton {
+    background-color: #ff6f61;
+    border: none;
+    color: white;
+    padding: 5px 20px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 16px;
+    margin: 10px 0;
+    cursor: pointer;
+    border-radius: 5px;
+    transition: background-color 0.3s ease;
+    position: absolute;
+    top: 10px;
+    right: 10px;
+}
+
+#homeButton:hover {
+    background-color: #ff4f41;
+}
+
   
   .nav-link.active {
     background-color: var(--desaturated);
