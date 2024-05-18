@@ -4,8 +4,9 @@
 <head>
     <title>Snake vs Computer</title>
     <%- include('partials/html_head') %>
-    <link rel="stylesheet" href="/css/styles.css">
-    <link rel="stylesheet" href="/css/snake.css">
+    <link rel="stylesheet" href="/css/snake_game.css">
+    <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.4.0/dist/confetti.min.js"></script>
+
 </head>
 
 <body>
@@ -15,23 +16,32 @@
     <div id="game">
         <canvas id="board" width="600" height="600"></canvas>
         <div id="btns">
-            <button onclick="startGame()">Start Game</button>
+            <button id="start-btn" onclick="toggleGame()">Start Game</button>
+            <button id="restart-btn" onclick="restartGame()">Restart Game</button>
         </div>
         <div id="score-container">
             <div class="player-score" id="player1-score">
-                <div class="score-value">0</div>
+                <div class="score-circle" style="background-color: #3a71e8;">
+                    <span class="score-text">0</span>
+                </div>
+                <span class="score-label">Player</span>
             </div>
             <div class="player-score" id="player2-score">
-                <div class="score-value">0</div>
+                <div class="score-circle" style="background-color: #436b0e;">
+                    <span class="score-text">0</span>
+                </div>
+                <span class="score-label">Computer</span>
             </div>
         </div>
     </div>
+
+    
 
     <div id="instructions-popup" class="popup">
         <div class="popup-content">
             <span class="close" onclick="toggleInstructionsPopup()">&times;</span>
             <h2>Controls</h2>
-            <p>Player 1 (Human): Arrow keys</p>
+            <p>Player 1 (Human): Arrow keys or swipe</p>
             <p>Player 2 (Computer): Computer-controlled</p>
             <h2>Game Rules</h2>
             <ul>
@@ -39,12 +49,12 @@
                 <li>Players compete to eat the red apple.</li>
                 <li>When a snake collides with the wall, itself, or another snake, it resets.</li>
                 <li>Each player's score resets when they reset.</li>
-                <li>The first player to reach 25 points wins the game.</li>
+                <li>The first player to reach 10 points wins the game.</li>
             </ul>
-            <h3>Note</h3>
-            <p>To avoid scrolling, please zoom out (CTRL/CMD + "-") until the entire game screen is visible.</p>
         </div>
     </div>
+    
+    
     
     <script src="/js/ai_snake.js"></script>
 </body>

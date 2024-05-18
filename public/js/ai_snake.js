@@ -1,4 +1,3 @@
-//1
 const cvs = document.getElementById('board');
 const ctx = cvs.getContext('2d');
 const rows = 30;
@@ -6,36 +5,118 @@ const cols = 30;
 const size = 20; // The size of each cell (20x20)
 let apple;
 let players = [];
+let gameInterval;
+let isPaused = true; // Start the game as paused
 
-//2
-function startGame() {
-    players = [];
-    players.push(new Snake(1, 1, 1)); // Human player
-    players.push(new Snake(cols - 2, rows - 2, 2, true)); // AI player
+const startBtn = document.getElementById('start-btn');
+const restartBtn = document.getElementById('restart-btn');
+
+cvs.addEventListener('touchstart', handleTouchStart, false);
+cvs.addEventListener('touchmove', handleTouchMove, false);
+document.addEventListener('touchmove', preventDefault, { passive: false });
+
+function handleTouchStart(evt) {
+    const firstTouch = evt.touches[0];
+    touchStartX = firstTouch.clientX;
+    touchStartY = firstTouch.clientY;
+}
+
+function handleTouchMove(evt) {
+    if (!touchStartX || !touchStartY) {
+        return;
+    }
+
+    let touchEndX = evt.touches[0].clientX;
+    let touchEndY = evt.touches[0].clientY;
+
+    let dx = touchEndX - touchStartX;
+    let dy = touchEndY - touchStartY;
+
+    if (Math.abs(dx) > Math.abs(dy)) {
+        if (dx > 0) {
+            players[0].direction = 'right';
+        } else {
+            players[0].direction = 'left';
+        }
+    } else {
+        if (dy > 0) {
+            players[0].direction = 'down';
+        } else {
+            players[0].direction = 'up';
+        }
+    }
+
+    touchStartX = null;
+    touchStartY = null;
+}
+
+function preventDefault(e) {
+    if (e.touches.length > 1) {
+        return;
+    }
+    if (e.target === cvs) {
+        e.preventDefault();
+    }
+}
+
+function initializeGame() {
+    console.log("Initializing game...");
+    players = [
+        new Snake(1, 1, 1), // Human player
+        new Snake(cols - 2, rows - 2, 2, true) // AI player
+    ];
 
     apple = new Apple();
     updateScores();
-    gameLoop();
+    console.log("Game initialized:", players);
+}
+
+function startGame() {
+    //console.log("Starting game...");
+    if (players.length === 0) {
+        initializeGame(); // Ensure the game is initialized
+    }
+    isPaused = false;
+    startBtn.innerText = "Pause Game";
+    gameInterval = setInterval(gameLoop, 100);
+}
+
+function restartGame() {
+    clearInterval(gameInterval);
+    initializeGame();
+    startGame();
+}
+
+function toggleGame() {
+    if (isPaused) {
+        startGame();
+    } else {
+        isPaused = true;
+        startBtn.innerText = "Resume Game";
+        clearInterval(gameInterval);
+    }
 }
 
 function updateScores() {
     for (let i = 0; i < players.length; i++) {
         let player = players[i];
         let scoreElem = document.getElementById(`player${i + 1}-score`);
-        if (scoreElem !== null) { // add a null check
-            scoreElem.innerHTML = `
-          <div class="score-circle" style="background-color: ${player.color}">
-            <span class="score-text">${player.score}</span>
-          </div>
-          <span class="score-label">Player ${i + 1}</span>
-        `;
+        if (scoreElem) {
+            let scoreCircle = scoreElem.querySelector('.score-circle');
+            let scoreText = scoreElem.querySelector('.score-text');
+            if (scoreCircle && scoreText) {
+                scoreCircle.style.backgroundColor = player.color;
+                scoreText.textContent = player.score;
+            }
         }
     }
 }
 
-
-//3
 function gameLoop() {
+    if (isPaused) return;
+
+    //console.log("Game loop running...", players);
+
     ctx.clearRect(0, 0, cvs.width, cvs.height);
 
     players.forEach((player, index) => {
@@ -43,7 +124,7 @@ function gameLoop() {
             player.aiMove(apple, players[0]); // Pass the player's snake
         }
         player.move();
-        player.draw();
+        player.draw(); // Ensure 'player' is defined and has a 'draw' method
     });
 
     apple.draw();
@@ -57,11 +138,10 @@ function gameLoop() {
         }
     });
 
-    let winner = players.find(player => player.score >= 25);
+    let winner = players.find(player => player.score >= 10); // Updated win condition
     if (winner) {
         alert(`Player ${winner.id} wins!`);
-    } else {
-        setTimeout(gameLoop, 100);
+        clearInterval(gameInterval);
     }
 }
 
@@ -73,7 +153,6 @@ class Snake {
         this.color = ['#3a71e8', '#9de83a', '#e8c83a', '#d64f83'][id - 1];
         this.direction = id === 1 ? 'right' : id === 2 ? 'left' : id === 3 ? 'down' : 'up';
         this.score = 0;
-        this.setControls();
         this.ai = ai;
         if (!this.ai) {
             this.setControls();
