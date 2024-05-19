@@ -183,3 +183,19 @@ document.getElementById('master-volume').addEventListener('input', function (e) 
     }
     console.log(`Master volume changed: ${e.target.value}`);
 });
+
+// Toggle Mobile Keyboard
+document.getElementById('toggle-keyboard-btn').addEventListener('click', function () {
+    const input = document.createElement('input');
+    input.type = 'text';
+    input.style.position = 'absolute';
+    input.style.opacity = 0;
+    input.style.height = 0;
+    input.style.width = 0;
+    document.body.appendChild(input);
+    input.focus();
+    setTimeout(() => {
+        input.remove();
+    }, 1000);
+    console.log("Toggle Mobile Keyboard clicked");
+});

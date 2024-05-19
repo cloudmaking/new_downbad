@@ -5,6 +5,15 @@ soundbox
 > add a rain sound generator next to volume slider
 > make mobiel friendly with a show numpad button
 
+firefly screen save
+> see if you can make it a live walpaper
+> addd a button so the user can take a screen shot of the screen saver as it is adn save it to their device
+
+create world chat
+> a database less chat where users can joins after inputting there name in to the input field
+> the chat will be a global chat where all users can see each others messages
+> the chat will be a simple text chat with no images or videos
+
 online multiplayer snake game
 > give player a unique game room page link which they can shsare with friends
 > once the page is opened the players can join 
@@ -12,7 +21,3 @@ online multiplayer snake game
 > once the game has started the the game can be paused and resumed by the players with button
 > once the game is over the game can be restarted by the players with button
 > only 2 players can join the game but who ever has the link can view the game
-
-firefly screen save
-> see if you can make it a live walpaper
-> addd a button so the user can take a screen shot of the screen saver as it is adn save it to their device

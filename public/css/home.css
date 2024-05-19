@@ -75,14 +75,39 @@ body {
 }
 
 main {
+    max-width: 1200px;
+    padding: 70px 20px 20px; /* Adjusted top padding to avoid overlap with the fixed header */
+    margin: 0 auto;
+    overflow-x: hidden; /* Prevent horizontal scrolling */
+}
+
+/* Filter Buttons */
+.filter-buttons {
+    text-align: center;
+    margin: 10px 0;
+}
+
+.filter-button {
+    background-color: #728c3c; /* Gameboy green */
+    border: none;
+    color: white;
+    padding: 8px 10px;
+    font-size: 0.9rem;
+    cursor: pointer;
+    border-radius: 5px;
+    margin: 0 5px;
+    transition: background-color 0.3s ease;
+}
+
+.filter-button:hover {
+    background-color: #6b7d33; /* Darker green for hover effect */
+}
+
+/* App Cards Grid */
+.app-cards {
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); /* Adjusted min width for smaller gaps */
     gap: 20px;
-    width: calc(100% - 40px); /* Add padding for left and right gaps */
-    max-width: 1200px;
-    padding: 130px 20px 20px; /* Adjusted top padding to avoid overlap with the fixed header */
-    margin: 0 auto;
-    overflow-x: hidden; /* Prevent horizontal scrolling */
 }
 
 .app-card {
@@ -149,10 +174,15 @@ main {
 }
 
 /* Responsive Design */
+@media (max-width: 1130px) {
+    main {
+        padding: 120px 20px 20px; /* Further increased top padding for mobile */
+    }
+}
+
 @media (max-width: 768px) {
     main {
-        grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-        padding: 150px 20px 20px; /* Further increased top padding for mobile */
+        padding: 130px 20px 20px; /* Further increased top padding for mobile */
     }
 
     .header-content {
@@ -165,11 +195,27 @@ main {
     .header-buttons {
         margin-top: 10px;
     }
+
+    .filter-buttons {
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: center;
+        gap: 0px;
+    }
+
+    .app-cards {
+        grid-template-columns: 1fr;
+        gap: 20px; /* Increase gap for better spacing on small screens */
+    }
 }
 
 @media (max-width: 480px) {
     main {
+        padding: 130px 10px 20px; /* Adjusted top and side padding for mobile */
+    }
+
+    .app-cards {
         grid-template-columns: 1fr;
-        padding: 150px 0px 15px; /* Adjusted top and side padding for mobile */
+        gap: 40px; /* Further increase gap for better spacing on small screens */
     }
 }

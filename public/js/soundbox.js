@@ -137,3 +137,23 @@ document.getElementById('master-volume').addEventListener('input', function (e) 
         audioElements[i].volume = e.target.value;
     }
 });
+
+// Mobile virtual number pad
+const numPad = document.getElementById('number-pad');
+const togglePadBtn = document.getElementById('toggle-pad-btn');
+
+if ('ontouchstart' in window) {
+    togglePadBtn.classList.remove('hidden');
+    togglePadBtn.addEventListener('click', function () {
+        numPad.classList.toggle('hidden');
+    });
+
+    document.querySelectorAll('.num-button').forEach((btn, index) => {
+        btn.addEventListener('touchstart', function () {
+            playSound(index);
+        });
+        btn.addEventListener('touchend', function () {
+            pauseSound(index);
+        });
+    });
+}
