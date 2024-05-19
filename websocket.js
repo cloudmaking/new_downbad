@@ -117,7 +117,7 @@ function handleMove(ws, data) {
     const roomId = data.roomId;
     if (rooms[roomId]) {
         broadcast(roomId, data);
-        console.log(`Player ${data.playerId} moved to (${data.position.x}, ${data.position.y}) in room ${roomId}`);
+        //console.log(`Player ${data.playerId} moved to (${data.position.x}, ${data.position.y}) in room ${roomId}`);
     }
 }
 
