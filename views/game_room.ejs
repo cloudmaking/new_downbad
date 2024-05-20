@@ -1,13 +1,11 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
     <title>Snake Game Room - <%= roomId %></title>
     <meta name="description" content="Join the Snake game room to play with a friend.">
     <%- include('partials/html_head') %>
     <link rel="stylesheet" href="/css/game_room.css">
 </head>
-
 <body>
     <header class="header">
         <div class="header-content">
@@ -16,17 +14,23 @@
             <div class="header-buttons">
                 <button id="homeButton">Home</button>
                 <button id="copy-link-button">Copy Link</button>
-                <button id="join-game-button" onclick="joinGame()">Join Game</button>
             </div>
         </div>
     </header>
     <main>
+        <div id="status-bar">
+            <h3 id="status">Waiting for players...</h3>
+        </div>
+        <div id="player-list-container">
+            <h4>Players in the Room:</h4>
+            <ul id="player-list"></ul>
+        </div>
         <div id="game">
             <canvas id="gameCanvas" width="600" height="600"></canvas>
         </div>
         <div class="button-container">
-            <button id="start-btn" onclick="toggleGame()">Start Game</button>
-            <button id="restart-btn" onclick="restartGame()">Restart Game</button>
+            <button id="start-btn">Start Game</button>
+            <button id="restart-btn">Restart Game</button>
         </div>
         <div id="score-container">
             <div class="player-score" id="player1-score">
@@ -43,7 +47,27 @@
             </div>
         </div>
     </main>
-    <script src="/js/game_room.js"></script>
-</body>
+    <script src="/js/gm_scripts/gameSetup.js"></script>
+    <script src="/js/gm_scripts/websocketHandlers.js"></script>
+    <script src="/js/gm_scripts/utilityFunctions.js"></script>
+    <script src="/js/gm_scripts/gameLogic.js"></script>
+    <script src="/js/gm_scripts/gameControls.js"></script>
+    <script src="/js/gm_scripts/rendering.js"></script>
+    <script>
+        // Copy Link Functionality
+        document.getElementById('copy-link-button').addEventListener('click', () => {
+            const roomLink = window.location.href;
+            navigator.clipboard.writeText(roomLink).then(() => {
+                console.log('Link copied to clipboard');
+            }).catch(err => {
+                console.error('Failed to copy link:', err);
+            });
+        });
 
+        // Home Button Functionality
+        document.getElementById('homeButton').addEventListener('click', () => {
+            window.location.href = '/'; // Redirect to home page
+        });
+    </script>
+</body>
 </html>
