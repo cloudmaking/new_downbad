@@ -1,13 +1,15 @@
-const socket = new WebSocket(`wss://${window.location.hostname}`);
+const socket = new WebSocket(`ws://localhost:8080`);
+//const socket = new WebSocket(`wss://${window.location.hostname}`);
 
 
 
 let currentPlayerId = generatePlayerId(); // Generate a unique ID for the client
 let currentPlayerNumber = null;
+let roomId = getRoomId();
 
 socket.addEventListener('open', () => {
     console.log('Connected to server');
-    socket.send(JSON.stringify({ type: 'new_player', roomId: '<%= roomId %>', playerId: currentPlayerId }));
+    socket.send(JSON.stringify({ type: 'new_player', roomId: roomId, playerId: currentPlayerId }));
 });
 
 socket.addEventListener('message', event => {
@@ -52,6 +54,14 @@ socket.addEventListener('message', event => {
             window.location.href = '/online_snake';
             break;
 
+        case 'reset':
+            gameState.player1Score = 0;
+            gameState.player2Score = 0;
+            gameState.gameRunning = false;
+            updateScores();
+            updateButton("start");
+            break;
+
         // Handle other message types as needed
     }
 });
@@ -67,4 +77,10 @@ function sendMessage(message) {
 
 function generatePlayerId() {
     return 'player_' + Math.random().toString(36).substr(2, 9);
+}
+
+function getRoomId() {
+    const url = window.location.href;
+    const roomId = url.substring(url.lastIndexOf('/') + 1);
+    return roomId;
 }

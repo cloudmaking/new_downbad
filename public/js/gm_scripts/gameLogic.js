@@ -7,6 +7,12 @@ let gameState = {
     players: []
 };
 
+function getRoomId() {
+    const url = window.location.href;
+    const roomId = url.substring(url.lastIndexOf('/') + 1);
+    return roomId;
+}
+
 function initGame() {
     gameState.player1Score = 0;
     gameState.player2Score = 0;
@@ -23,7 +29,7 @@ function startGame() {
     }
     gameState.gameRunning = true;
     updateStatusBar("Game started! Press arrow keys to count.");
-    sendMessage({ type: 'start_game', roomId: '<%= roomId %>' });
+    sendMessage({ type: 'start_game', roomId: getRoomId() });
     updateButton("pause");
 }
 
@@ -31,7 +37,7 @@ function pauseGame() {
     gameState.gameRunning = false;
     updateStatusBar("Game paused!");
     updateButton("start");
-    sendMessage({ type: 'pause_game', roomId: '<%= roomId %>' });
+    sendMessage({ type: 'pause_game', roomId: getRoomId() });
 }
 
 function restartGame() {
@@ -46,10 +52,10 @@ function incrementScore(player) {
 
     if (player === 'player1') {
         gameState.player1Score++;
-        sendMessage({ type: 'increment_score', roomId: '<%= roomId %>', player: 'player1', score: gameState.player1Score });
+        sendMessage({ type: 'increment_score', roomId: getRoomId(), player: 'player1', score: gameState.player1Score });
     } else if (player === 'player2') {
         gameState.player2Score++;
-        sendMessage({ type: 'increment_score', roomId: '<%= roomId %>', player: 'player2', score: gameState.player2Score });
+        sendMessage({ type: 'increment_score', roomId: getRoomId(), player: 'player2', score: gameState.player2Score });
     }
     updateScores();
 }
