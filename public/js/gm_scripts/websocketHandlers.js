@@ -1,4 +1,6 @@
-const socket = new WebSocket(`ws://${window.location.host}`);
+const socket = new WebSocket(`wss://${window.location.hostname}`);
+
+
 
 let currentPlayerId = generatePlayerId(); // Generate a unique ID for the client
 let currentPlayerNumber = null;

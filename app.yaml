@@ -1,2 +1,3 @@
-runtime: nodejs20
+runtime: nodejs
 entrypoint: node server.js
+env: flex

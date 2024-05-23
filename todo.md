@@ -3,7 +3,7 @@ soundbox
 > add hold down button that loops sound until pressed again
 > add a noise generator next to volume
 > add a rain sound generator next to volume slider
-> make mobiel friendly with a show numpad button
+> make record sound with audio input deature
 
 firefly screen save
 > see if you can make it a live walpaper

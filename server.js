@@ -18,7 +18,7 @@ app.use(express.static('public'));
 
 // Define routes for various pages
 app.get('/', (req, res) => {
-  res.render('index');
+  res.render('index'); // Ensure this renders your index.ejs file
 });
 
 app.get('/mp_snake', (req, res) => {
@@ -35,9 +35,7 @@ app.get('/online_snake', (req, res) => {
 
 app.get('/online_snake/room/:roomId', (req, res) => {
   const { roomId } = req.params;
-  const protocol = req.protocol;
-  const host = req.get('host');
-  res.render('game_room', { roomId, protocol, host });
+  res.render('game_room', { roomId });
 });
 
 app.get('/firefly', (req, res) => {
@@ -64,13 +62,8 @@ app.get('/lost-planets', (req, res) => {
   res.render('planet_gen');
 });
 
-// New route for the script test page
-app.get('/script-test', (req, res) => {
-  res.render('fs_test'); // Make sure 'fs_test.ejs' exists in your views directory
-});
-
 // Set the server to listen on the specified port
 const PORT = process.env.PORT || 8080;
-server.listen(PORT, () => {
+server.listen(PORT, '0.0.0.0', () => {
   console.log(`Server listening on port ${PORT}...`);
 });
