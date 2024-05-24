@@ -51,6 +51,9 @@ let currentPlayerId = generatePlayerId(); // Generate a unique ID for the client
 let currentPlayerNumber = null;
 let roomId = getRoomId();
 
+let p1score = document.getElementById('player1-score').querySelector('.score-text').textContent;
+let p2score = document.getElementById('player2-score').querySelector('.score-text').textContent;
+
 socket.addEventListener('open', () => {
   socket.send(JSON.stringify({ type: 'new_player', roomId: roomId, playerId: currentPlayerId }));
 });
@@ -83,13 +86,20 @@ socket.addEventListener('message', event => {
       break;
 
     case 'score_update':
-      console.log('Score update:', data); // Debug log
-      if (data.player === 'player1') {
-        gameState.player1Score = data.score;
-      } else if (data.player === 'player2') {
-        gameState.player2Score = data.score;
+      console.log('player:', data.player, 'previous score: ', p1score); // Debug log
+      if (data.player === 1) {
+        // Increment player 1's score
+        p1score = parseInt(p1score) + 1;
+        console.log('new p1 score: ', p1score); // Debug log
+        document.getElementById('player1-score').querySelector('.score-text').textContent = p1score;
+      } else if (data.player === 2) {
+        // Increment player 2's score
+        p2score = parseInt(p2score) + 1;
+        console.log('new p2 score: ', p2score); // Debug log
+        document.getElementById('player2-score').querySelector('.score-text').textContent = p2score;
+      } else {
+        console.error('Invalid player number:', data.player);
       }
-      updateScores();
       break;
 
     case 'redirect':
@@ -125,6 +135,11 @@ socket.addEventListener('message', event => {
       }
       break;
 
+    case 'apple_position':
+      gameState.apple = data.position;
+      renderGameState();
+      break;
+
     // Handle other message types as needed
   }
 });
@@ -135,13 +150,27 @@ socket.addEventListener('close', () => {
 
 // Game state
 let gameState = {
-  player1Score: 0,
-  player2Score: 0,
+  p1score: 0,
+  p2score: 0,
   gameRunning: false,
   players: [],
   player1: null,
-  player2: null
+  player2: null,
+  apple: null
 };
+
+function eatApple(player) {
+  // Check if the apple exists
+  if (gameState.apple) {
+    const head = player.snake[0];
+    if (head.x === gameState.apple.x && head.y === gameState.apple.y) {
+      // Increase player's score
+      console.log('player.number:', player.number);
+      // use teh player.number property as it returns the number of the player who ate the apple adn then send a message to the server 
+      sendMessage({ type: 'apple_eaten', roomId: getRoomId(), player: player.number });
+    }
+  }
+}
 
 function resetSnakeLocations() {
   gameState.players.forEach((player, index) => {
@@ -152,8 +181,8 @@ function resetSnakeLocations() {
 
 // Game initialization
 function initGame(msg) {
-  gameState.player1Score = 0;
-  gameState.player2Score = 0;
+  p1score = 0;
+  p2score = 0;
   gameState.gameRunning = false;
   gameState.player1 = { snake: [initialPlayerPositions[0]], direction: 'right' };
   gameState.player2 = { snake: [initialPlayerPositions[1]], direction: 'left' };
@@ -163,9 +192,19 @@ function initGame(msg) {
   renderGameState();
 }
 
+function updateScores() {
+  console.log('Updating scores:', gameState.player1Score, gameState.player2Score);
+  document.getElementById('player1-score').querySelector('.score-text').textContent = gameState.player1Score;
+  document.getElementById('player2-score').querySelector('.score-text').textContent = gameState.player2Score;
+}
+
+
 // Game loop
 function gameLoop() {
   // Update game state...
+  gameState.players.forEach(player => {
+    eatApple(player);
+  });
 
   // Render game state
   renderGameState();
@@ -185,7 +224,7 @@ function startGame() {
   }
   gameState.gameRunning = true;
   updateStatusBar("Game started! Press arrow keys to Move.");
-  sendMessage({ type: 'start_game', roomId: getRoomId() });
+  sendMessage({ type: 'start_game', roomId: getRoomId(), gridSize: { cols: cols, rows: rows } });
   updateButton("pause");
   gameLoop();
 }
@@ -200,19 +239,6 @@ function pauseGame() {
 function restartGame() {
   //initGame();
   sendMessage({ type: 'reset', roomId: getRoomId() });
-}
-
-// Score and status updates
-function incrementScore() {
-  if (!gameState.gameRunning) return;
-
-  updateScores();
-}
-
-function updateScores() {
-  console.log('Updating scores:', gameState.player1Score, gameState.player2Score);
-  document.getElementById('player1-score').querySelector('.score-text').textContent = gameState.player1Score;
-  document.getElementById('player2-score').querySelector('.score-text').textContent = gameState.player2Score;
 }
 
 function updateStatusBar(message = "") {
@@ -333,6 +359,7 @@ function renderGameState() {
   gameState.players.forEach((player, index) => {
     renderSnake(player.snake, playerColors[index]);
   });
+  renderApple();
 }
 
 function renderSnake(snake, color) {
@@ -342,9 +369,11 @@ function renderSnake(snake, color) {
   });
 }
 
-function renderFood(food) {
-  ctx.fillStyle = 'red';
-  ctx.fillRect(food.x * 20, food.y * 20, 20, 20);
+function renderApple() {
+  if (gameState.apple !== null) {
+    ctx.fillStyle = 'red';
+    ctx.fillRect(gameState.apple.x * size, gameState.apple.y * size, size, size);
+  }
 }
 
 // Initialize the game

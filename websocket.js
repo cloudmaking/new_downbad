@@ -47,7 +47,12 @@ function createWebSocketServer(server) {
           break;
 
         case 'start_game':
+          // Store the grid size
+          rooms[currentRoom].gridSize = data.gridSize;
+          // Generate a new apple's position
+          rooms[currentRoom].apple = generateRandomPosition(rooms[currentRoom].gridSize);
           broadcastGameStart(currentRoom);
+          broadcastApplePosition(currentRoom);
           break;
 
         case 'pause_game':
@@ -71,6 +76,22 @@ function createWebSocketServer(server) {
           updatePlayerDirectionAndPosition(data.playerId, data.direction, data.position, currentRoom);
           break;
 
+        case 'apple_position':
+          rooms[currentRoom].apple = data.position;
+          broadcastApplePosition(currentRoom);
+          break;
+
+        case 'apple_eaten':
+          console.log('Received apple_eaten message from client', data);
+          // Find the player who ate the apple
+          
+          // Broadcast the updated score
+          broadcastScoreUpdate(currentRoom, data.player, data.score);
+          // Generate a new apple's position
+          rooms[currentRoom].apple = generateRandomPosition(rooms[currentRoom].gridSize);
+          broadcastApplePosition(currentRoom);
+          break;
+
         // Add more cases as needed
       }
     });
@@ -82,6 +103,21 @@ function createWebSocketServer(server) {
     });
   });
 
+  function generateRandomPosition(gridSize) {
+    return {
+      x: Math.floor(Math.random() * gridSize.cols),
+      y: Math.floor(Math.random() * gridSize.rows)
+    };
+  }
+
+  function broadcastApplePosition(roomId) {
+    const room = rooms[roomId];
+    if (room) {
+      room.forEach(player => {
+        player.ws.send(JSON.stringify({ type: 'apple_position', position: room.apple }));
+      });
+    }
+  }
 
   // Function to update a player's direction and position
   function updatePlayerDirectionAndPosition(playerId, direction, position, currentRoom) {
@@ -122,7 +158,7 @@ function createWebSocketServer(server) {
       rooms[currentRoom].forEach((player, index) => {
         player.playerNumber = index + 1;
       });
-      
+
       if (rooms[currentRoom].length <= 1) {
         console.log('Resetting game becasue number of players is less than 2');
         broadcastPlayerList(currentRoom);
