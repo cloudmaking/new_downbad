@@ -10,11 +10,12 @@ const server = http.createServer(app);
 createWebSocketServer(server);
 
 app.use((req, res, next) => {
-  if (req.secure || process.env.NODE_ENV !== 'production') {
-    // request was via https, or not in production, so do no special handling
+  const isLocalhost = req.headers.host.startsWith('localhost') || req.headers.host.startsWith('127.0.0.1');
+  if (req.secure || isLocalhost) {
+    // request was via https, or on localhost, so do no special handling
     next();
   } else {
-    // request was via http, so redirect to https
+    // request was via http, and not on localhost, so redirect to https
     res.redirect('https://' + req.headers.host + req.url);
   }
 });
@@ -77,3 +78,4 @@ const PORT = process.env.PORT || 8080;
 server.listen(PORT, '0.0.0.0', () => {
   console.log(`Server listening on port ${PORT}...`);
 });
+

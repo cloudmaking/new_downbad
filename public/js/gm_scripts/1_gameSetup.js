@@ -44,8 +44,8 @@ function updateStatusBar() {
   }
 }
 
-const socket = new WebSocket(`ws://localhost:8080`);
-//const socket = new WebSocket(`wss://${window.location.hostname}`);
+const isLocalhost = window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1';
+const socket = new WebSocket(isLocalhost ? 'ws://localhost:8080' : `wss://${window.location.hostname}`);
 
 let currentPlayerId = generatePlayerId(); // Generate a unique ID for the client
 let currentPlayerNumber = null;

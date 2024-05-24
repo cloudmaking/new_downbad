@@ -2,6 +2,3 @@ runtime: nodejs
 entrypoint: node server.js
 env: flex
 
-env_variables:
-  NODE_ENV: 'development'
-  # NODE_ENV: 'production'
