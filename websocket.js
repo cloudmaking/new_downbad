@@ -1,5 +1,7 @@
-// Import the WebSocket module
 const WebSocket = require('ws');
+
+// websocket.js
+// Import the WebSocket module
 
 // Function to create a WebSocket server
 function createWebSocketServer(server) {
@@ -15,7 +17,14 @@ function createWebSocketServer(server) {
 
     // Event listener for incoming messages
     ws.on('message', (message) => {
-      const data = JSON.parse(message);
+      let data;
+      try {
+        data = JSON.parse(message);
+      } catch (error) {
+        console.error('Error parsing message:', error);
+        return;
+      }
+
       console.log('Message from client:', data);
 
       // Handle different types of messages
@@ -45,6 +54,11 @@ function createWebSocketServer(server) {
           broadcastGamePause(currentRoom);
           break;
 
+        case 'reset':
+          //use broadcastToRoom
+          broadcastGameReset(currentRoom);
+          break;
+
         case 'increment_score':
           broadcastScoreUpdate(currentRoom, data.player, data.score);
           break;
@@ -53,15 +67,53 @@ function createWebSocketServer(server) {
           handlePlayerDisconnect(ws, currentRoom, rooms);
           break;
 
+        case 'update_direction_position':
+          updatePlayerDirectionAndPosition(data.playerId, data.direction, data.position, currentRoom);
+          break;
+
         // Add more cases as needed
       }
     });
 
     // Event listener for connection close
     ws.on('close', () => {
+      console.log('Connection closed');
       handlePlayerDisconnect(ws, currentRoom, rooms);
     });
   });
+
+
+  // Function to update a player's direction and position
+  function updatePlayerDirectionAndPosition(playerId, direction, position, currentRoom) {
+    //console.log('Updating player direction and position');
+    const room = rooms[currentRoom];
+    const player = room.find(player => player.id === playerId);
+    if (player) {
+      player.direction = direction;
+      if (!player.snake) {
+        player.snake = [];
+      }
+      player.snake[0] = position;
+      if (room) {
+        room.forEach(player => {
+          //console.log('Sending update to player', player.id);
+          player.ws.send(JSON.stringify({ type: 'update_direction_position', playerId, direction, position }));
+        });
+      }
+    }
+  }
+
+
+  // Function to broadcast a message to all players in a room
+  function broadcastToRoom(roomId, type, data) {
+    const room = rooms[roomId];
+    if (room) {
+      room.forEach(player => {
+        console.log('from server', JSON.stringify({ type, data }));
+        player.ws.send(JSON.stringify({ type, ...data }));
+      });
+    }
+  }
 
   function handlePlayerDisconnect(ws, currentRoom, rooms) {
     if (currentRoom && ws.id) {
@@ -70,17 +122,12 @@ function createWebSocketServer(server) {
       rooms[currentRoom].forEach((player, index) => {
         player.playerNumber = index + 1;
       });
-      broadcastPlayerList(currentRoom);
-      broadcastGameReset(currentRoom);
-    }
-  }
-
-  function broadcastGameReset(roomId) {
-    const room = rooms[roomId];
-    if (room) {
-      room.forEach(player => {
-        player.ws.send(JSON.stringify({ type: 'reset' }));
-      });
+      
+      if (rooms[currentRoom].length <= 1) {
+        console.log('Resetting game becasue number of players is less than 2');
+        broadcastPlayerList(currentRoom);
+        broadcastGameReset(currentRoom);
+      }
     }
   }
 
@@ -98,32 +145,21 @@ function createWebSocketServer(server) {
 
   // Function to broadcast the game start message to all players in a room
   function broadcastGameStart(roomId) {
-    const room = rooms[roomId];
-    if (room) {
-      room.forEach(player => {
-        player.ws.send(JSON.stringify({ type: 'start_game' }));
-      });
-    }
+    broadcastToRoom(roomId, 'start_game');
   }
 
   // Function to broadcast the game pause message to all players in a room
   function broadcastGamePause(roomId) {
-    const room = rooms[roomId];
-    if (room) {
-      room.forEach(player => {
-        player.ws.send(JSON.stringify({ type: 'pause_game' }));
-      });
-    }
+    broadcastToRoom(roomId, 'pause_game');
+  }
+
+  function broadcastGameReset(roomId) {
+    broadcastToRoom(roomId, 'reset');
   }
 
   // Function to broadcast the score update message to all players in a room
   function broadcastScoreUpdate(roomId, player, score) {
-    const room = rooms[roomId];
-    if (room) {
-      room.forEach(p => {
-        p.ws.send(JSON.stringify({ type: 'score_update', player, score }));
-      });
-    }
+    broadcastToRoom(roomId, 'score_update', { player, score });
   }
 }
 

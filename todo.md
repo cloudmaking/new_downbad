@@ -15,9 +15,5 @@ create world chat
 > the chat will be a simple text chat with no images or videos
 
 online multiplayer snake game
-> give player a unique game room page link which they can shsare with friends
-> once the page is opened the players can join 
-> once both players have joined the start game button appears
-> once the game has started the the game can be paused and resumed by the players with button
-> once the game is over the game can be restarted by the players with button
 > only 2 players can join the game but who ever has the link can view the game
+> find a solution for third player or viewer leaving the room and resetign the game becaseu connection close
