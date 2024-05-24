@@ -14,7 +14,7 @@ socket.addEventListener('open', () => {
 
 socket.addEventListener('message', event => {
     const data = JSON.parse(event.data);
-    console.log('Message from server:', data);
+    //console.log('Message from server:', data);
 
     switch (data.type) {
         case 'update_player_list':

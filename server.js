@@ -9,6 +9,16 @@ const server = http.createServer(app);
 // Initialize WebSocket server on the existing HTTP server
 createWebSocketServer(server);
 
+app.use((req, res, next) => {
+  if (req.secure || process.env.NODE_ENV !== 'production') {
+    // request was via https, or not in production, so do no special handling
+    next();
+  } else {
+    // request was via http, so redirect to https
+    res.redirect('https://' + req.headers.host + req.url);
+  }
+});
+
 // Set up EJS as the view engine and specify the views directory
 app.set('view engine', 'ejs');
 app.set('views', path.join(__dirname, 'views'));

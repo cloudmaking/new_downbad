@@ -7,12 +7,6 @@ let gameState = {
     players: []
 };
 
-function getRoomId() {
-    const url = window.location.href;
-    const roomId = url.substring(url.lastIndexOf('/') + 1);
-    return roomId;
-}
-
 function initGame() {
     gameState.player1Score = 0;
     gameState.player2Score = 0;

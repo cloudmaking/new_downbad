@@ -9,28 +9,23 @@
 <body>
     <header class="header">
         <div class="header-content">
-            <h1>Game Room: <%= roomId %></h1>
-            <p>Share this link with a friend to join the game:</p>
+            <!--<h4>Game Room: <%= roomId %></h4>-->
+            <h4 id="status">Waiting for players...</h4>
+            <ul id="player-list"></ul>
             <div class="header-buttons">
                 <button id="homeButton">Home</button>
                 <button id="copy-link-button">Copy Link</button>
+                <button id="start-btn">Start Game</button>
+            <button id="restart-btn">Reset Game</button>
             </div>
         </div>
     </header>
     <main>
-        <div id="status-bar">
-            <h3 id="status">Waiting for players...</h3>
-        </div>
-        <div id="player-list-container">
-            <h4>Players in the Room:</h4>
-            <ul id="player-list"></ul>
-        </div>
         <div id="game">
             <canvas id="gameCanvas" width="600" height="600"></canvas>
         </div>
         <div class="button-container">
-            <button id="start-btn">Start Game</button>
-            <button id="restart-btn">Restart Game</button>
+            
         </div>
         <div id="score-container">
             <div class="player-score" id="player1-score">
@@ -47,12 +42,12 @@
             </div>
         </div>
     </main>
-    <script src="/js/gm_scripts/gameSetup.js"></script>
-    <script src="/js/gm_scripts/websocketHandlers.js"></script>
-    <script src="/js/gm_scripts/utilityFunctions.js"></script>
-    <script src="/js/gm_scripts/gameLogic.js"></script>
-    <script src="/js/gm_scripts/gameControls.js"></script>
-    <script src="/js/gm_scripts/rendering.js"></script>
+    <script src="/js/gm_scripts/1_gameSetup.js"></script>
+    <script src="/js/gm_scripts/2_websocketHandlers.js"></script>
+    <script src="/js/gm_scripts/3_utilityFunctions.js"></script>
+    <script src="/js/gm_scripts/4_gameLogic.js"></script>
+    <script src="/js/gm_scripts/5_gameControls.js"></script>
+    <script src="/js/gm_scripts/6_rendering.js"></script>
     <script>
         // Copy Link Functionality
         document.getElementById('copy-link-button').addEventListener('click', () => {

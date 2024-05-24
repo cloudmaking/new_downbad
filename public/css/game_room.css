@@ -25,13 +25,13 @@ header.header {
     align-items: center;
 }
 
-.header-content h1 {
-    margin: 5px 0;
+h4#status {
+    margin-top: 5px; /* Adjust the margin value as desired */
+    margin-bottom: 0px; /* Adjust the margin value as desired */
 }
 
-.header-content p {
-    margin: 10px 0;
-    word-break: break-word;
+h4#player-list {
+    margin-top: 0px; /* Adjust the margin value as desired */
 }
 
 .header-buttons {
@@ -155,21 +155,18 @@ canvas {
 }
 
 /* Responsive Design */
-@media (max-width: 768px) {
+@media (max-width: 768px) and (max-height: 768px) {
     #game {
         width: 90%;
         height: auto;
         padding: 10px;
-        margin: 20px 0;
+        margin: 5px 0;
         margin-top: 0px;
     }
 
     canvas {
-        width: 100%;
+        width: auto;
         height: auto;
-    }
-
-    .header-content p {
-        font-size: 14px;
+        margin-top: 5px;
     }
 }
