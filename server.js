@@ -9,17 +9,6 @@ const server = http.createServer(app);
 // Initialize WebSocket server on the existing HTTP server
 createWebSocketServer(server);
 
-app.use((req, res, next) => {
-  const isLocalhost = req.headers.host.startsWith('localhost') || req.headers.host.startsWith('127.0.0.1');
-  if (req.secure || isLocalhost) {
-    // request was via https, or on localhost, so do no special handling
-    next();
-  } else {
-    // request was via http, and not on localhost, so redirect to https
-    res.redirect('https://' + req.headers.host + req.url);
-  }
-});
-
 // Set up EJS as the view engine and specify the views directory
 app.set('view engine', 'ejs');
 app.set('views', path.join(__dirname, 'views'));
