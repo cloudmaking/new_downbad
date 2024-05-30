@@ -1,11 +1,11 @@
 //websocket handler
 const socket = new WebSocket(`ws://localhost:8080`);
-//const socket = new WebSocket(`wss://${window.location.hostname}`);
+// const socket = new WebSocket(`wss://${window.location.hostname}`);
 
 //variables
 const canvas = document.getElementById("gameCanvas");
 const ctx = canvas.getContext("2d");
-const size = 20; // The size of each cell (20x20)
+const size = 20; // The size of each cell by pixels
 const playerColors = ["#3a71e8", "#9de83a"]; // Colors for each player
 const rows = 30;
 const cols = 30;
@@ -31,39 +31,29 @@ let gamestate = {
   },
   player2: {
     id: null,
-    location: { x: 28, y: 28 },
+    location: { x: cols - 2, y: rows - 2 },
     direction: { x: -1, y: 0 },
     score: 0,
   },
   apple: {
-    x: Math.floor(Math.random() * 30),
-    y: Math.floor(Math.random() * 30),
+    x: Math.floor(Math.random() * cols),
+    y: Math.floor(Math.random() * rows),
   },
   gameRunning: false,
   statusBarText: "Waiting for player 2...",
   startButtonText: "Start Game",
 };
 
-// function initialiseGame(x) {
-//   gamestate.player1.location = { x: 1, y: 1 };
-//   gamestate.player1.direction = { x: 1, y: 0 };
-//   gamestate.player1.score = 0;
-//   gamestate.player2.location = { x: cols - 2, y: rows - 2 };
-//   gamestate.player2.direction = { x: -1, y: 0 };
-//   gamestate.player2.score = 0;
-//   gamestate.apple = generateAppleLocation();
-//   gamestate.gameRunning = false;
-//   gamestate.statusBarText = x;
-//   gamestate.startButtonText = "Start Game";
-// }
-
 socket.addEventListener("open", () => {
   console.log("Connected to server");
+  socket.send(
+    JSON.stringify({ type: "new_player", roomId: roomId, gameState: gamestate })
+  );
 });
 
 socket.addEventListener("message", (event) => {
   const data = JSON.parse(event.data);
-  //console.log('Message from server:', data);
+  //console.log("Message from server:", data);
 
   switch (data.type) {
     case "update_game_state":
@@ -72,8 +62,8 @@ socket.addEventListener("message", (event) => {
       updatePlayersList();
       updateStatusBar();
       UpdateStartButton();
-      //renderGame(oldGamestate, gamestate);
-      //updatePageObjects(oldGamestate, gamestate);
+      updateScores();
+      renderGameState();
       break;
 
     case "game_full":
@@ -86,6 +76,14 @@ socket.addEventListener("message", (event) => {
     case "player_id":
       currentPlayerId = data.playerId;
       console.log("Player ID:", currentPlayerId);
+      break;
+
+    case "player_left":
+      gamestate = data.gameState;
+      updatePlayersList();
+      resetGame();
+
+      break;
 
     // Handle other message types as needed
   }
@@ -93,17 +91,12 @@ socket.addEventListener("message", (event) => {
 
 socket.addEventListener("close", () => {
   console.log("Disconnected from server");
-  resetGame();
   // If player1 left, make player2 the new player1
-  if (gamestate.player1.id === currentPlayerId && gamestate.player2.id) {
-    gamestate.player1.id = gamestate.player2.id;
-    gamestate.player2.id = null;
-  }
 });
 
 // helper funtions
 function sendMessage(message) {
-  console.log("Sending message:", message); // Debug log
+  //console.log("Sending message:", message); // Debug log
   if (socket.readyState === WebSocket.OPEN) {
     socket.send(JSON.stringify(message));
   } else {
@@ -137,6 +130,29 @@ function generateAppleLocation() {
     x: Math.floor(Math.random() * cols),
     y: Math.floor(Math.random() * rows),
   };
+}
+
+// if the currentplayerid is on teh same location as teh apple increase the score and generate a new apple
+function checkAppleCollision() {
+  if (currentPlayerId === gamestate.player1.id) {
+    if (
+      gamestate.player1.location.x === gamestate.apple.x &&
+      gamestate.player1.location.y === gamestate.apple.y
+    ) {
+      gamestate.player1.score++;
+      gamestate.apple = generateAppleLocation();
+      sendMessage({ type: "cast_game_state", gameState: gamestate });
+    }
+  } else if (currentPlayerId === gamestate.player2.id) {
+    if (
+      gamestate.player2.location.x === gamestate.apple.x &&
+      gamestate.player2.location.y === gamestate.apple.y
+    ) {
+      gamestate.player2.score++;
+      gamestate.apple = generateAppleLocation();
+      sendMessage({ type: "cast_game_state", gameState: gamestate });
+    }
+  }
 }
 
 function updatePlayersList() {
@@ -191,9 +207,143 @@ function renderGameState() {
   ctx.fillRect(gamestate.apple.x * size, gamestate.apple.y * size, size, size);
 }
 
-// make a function that handles arrow key inputs and swipe inputs on the canvas to change the direction of the player
-// for now we are just going to let teh player move one block per key press or swipe adn the snake will not grow once it eats teh apple
-// the player cannot go out of bounds or go on to the block the other player is on
+// make a function that handles arrow key inputs and swipe inputs
+document.addEventListener("keydown", (event) => {
+  if (!gamestate.gameRunning) return;
+
+  const key = event.key;
+  let direction;
+  switch (key) {
+    case "ArrowUp":
+      direction = { x: 0, y: -1 };
+      break;
+    case "ArrowDown":
+      direction = { x: 0, y: 1 };
+      break;
+    case "ArrowLeft":
+      direction = { x: -1, y: 0 };
+      break;
+    case "ArrowRight":
+      direction = { x: 1, y: 0 };
+      break;
+    default:
+      return;
+  }
+  moveHelper(direction);
+});
+
+canvas.addEventListener("touchstart", handleTouchStart, false);
+canvas.addEventListener("touchmove", handleTouchMove, false);
+document.addEventListener("touchmove", preventDefault, { passive: false });
+
+// let xDown = null;
+// let yDown = null;
+
+function handleTouchStart(event) {
+  const firstTouch = event.touches[0];
+  xDown = firstTouch.clientX;
+  yDown = firstTouch.clientY;
+}
+
+function handleTouchMove(event) {
+  if (!xDown || !yDown) {
+    return;
+  }
+
+  if (!gamestate.gameRunning) return;
+
+  const xUp = event.touches[0].clientX;
+  const yUp = event.touches[0].clientY;
+
+  const xDiff = xDown - xUp;
+  const yDiff = yDown - yUp;
+
+  if (Math.abs(xDiff) > Math.abs(yDiff)) {
+    if (xDiff > 0) {
+      // Swipe left
+      const direction = { x: -1, y: 0 };
+      moveHelper(direction);
+    } else {
+      // Swipe right
+      const direction = { x: 1, y: 0 };
+      moveHelper(direction);
+    }
+  } else {
+    if (yDiff > 0) {
+      // Swipe up
+      const direction = { x: 0, y: -1 };
+      moveHelper(direction);
+    } else {
+      // Swipe down
+      const direction = { x: 0, y: 1 };
+      moveHelper(direction);
+    }
+  }
+
+  // Reset values
+  xDown = null;
+  yDown = null;
+}
+
+function moveHelper(direction) {
+  if (currentPlayerId === gamestate.player1.id) {
+    const newLocation = {
+      x: gamestate.player1.location.x + direction.x,
+      y: gamestate.player1.location.y + direction.y,
+    };
+    if (isValidMove(newLocation) && !isOccupied(newLocation)) {
+      gamestate.player1.direction = direction;
+      gamestate.player1.location = newLocation;
+    }
+  } else if (currentPlayerId === gamestate.player2.id) {
+    const newLocation = {
+      x: gamestate.player2.location.x + direction.x,
+      y: gamestate.player2.location.y + direction.y,
+    };
+    if (isValidMove(newLocation) && !isOccupied(newLocation)) {
+      gamestate.player2.direction = direction;
+      gamestate.player2.location = newLocation;
+    }
+  }
+  sendMessage({ type: "cast_game_state", gameState: gamestate });
+}
+
+function isValidMove(location) {
+  if (
+    location.x < 0 ||
+    location.x >= cols ||
+    location.y < 0 ||
+    location.y >= rows
+  ) {
+    return false;
+  }
+  return true;
+}
+
+function isOccupied(location) {
+  if (
+    location.x === gamestate.player1.location.x &&
+    location.y === gamestate.player1.location.y
+  ) {
+    return true;
+  }
+  if (
+    location.x === gamestate.player2.location.x &&
+    location.y === gamestate.player2.location.y
+  ) {
+    return true;
+  }
+  return false;
+}
+
+function preventDefault(e) {
+  if (e.touches.length > 1) {
+    return;
+  }
+  if (e.target === canvas) {
+    e.preventDefault();
+  }
+}
 
 // START BUTTON
 document.getElementById("start-btn").addEventListener("click", () => {
@@ -210,7 +360,8 @@ document.getElementById("start-btn").addEventListener("click", () => {
 
 function startGame() {
   gamestate.gameRunning = true;
-  gamestate.statusBarText = "Game is running...";
+  gamestate.statusBarText =
+    "Game is running... use arrow keys or swipe to move";
   // update the button text too
   gamestate.startButtonText = "Pause Game";
   const startButton = document.getElementById("start-btn");
@@ -250,6 +401,9 @@ function resetGame() {
 
 // Game loop
 function gameLoop() {
+  if (gamestate.gameRunning) {
+    checkAppleCollision();
+  }
   requestAnimationFrame(gameLoop);
 }
 
