@@ -2,7 +2,7 @@ const express = require("express");
 const http = require("http");
 const path = require("path");
 
-const createWebSocketServer = require("./websocket_v2");
+// const createWebSocketServer = require("./websocket_v2");
 
 const app = express();
 const server = http.createServer(app);
@@ -30,14 +30,14 @@ app.get("/ai_snake", (req, res) => {
   res.render("ai_snake");
 });
 
-// app.get("/online_snake", (req, res) => {
-//   res.render("online_snake");
-// });
+app.get("/online_snake", (req, res) => {
+  res.render("online_snake");
+});
 
-// app.get("/online_snake/room/:roomId", (req, res) => {
-//   const { roomId } = req.params;
-//   res.render("game_room", { roomId });
-// });
+app.get("/online_snake/room/:roomId", (req, res) => {
+  const { roomId } = req.params;
+  res.render("game_room", { roomId });
+});
 
 app.get("/firefly", (req, res) => {
   res.render("firefly");
