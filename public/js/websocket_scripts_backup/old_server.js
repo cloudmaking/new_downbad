@@ -2,8 +2,13 @@ const express = require("express");
 const http = require("http");
 const path = require("path");
 
+const createWebSocketServer = require("./websocket_v2");
+
 const app = express();
 const server = http.createServer(app);
+
+// Initialize WebSocket server on the existing HTTP server
+createWebSocketServer(server);
 
 // Set up EJS as the view engine and specify the views directory
 app.set("view engine", "ejs");
