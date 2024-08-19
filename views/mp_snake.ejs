@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <title>Snake Game</title>
+    <%- include('partials/html_head') %>
+    <link rel="stylesheet" href="/css/mp_snake.css">
+</head>
+
+<body>
+    <button id="home-btn" onclick="window.location.href='/'">Home</button>
+    <button id="instructions-btn" onclick="toggleInstructionsPopup()">Instructions</button>
+
+    <div id="game">
+        <canvas id="board" width="600" height="600"></canvas>
+        <div id="btns">
+            <button onclick="startGame(1)">1 player</button>
+            <button onclick="startGame(2)">2 players</button>
+            <button onclick="startGame(3)">3 players</button>
+            <button onclick="startGame(4)">4 players</button>
+            <button id="pause-btn" onclick="togglePause()">Pause Game</button>
+            <button onclick="restartGame()">Restart Game</button>
+        </div>
+        <div id="scores"></div>
+    </div>
+    
+    
+
+    <div id="instructions-popup" class="popup">
+        <div class="popup-content">
+            <span class="close" onclick="toggleInstructionsPopup()">&times;</span>
+            <h2>Controls</h2>
+            <p>Player 1: Arrow keys</p>
+            <p>Player 2: W (up), A (left), S (down), D (right)</p>
+            <p>Player 3: U (up), H (left), J (down), K (right)</p>
+            <p>Player 4: Num pad 8 (up), 4 (left), 5 (down), 6 (right)</p>
+            
+            <h2>Game Rules</h2>
+            <ul>
+                <li>Each player starts in their own corner.</li>
+                <li>Players compete to eat the red apple.</li>
+                <li>When a snake collides with the wall, itself, or another snake, it resets.</li>
+                <li>Each player's score resets when they reset.</li>
+                <li>The first player to reach 25 points wins the game.</li>
+            </ul>
+            <h3>Note</h3>
+            <p>To avoid scrolling, please zoom out (CTRL/CMD + "-") until the entire game screen is visible.</p>
+        </div>
+    </div>
+    
+    <script src="/js/mp_snake.js"></script>
+
+</body>
+
+</html>

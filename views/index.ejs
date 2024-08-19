@@ -2,7 +2,7 @@
 <html lang="en">
 
 <head>
-    <title>@cloudmaking</title>
+    <title>DownBad - Free Webapps by Ali Raza @cloudmaking</title>
     <meta name="description"
         content="Discover free webapps created by Ali Raza @cloudmaking, including soundboards, games, dynamic screensavers, and more. Enhance your web experience with our interactive tools.">
     <%- include('partials/html_head') %>
@@ -12,34 +12,115 @@
 <body>
     <header class="header">
         <div class="header-content">
-            <h1>Cloudmaking</h1>
-            <p>OMG ITS ALL WORKING @cloudmaking</p>
+            <h1>DownBad.Cloud</h1>
+            <p>Open Source Webapps by @cloudmaking</p>
             <div class="header-buttons">
                 <button id="fund-button" onclick="window.open('https://www.paypal.com/donate/?hosted_button_id=66P4DZ3GAYA8N', '_blank')">Donate</button>
-                <!-- <button id="contribute-button" onclick="window.open('https://github.com/cloudmaking/new_downbad', '_blank')">Contribute</button> -->
+                <button id="contribute-button" onclick="window.open('https://github.com/cloudmaking/new_downbad', '_blank')">Contribute</button>
                 <a id="contact-link" href="https://www.aliraza.cloud/inquiry-form" target="_blank">Request features or Report bugs - Click here</a>
             </div>
         </div>
     </header>
     <main>
         <!-- Filter Buttons -->
-        <!-- <div class="filter-buttons">
+        <div class="filter-buttons">
             <button class="filter-button" data-filter="all">All</button>
             <button class="filter-button" data-filter="games">Games</button>
             <button class="filter-button" data-filter="art">Art</button>
             <button class="filter-button" data-filter="music">Music</button>
             <button class="filter-button" data-filter="islamic">Islamic</button>
             <button class="filter-button" data-filter="tools">Tools</button>
-        </div> -->
+        </div>
 
         <!-- App Cards -->
         <div class="app-cards">
-            <div class="app-card" data-category="games">
+            <!-- <div class="app-card" data-category="games">
                 <img src="/images/online_snake.webp" alt="Online Multiplayer Snake Game" class="app-image">
                 <div class="app-content">
                     <h2>Online Multiplayer Snake</h2>
                     <p>[Coming soon] Play Snake online with a friend. Share a link to join the same game room!</p>
                     <button onclick="window.location.href='/online_snake'">Play Online</button>
+                </div>
+            </div> -->
+
+            <div class="app-card" data-category="islamic,tools">
+                <img src="images/asmaulhusna.webp" alt="99 Names of Allah web app" class="app-image">
+                <div class="app-content">
+                    <h2>99 Names of Allah</h2>
+                    <p>Explore the 99 names of Allah and their meanings.</p>
+                    <button onclick="window.location.href='/asmaulhusna'">Explore Names</button>
+                </div>
+            </div>
+            
+            <div class="app-card" data-category="music,tools">
+                <img src="images/soundboard.webp" alt="SoundBoard web app" class="app-image">
+                <div class="app-content">
+                    <h2>SoundBoard</h2>
+                    <p>Assign any sound to a key on your keyboard and play it like a beat pad!</p>
+                    <button onclick="window.location.href='/soundboard'">Go to SoundBoard</button>
+                </div>
+            </div>
+
+            <div class="app-card" data-category="games">
+                <img src="/images/ai_snake.webp" alt="Snake vs Computer web game" class="app-image">
+                <div class="app-content">
+                    <h2>Snake vs Computer</h2>
+                    <p>Challenge the Robotic Snake.</p>
+                    <button onclick="window.location.href='/ai_snake'">Play vs AI</button>
+                </div>
+            </div>
+
+            <div class="app-card" data-category="games">
+                <img src="/images/snake.webp" alt="Snake Local Multiplayer web game" class="app-image">
+                <div class="app-content">
+                    <h2>Snake - Local Multiplayer</h2>
+                    <p>Classic snake game for up to 4 players. Keyboard Required!</p>
+                    <button onclick="window.location.href='/mp_snake'">Play Snake</button>
+                </div>
+            </div>
+
+            <div class="app-card" data-category="art">
+                <img src="/images/planet_gen.webp" alt="NFT Explorer web app" class="app-image">
+                <div class="app-content">
+                    <h2>Planet Explorer</h2>
+                    <p>Explore and buy Unique Planet NFTs.</p>
+                    <button onclick="window.location.href='/lost-planets'">Planet Explorer</button>
+                </div>
+            </div>
+
+            <div class="app-card" data-category="art,tools">
+                <img src="/images/firefly.webp" alt="Firefly Dynamic Screensaver" class="app-image">
+                <div class="app-content">
+                    <h2>Firefly - Dynamic Screensaver</h2>
+                    <p>Enjoy a dynamic firefly screensaver.</p>
+                    <button onclick="window.location.href='/firefly'">View Screensaver</button>
+                </div>
+            </div>
+
+            <div class="app-card" data-category="art">
+                <img src="/images/pixel_art.webp" alt="Generative Pixel-Art web app" class="app-image">
+                <div class="app-content">
+                    <h2>Generative Pixel-Art</h2>
+                    <p>Create unique pixel art.</p>
+                    <button onclick="window.location.href='/pixel_art'">Create Pixel-Art</button>
+                </div>
+            </div>
+
+            <div class="app-card" data-category="music,tools">
+                <img src="images/soundbox.webp" alt="Sound Box web app" class="app-image">
+                <div class="app-content">
+                    <h2>Sound Box</h2>
+                    <p>Assign any sound to any 10 keys on your Keyboard.</p>
+                    <button onclick="window.location.href='/soundbox'">Go to Sound Box</button>
+                </div>
+            </div>
+
+            <div class="app-card" data-category="tools">
+                <img src="images/autochrome.png" alt="Chrome Automation Tool" class="app-image">
+                <div class="app-content">
+                    <h2>AutoChrome</h2>
+                    <p>Automate the Chrome Browser with zero setup.</p>
+                    <button onclick="window.open('https://www.aliraza.cloud/content/chrome-automation-tool', '_blank')">Go to AutoChrome</button>
                 </div>
             </div>
         </div>

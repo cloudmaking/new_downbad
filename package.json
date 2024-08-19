@@ -1,11 +1,4 @@
 {
-  "name": "new_downbad",
-  "version": "1.0.0",
-  "description": "",
-  "main": "server.js",
-  "scripts": {
-    "start": "node server.js"
-  },
   "dependencies": {
     "@aspnet/signalr": "^1.0.27",
     "@microsoft/signalr": "^8.0.0",
@@ -17,6 +10,13 @@
     "playfab-sdk": "^2.155.240524",
     "ws": "^8.17.0"
   },
+  "scripts": {
+    "start": "node server.js"
+  },
+  "name": "new_downbad",
+  "description": "",
+  "version": "1.0.0",
+  "main": "server.js",
   "author": "",
   "license": "ISC"
 }
