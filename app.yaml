@@ -1,4 +1,0 @@
-runtime: nodejs22
-entrypoint: node server.js
-# env: flex
-
