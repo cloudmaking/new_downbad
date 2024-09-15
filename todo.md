@@ -8,7 +8,7 @@ soundbox
 > add hold down button that loops sound until pressed again
 > add a noise generator next to volume
 > add a rain sound generator next to volume slider
-> make record sound with audio input deature
+> make record sound with computer audio input devices
 
 firefly screen save
 

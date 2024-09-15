@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>QuickViz - Advanced Text Analysis Tool</title>
+    <link rel="stylesheet" href="/quickviz/styles.css">
+    <!-- Include necessary libraries from CDN -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/2.6.347/pdf.min.js"></script>
+    <!-- Include pdfmake for PDF exports -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.2.7/pdfmake.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.2.7/vfs_fonts.js"></script>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>QuickViz - Advanced Text Analysis Tool</h1>
+        </header>
+        
+        <div class="controls">
+            <label for="fileUpload" class="custom-file-upload">
+                Upload File
+                <input type="file" id="fileUpload" accept=".txt,.pdf">
+            </label>
+            <span id="fileName">No file chosen</span>
+
+            <button id="exportPdfBtn" class="hidden">Export Report as PDF</button>
+            <button id="downloadCsvBtn" class="hidden">Download Data as CSV</button>
+        </div>
+
+        <div id="stats">
+            <h2>Text Statistics:</h2>
+            <ul id="statsList">
+                <!-- Stats items will be appended here -->
+            </ul>
+        </div>
+
+        <button id="downloadBtn" class="hidden">Download Report</button>
+    </div>
+
+    <!-- Include JavaScript files -->
+    <script src="/quickviz/dataParser.js"></script>
+    <script src="/quickviz/stats.js"></script>
+    <script src="/quickviz/app.js"></script>
+</body>
+</html>
