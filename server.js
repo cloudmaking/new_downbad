@@ -58,8 +58,8 @@ app.get("/lost-planets", (req, res) => {
   res.render("planet_gen");
 });
 
-app.get("/QuickViz", (req, res) => {
-  res.render("QuickViz");
+app.get("/quickviz", (req, res) => {
+  res.render("quickviz");
 });
 
 const PORT = process.env.PORT || 8080;

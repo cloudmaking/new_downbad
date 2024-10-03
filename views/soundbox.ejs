@@ -1,51 +1,80 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Sound Box</title>
-    <%- include('partials/html_head') %>
-    <link rel="stylesheet" href="/css/soundbox.css">
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
 </head>
 <body>
     <div class="container">
-        <div class="header">
-            <button id="homeButton">Home</button>
-            <button id="calibrationButton">Calibrate</button>
-            <button id="soundPackButton">Free Sound Pack</button>
-            <button id="recordButton">Record</button>
-        </div>
-        <div class="volume-container">
-            <label for="master-volume" class="slider-label">Master Volume</label>
-            <input id="master-volume" class="slider" type="range" min="0" max="1" step="0.01" value="0.7">
-        </div>
-        <div class="generators-container">
-            <div class="generator">
-                <button id="noise-toggle">Noise</button>
-                <label for="noise-volume" class="slider-label">Noise Volume</label>
-                <input id="noise-volume" class="slider" type="range" min="0" max="1" step="0.01" value="0.5">
+        <header class="header my-3">
+            <div class="btn-group">
+                <button id="homeButton" class="btn btn-primary" aria-label="Home">Home</button>
+                <button id="calibrationButton" class="btn btn-secondary" aria-label="Calibrate">Calibrate</button>
+                <button id="soundPackButton" class="btn btn-success" aria-label="Free Sound Pack">Free Sound Pack</button>
+                <button id="recordButton" class="btn btn-danger" aria-label="Record">Record</button>
+                <button id="recordTabAudioButton" class="btn btn-warning" aria-label="Record Tab Audio">Record Tab Audio</button>
             </div>
-            <div class="generator">
-                <button id="rain-toggle">Rain</button>
-                <label for="rain-volume" class="slider-label">Rain Volume</label>
-                <input id="rain-volume" class="slider" type="range" min="0" max="1" step="0.01" value="0.5">
-            </div>
-            <div class="audio-input-container">
-                <label for="audio-input-select" class="slider-label">Select Microphone</label>
-                <select id="audio-input-select" class="audio-input-select">
-                    <!-- Options will be populated dynamically -->
-                </select>
-            </div>
-        </div>
-        <div id="dropBox">
-            To begin... Drag and Drop your audio files here or click to select files. Only 10 files are allowed at a time. You can also use the record button at the top. Once a file has been added you can use teh keys on your keyboard or click the number with the sound. Play around and find out. for feature requests and feedback contact me through the home page. have fun. Peace.
-            <input type="file" id="fileInput" style="display: none;" accept="audio/*" multiple>
-        </div>
-        <div id="sound-box">
-            <!-- Audio elements and number buttons have been removed -->
-        </div>
-        <!-- Removed the number-pad div -->
-        <!-- Super Discrete Hyperlink -->
-        <a href="https://chromewebstore.google.com/detail/sample/kpkcennohgffjdgaelocingbmkjnpjgc" id="extension-link" target="_blank">Extension for Recording your Current Audio Session</a>
+        </header>
+
+        <main>
+            <section class="volume-container my-3">
+                <label for="master-volume" id="master-volume-label" class="slider-label">Master Volume</label>
+                <input id="master-volume" class="form-control-range" type="range" min="0" max="1" step="0.01" value="0.7">
+            </section>
+
+            <section class="generators-container my-3">
+                <h2 class="h5">Audio Generators</h2>
+
+                <div class="generator">
+                    <button id="noise-toggle" class="btn btn-outline-secondary" aria-pressed="false" aria-label="Toggle Noise Generator">Noise</button>
+                    <label for="noise-volume" class="slider-label">Noise Volume</label>
+                    <input id="noise-volume" class="form-control-range" type="range" min="0" max="1" step="0.01" value="0.5">
+                </div>
+
+                <div class="generator">
+                    <button id="rain-toggle" class="btn btn-outline-secondary" aria-pressed="false" aria-label="Toggle Rain Generator">Rain</button>
+                    <label for="rain-volume" class="slider-label">Rain Volume</label>
+                    <input id="rain-volume" class="form-control-range" type="range" min="0" max="1" step="0.01" value="0.5">
+                </div>
+
+                <div class="audio-input-container">
+                    <label for="audio-input-select" class="slider-label">Select Microphone</label>
+                    <select id="audio-input-select" class="form-control" aria-label="Select Microphone">
+                        <!-- Options will be populated dynamically -->
+                    </select>
+                </div>
+            </section>
+
+            <section id="dropBox" tabindex="0" role="button" aria-label="File Upload Area" class="border p-3 my-3">
+                <p>
+                    To begin... Drag and drop your audio files here or click to select files. Only 10 files are allowed at a time. You can also use the record button at the top. Once a file has been added, you can use the keys on your keyboard or click the number with the sound. Play around and find out. For feature requests and feedback, contact me through the home page. Have fun. Peace.
+                </p>
+                <input type="file" id="fileInput" style="display: none;" accept="audio/*" multiple>
+            </section>
+
+            <section id="sound-box" aria-label="Sound Controls" class="my-3">
+                <!-- Audio elements and number buttons will be dynamically added here -->
+            </section>
+        </main>
+
+        <footer class="my-3">
+            <!-- Super Discrete Hyperlink -->
+            <a href="https://chromewebstore.google.com/detail/sample/kpkcennohgffjdgaelocingbmkjnpjgc" id="extension-link" target="_blank" aria-label="Download Extension for Recording your Current Audio Session">Extension for Recording your Current Audio Session</a>
+        </footer>
     </div>
-    <script src="/js/soundbox.js"></script>
+
+    <!-- Include WaveSurfer.js -->
+    <script src="https://unpkg.com/wavesurfer.js"></script>
+    <!-- Bootstrap JS and dependencies (optional for features like modals) -->
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+    <!-- Your JavaScript files -->
+    <script src="/soundbox/audioManager.js"></script>
+    <script src="/soundbox/uiManager.js"></script>
+    <script src="/soundbox/soundbox.js"></script>
 </body>
 </html>

@@ -1,0 +1,407 @@
+/* public/soundbox/soundbox.css */
+
+/* CSS Variables for Theming */
+:root {
+    --primary-color: #555;
+    --secondary-color: #777;
+    --active-color: #4CAF50;
+    --delete-color: #ff0000;
+    --background-gradient: linear-gradient(to right, #333, #444);
+    --font-family: 'Arial, sans-serif';
+    --text-color: #fff;
+    --border-color: #fff;
+    --slider-thumb-color: var(--active-color);
+}
+
+/* Visually Hidden Class for Accessibility */
+.visually-hidden {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    padding: 0;
+    margin: -1px;
+    overflow: hidden;
+    clip: rect(0, 0, 0, 0);
+    white-space: nowrap;
+    border: 0;
+}
+
+body {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    height: 100vh;
+    margin: 0;
+    background: var(--background-gradient);
+    color: var(--text-color);
+    font-family: var(--font-family);
+    position: relative;
+}
+
+.container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    padding: 20px;
+    box-sizing: border-box;
+}
+
+.header {
+    display: flex;
+    justify-content: center;
+    gap: 10px;
+    padding: 10px;
+    flex-wrap: wrap; /* Allow buttons to wrap on smaller screens */
+}
+
+button {
+    padding: 10px 20px;
+    background-color: var(--primary-color);
+    color: var(--text-color);
+    border: none;
+    cursor: pointer;
+    margin: 5px; /* Reduced margin for better fit on small screens */
+    border-radius: 5px;
+    transition: background-color 0.3s, transform 0.3s;
+    font-size: 16px;
+}
+
+button:hover,
+button:focus {
+    background-color: var(--secondary-color);
+    transform: translateY(-2px);
+    outline: none;
+}
+
+button:focus {
+    outline: 2px solid var(--active-color);
+    outline-offset: 2px;
+}
+
+button.active {
+    background-color: var(--active-color);
+}
+
+#audio-input-select {
+    padding: 5px;
+    border-radius: 5px;
+    border: none;
+    background-color: var(--primary-color);
+    color: var(--text-color);
+    margin-top: 5px;
+    width: 200px;
+    transition: background-color 0.3s;
+    font-size: 16px;
+}
+
+#audio-input-select:hover,
+#audio-input-select:focus {
+    background-color: var(--secondary-color);
+    outline: none;
+}
+
+#dropBox {
+    width: 300px;
+    height: 300px;
+    border: 2px dashed var(--border-color);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 20px;
+    cursor: pointer;
+    padding: 20px;
+    text-align: center;
+    position: relative; /* for volume slider positioning */
+    background-color: transparent;
+    transition: background-color 0.3s;
+}
+
+#dropBox:hover,
+#dropBox:focus {
+    background-color: #444;
+    outline: none;
+}
+
+#sound-box {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(120px, 1fr));
+    gap: 10px;
+    justify-items: center;
+    width: 100%;
+    max-width: 800px;
+}
+
+.button-container {
+    position: relative;
+    margin: 5px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.button-container button {
+    padding: 10px 15px;
+    font-size: 16px;
+    cursor: pointer;
+    background-color: var(--primary-color);
+    color: var(--text-color);
+    border: none;
+    border-radius: 5px;
+    transition: background-color 0.3s, transform 0.3s;
+    width: 100%;
+}
+
+.button-container button:hover,
+.button-container button:focus {
+    background-color: var(--secondary-color);
+    transform: translateY(-2px);
+    outline: none;
+}
+
+.button-container button:focus {
+    outline: 2px solid var(--active-color);
+    outline-offset: 2px;
+}
+
+.button-container button.active {
+    background-color: var(--active-color);
+}
+
+.delete-button {
+    position: absolute;
+    top: -10px;
+    right: -10px;
+    background: var(--delete-color);
+    color: var(--text-color);
+    border-radius: 50%;
+    padding: 5px 8px;
+    cursor: pointer;
+    font-size: 14px;
+    transition: background 0.3s;
+}
+
+.delete-button:hover,
+.delete-button:focus {
+    background: #cc0000;
+    outline: none;
+}
+
+.delete-button:focus {
+    outline: 2px solid var(--active-color);
+    outline-offset: 2px;
+}
+
+.volume-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    border: 2px solid var(--border-color);
+    padding: 10px;
+    margin-bottom: 20px;
+    border-radius: 5px;
+    width: 300px;
+    box-sizing: border-box;
+}
+
+.slider-label {
+    margin-bottom: 10px;
+    font-size: 14px;
+}
+
+.slider {
+    height: 6px;
+    width: 150px;
+    -webkit-appearance: none;
+    background-color: var(--secondary-color);
+    outline: none;
+    opacity: 0.7;
+    transition: opacity 0.2s;
+    border-radius: 3px;
+}
+
+.slider:hover,
+.slider:focus {
+    opacity: 1;
+}
+
+.slider::-webkit-slider-thumb {
+    width: 20px;
+    height: 20px;
+    border-radius: 50%;
+    background: var(--slider-thumb-color);
+    cursor: pointer;
+    -webkit-appearance: none;
+    margin-top: -7px; /* Align thumb vertically */
+}
+
+.slider::-moz-range-thumb {
+    width: 20px;
+    height: 20px;
+    border-radius: 50%;
+    background: var(--slider-thumb-color);
+    cursor: pointer;
+}
+
+.slider::-ms-thumb {
+    width: 20px;
+    height: 20px;
+    border-radius: 50%;
+    background: var(--slider-thumb-color);
+    cursor: pointer;
+}
+
+.generators-container {
+    display: flex;
+    gap: 20px;
+    margin-bottom: 20px;
+    flex-wrap: wrap;
+    justify-content: center;
+}
+
+.generator {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.generator button {
+    width: 100px;
+    padding: 10px;
+}
+
+.sound-volume-slider {
+    width: 150px;
+    margin-top: 5px;
+}
+
+.loop-button {
+    padding: 5px 10px;
+    font-size: 14px;
+    margin-top: 5px;
+    background-color: var(--primary-color);
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+
+.loop-button:hover,
+.loop-button:focus {
+    background-color: var(--secondary-color);
+    outline: none;
+}
+
+.loop-button.active {
+    background-color: var(--active-color);
+}
+
+.audio-input-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-top: 10px;
+}
+
+.audio-input-select {
+    width: 200px;
+    padding: 5px;
+    border-radius: 5px;
+    border: none;
+    background-color: var(--primary-color);
+    color: var(--text-color);
+    transition: background-color 0.3s;
+    font-size: 16px;
+}
+
+.audio-input-select:hover,
+.audio-input-select:focus {
+    background-color: var(--secondary-color);
+    outline: none;
+}
+
+/* Super Discrete Hyperlink */
+#extension-link {
+    position: absolute;
+    bottom: 5px;
+    font-size: 10px;
+    color: rgba(255, 255, 255, 0.3);
+    text-decoration: none;
+    transition: color 0.3s;
+}
+
+#extension-link:hover,
+#extension-link:focus {
+    color: rgba(255, 255, 255, 0.6);
+    outline: none;
+}
+
+/* Mobile Styles */
+@media (max-width: 600px) {
+    .header {
+        flex-direction: column;
+        align-items: center;
+    }
+
+    #dropBox {
+        width: 90%;
+        height: 200px;
+        padding: 10px;
+        margin-bottom: 10px;
+    }
+
+    .volume-container {
+        width: 90%;
+        padding: 5px;
+    }
+
+    .slider {
+        width: 80%;
+    }
+
+    .button-container button {
+        font-size: 14px;
+        padding: 8px 12px;
+    }
+
+    .delete-button {
+        padding: 3px 5px;
+        font-size: 12px;
+    }
+
+    .generators-container {
+        flex-direction: column;
+        align-items: center;
+    }
+
+    .generator {
+        width: 90%;
+        align-items: center;
+    }
+
+    .sound-volume-slider {
+        width: 80%;
+    }
+
+    .audio-input-select {
+        width: 80%;
+    }
+
+    .loop-button {
+        width: 100%;
+    }
+
+    #sound-box {
+        grid-template-columns: repeat(auto-fill, minmax(100px, 1fr));
+    }
+}
+
+/* Additional Accessibility Styles */
+:focus-visible {
+    outline: 2px solid var(--active-color);
+    outline-offset: 2px;
+}
