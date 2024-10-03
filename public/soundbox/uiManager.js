@@ -12,6 +12,8 @@ class UIManager {
     this.tabRecording = false;
     this.tabMediaRecorder = null;
     this.tabRecordedChunks = [];
+    this.waveSurfers = new Map(); // Map to hold WaveSurfer instances
+    this.regions = new Map(); // Map to hold regions for each audio
   }
 
   initializeGenerators() {
@@ -91,37 +93,8 @@ class UIManager {
     Array.from(files).forEach((file) => {
       this.audioManager.addAudio(file, (id) => {
         this.addSoundButton(id, file.name);
-        // Initialize waveform
-        this.initializeWaveform(id, file);
       });
     });
-  }
-
-  initializeWaveform(id, file) {
-    const soundBox = document.getElementById("sound-box");
-    const buttonContainer = soundBox.querySelector(`div[data-id='${id}']`);
-
-    const waveformContainer = document.createElement("div");
-    waveformContainer.classList.add("waveform-container");
-
-    const waveSurfer = WaveSurfer.create({
-      container: waveformContainer,
-      waveColor: "violet",
-      progressColor: "purple",
-      height: 80,
-    });
-
-    const reader = new FileReader();
-    reader.onload = (e) => {
-      waveSurfer.loadBlob(new Blob([e.target.result]));
-    };
-    reader.readAsArrayBuffer(file);
-
-    // Append waveform to the button container
-    buttonContainer.appendChild(waveformContainer);
-
-    // Optionally add trimming controls here
-    // ...
   }
 
   addSoundButton(id, name) {
@@ -139,45 +112,19 @@ class UIManager {
     playButton.dataset.id = id;
     playButton.classList.add("btn", "btn-outline-primary");
 
-    playButton.addEventListener("mousedown", () => {
-      if (this.audioManager.getAudioContext().state === "suspended") {
-        this.audioManager.getAudioContext().resume();
-      }
-      this.audioManager.playAudio(id);
-      this.currentlyPlaying.add(id);
-      playButton.classList.add("active");
-    });
-
-    playButton.addEventListener("mouseup", () => {
-      this.audioManager.pauseAudio(id);
-      this.currentlyPlaying.delete(id);
-      playButton.classList.remove("active");
-    });
-
-    playButton.addEventListener("mouseleave", () => {
-      if (this.currentlyPlaying.has(id)) {
+    playButton.addEventListener("click", () => {
+      const source = this.audioManager.audioSources.get(id);
+      if (source.audio.paused) {
+        if (this.audioManager.getAudioContext().state === "suspended") {
+          this.audioManager.getAudioContext().resume();
+        }
+        source.audio.currentTime = this.regions.get(id)?.start || 0;
+        this.audioManager.playAudio(id);
+        playButton.classList.add("active");
+      } else {
         this.audioManager.pauseAudio(id);
-        this.currentlyPlaying.delete(id);
         playButton.classList.remove("active");
       }
-    });
-
-    // Touch Events for Mobile
-    playButton.addEventListener("touchstart", (e) => {
-      e.preventDefault();
-      if (this.audioManager.getAudioContext().state === "suspended") {
-        this.audioManager.getAudioContext().resume();
-      }
-      this.audioManager.playAudio(id);
-      this.currentlyPlaying.add(id);
-      playButton.classList.add("active");
-    });
-
-    playButton.addEventListener("touchend", (e) => {
-      e.preventDefault();
-      this.audioManager.pauseAudio(id);
-      this.currentlyPlaying.delete(id);
-      playButton.classList.remove("active");
     });
 
     // Delete Button
@@ -191,6 +138,9 @@ class UIManager {
       if (confirm(`Are you sure you want to delete "${name}"?`)) {
         this.audioManager.removeAudio(id);
         soundBox.removeChild(buttonContainer);
+        this.waveSurfers.get(id)?.destroy();
+        this.waveSurfers.delete(id);
+        this.regions.delete(id);
       }
     });
 
@@ -230,22 +180,105 @@ class UIManager {
       loopButton.setAttribute("aria-pressed", isLooping.toString());
     });
 
+    // Waveform Container
+    const waveformContainer = document.createElement("div");
+    waveformContainer.classList.add("waveform-container");
+
     // Append elements to container
     buttonContainer.appendChild(playButton);
     buttonContainer.appendChild(deleteButton);
     buttonContainer.appendChild(volumeSlider);
     buttonContainer.appendChild(loopButton);
+    buttonContainer.appendChild(waveformContainer);
 
     soundBox.appendChild(buttonContainer);
+
+    // Initialize waveform
+    const source = this.audioManager.audioSources.get(id);
+    this.initializeWaveform(
+      id,
+      source.file,
+      waveformContainer,
+      source.audio,
+      playButton
+    );
+  }
+
+  initializeWaveform(id, file, waveformContainer, audioElement, playButton) {
+    const waveSurfer = WaveSurfer.create({
+      container: waveformContainer,
+      waveColor: "violet",
+      progressColor: "purple",
+      height: 80,
+      backend: "MediaElement",
+      media: audioElement,
+      plugins: [
+        // Use the plugin class directly
+        WaveSurfer.regions.create({
+          dragSelection: true,
+          color: "rgba(0, 255, 0, 0.1)",
+        }),
+      ],
+    });
+
+    this.waveSurfers.set(id, waveSurfer);
+
+    waveSurfer.on("ready", () => {
+      const duration = waveSurfer.getDuration();
+      // Create a region covering the entire audio
+      const region = waveSurfer.addRegion({
+        start: 0,
+        end: duration,
+        color: "rgba(0, 255, 0, 0.1)",
+        drag: true,
+        resize: true,
+      });
+      this.regions.set(id, { start: 0, end: duration });
+
+      // Update region start and end on region update
+      region.on("update-end", () => {
+        this.regions.set(id, { start: region.start, end: region.end });
+        // Update audio element currentTime if needed
+        if (!audioElement.paused) {
+          audioElement.currentTime = Math.max(
+            audioElement.currentTime,
+            region.start
+          );
+        }
+      });
+    });
+
+    // Listen to timeupdate to handle trimming and looping
+    audioElement.addEventListener("timeupdate", () => {
+      const currentTime = audioElement.currentTime;
+      const region = this.regions.get(id);
+      if (region) {
+        if (currentTime < region.start || currentTime > region.end) {
+          if (audioElement.loop) {
+            audioElement.currentTime = region.start;
+          } else {
+            this.audioManager.pauseAudio(id);
+            playButton.classList.remove("active");
+          }
+        }
+      }
+    });
+
+    // Handle audio ended event for non-looping sounds
+    audioElement.addEventListener("ended", () => {
+      playButton.classList.remove("active");
+    });
   }
 
   handleKeyDown(e) {
     const index = this.audioManager.keyCodes.indexOf(e.keyCode);
     if (index !== -1 && index < this.audioManager.audioElements.length) {
       const id = this.audioManager.audioElements[index].id;
+      const source = this.audioManager.audioSources.get(id);
       if (this.audioManager.getAudioContext().state === "suspended") {
         this.audioManager.getAudioContext().resume();
       }
+      source.audio.currentTime = this.regions.get(id)?.start || 0;
       this.audioManager.playAudio(id);
       this.currentlyPlaying.add(id);
       this.highlightButton(id, true);
@@ -348,8 +381,6 @@ class UIManager {
               id,
               `Recording ${this.audioManager.audioElements.length}`
             );
-            // Initialize waveform for recording
-            this.initializeWaveform(id, blob);
           });
 
           this.recordedChunks = [];
@@ -372,7 +403,6 @@ class UIManager {
     }
   }
 
-  // New methods for tab audio recording
   toggleTabRecording() {
     if (!this.tabRecording) {
       this.startTabRecording();

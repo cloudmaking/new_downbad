@@ -101,10 +101,7 @@ class AudioManager {
     const source = this.audioSources.get(id);
     if (source && !source.audio.paused) {
       source.audio.pause();
-      // Only reset currentTime if not looping
-      if (!source.audio.loop) {
-        source.audio.currentTime = 0;
-      }
+      // Do not reset currentTime here to allow for resuming from the same point
     }
   }
 
