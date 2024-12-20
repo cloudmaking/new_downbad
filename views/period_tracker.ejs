@@ -1,0 +1,267 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Care Calendar - Period Support Guide</title>
+  <meta name="description" content="Free period tracker for partners. Get personalized tips, track cycles, and learn how to provide the best support."/>
+  <meta name="keywords" content="period tracker, menstrual cycle support, partner period guide"/>
+  <meta property="og:title" content="Care Calendar - Period Support Guide for Partners"/>
+  <meta property="og:description" content="Be the supportive partner she needs. Free period tracker with personalized tips for each phase of her cycle."/>
+  <meta property="og:image" content="/images/care-calendar-social.jpg"/>
+  <meta name="twitter:title" content="Care Calendar - Period Support Guide for Partners"/>
+  <meta name="twitter:description" content="Be the supportive partner she needs. Free period tracker with personalized tips for each phase of her cycle."/>
+  <meta name="twitter:image" content="/images/care-calendar-social.jpg"/>
+
+  <link rel="canonical" href="https://downbad.cloud/care-calendar" />
+  <link
+    href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css"
+    rel="stylesheet"
+  />
+</head>
+<body class="bg-gray-100">
+  <div class="container mx-auto px-4 py-8">
+    
+    <!-- Home Button -->
+    <div class="flex justify-start mb-4">
+      <a 
+        href="https://www.downbad.cloud"
+        class="px-4 py-2 text-sm text-white bg-pink-600 rounded hover:bg-pink-700 focus:outline-none focus:ring-2 focus:ring-pink-600 focus:ring-offset-2"
+      >
+        Home
+      </a>
+    </div>
+
+    <!-- Page Header / Title -->
+    <header class="text-center mb-8">
+      <h1 class="text-4xl font-bold text-pink-600 mb-4">Care Calendar</h1>
+      <p class="max-w-2xl mx-auto text-gray-700">
+        Being supportive starts with understanding. Track her cycle, learn her needs,
+        and be there when it matters most. Made with ❤️ for caring partners, brothers,
+        and fathers.
+      </p>
+    </header>
+
+    <!-- Main Tracker Section -->
+    <section
+      id="tracker-section"
+      class="max-w-2xl mx-auto mb-12 bg-white rounded-xl shadow-lg overflow-hidden"
+    >
+      <div class="p-6 md:p-8">
+        <h2 class="text-3xl font-bold text-pink-600 mb-8 text-center">Support Tracker</h2>
+        <p class="text-center text-gray-700 mb-8">
+          Enter the first day of the last period and her usual cycle length. Once you click
+          away or press Tab, the tracker updates automatically!
+        </p>
+        <div class="space-y-6">
+          <!-- Inputs Row -->
+          <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+            <div>
+              <label class="block text-sm font-medium text-gray-700 mb-2" for="lastPeriod">
+                Last Period Start Date
+              </label>
+              <input
+                type="date"
+                id="lastPeriod"
+                class="mt-1 p-2 border rounded w-full"
+                placeholder="YYYY-MM-DD"
+              />
+            </div>
+            <div>
+              <label class="block text-sm font-medium text-gray-700 mb-2" for="cycleLength">
+                Cycle Length (days)
+              </label>
+              <input
+                type="number"
+                id="cycleLength"
+                value="28"
+                min="21"
+                max="35"
+                class="mt-1 p-2 border rounded w-full"
+              />
+            </div>
+          </div>
+
+          <!-- Phase Info Display -->
+          <div id="phaseInfo" class="mt-8">
+            <div class="bg-gray-50 p-6 rounded-lg space-y-4">
+              <!-- Current Phase and Dates -->
+              <h2 class="text-xl font-semibold text-pink-800">
+                Current Phase:
+                <span id="phaseName" class="mr-2"></span>
+              </h2>
+              <p class="text-pink-600">
+                <strong>Current Date:</strong>
+                <span id="currentDate">Loading...</span>
+              </p>
+              <p class="text-pink-600">
+                Next period expected: <span id="nextPeriod">N/A</span>
+              </p>
+
+              <!-- Tips / PartnerTips / Symptoms, stacked vertically -->
+              <div>
+                <h3 class="font-medium text-pink-700 mb-2">Partner Tips</h3>
+                <ul id="partnerTips" class="list-disc list-inside text-gray-600"></ul>
+              </div>
+              <div>
+                <h3 class="font-medium text-pink-700 mb-2">Tips</h3>
+                <ul id="tips" class="list-disc list-inside text-gray-600"></ul>
+              </div>
+              <div>
+                <h3 class="font-medium text-pink-700 mb-2">Common Symptoms</h3>
+                <ul id="symptoms" class="list-disc list-inside text-gray-600"></ul>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Educational Info Section -->
+    <section id="educational-info" class="max-w-2xl mx-auto mt-12 text-gray-700">
+      <h2 class="text-2xl font-bold text-pink-600 mb-6">Educational Info About Menstrual Cycles</h2>
+      <p class="mb-4">
+        The menstrual cycle is typically around 28 days, but can range from 21 to 35 days. Each phase
+        involves different hormonal changes that can affect mood, energy, and the body overall.
+      </p>
+      <ul class="list-disc list-inside mb-6">
+        <li>
+          <strong>Menstrual Phase:</strong> Days 1–5 (approx). Uterus sheds its lining, leading to bleeding,
+          cramps, low energy, and mood changes for many women.
+        </li>
+        <li>
+          <strong>Follicular Phase:</strong> After menstruation, the body prepares a new egg. Energy begins
+          to increase, and mood often turns more upbeat.
+        </li>
+        <li>
+          <strong>Ovulatory Phase:</strong> Around day 14 (in a 28-day cycle), the egg is released. This can
+          be the peak of energy, sociability, and libido.
+        </li>
+        <li>
+          <strong>Luteal Phase:</strong> After ovulation, the body prepares for a possible pregnancy. Many
+          experience PMS symptoms here, like moodiness or cravings.
+        </li>
+      </ul>
+      <p class="mb-4 font-semibold text-pink-600">
+        Disclaimer: This guide is not a substitute for professional medical advice. If her pain or symptoms
+        are severe, consult a healthcare professional.
+      </p>
+      <p class="mb-4">
+        Understanding these phases can help partners, fathers, brothers, and friends provide the right type
+        of care—whether that’s extra rest, emotional support, or simply respecting her personal space.
+      </p>
+      <p class="mb-4">
+        .
+        &lt;3
+        .
+      </p>
+    </section>
+
+    <!-- Features Section (added here at the bottom in your final HTML, 
+         but you can reorder as needed) -->
+    <section class="max-w-3xl mx-auto mb-10 p-6 bg-white rounded-lg shadow-md">
+      <h2 class="text-2xl md:text-3xl font-bold text-pink-600 mb-4 text-center">Why Use Care Calendar?</h2>
+      <p class="text-gray-700 mb-6 text-center">
+        Tailored for caring partners, siblings, and supportive friends, this tracker is
+        designed to make understanding a woman’s menstrual cycle easy and helpful.
+        Discover key benefits below:
+      </p>
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+        <div class="flex flex-col bg-pink-50 p-4 rounded">
+          <h3 class="text-lg font-semibold text-pink-800 mb-2">Understanding Is Caring</h3>
+          <p class="text-sm text-gray-700">
+            • Get unique tips for each phase of her cycle<br/>
+            • Plan and adapt your support based on her mood &amp; energy<br/>
+            • Strengthen emotional connection through empathy and awareness
+          </p>
+        </div>
+        <div class="flex flex-col bg-pink-50 p-4 rounded">
+          <h3 class="text-lg font-semibold text-pink-800 mb-2">Be Prepared</h3>
+          <p class="text-sm text-gray-700">
+            • Know when to restock on supplies or comfort items<br/>
+            • Offer the right kind of support at the right time<br/>
+            • Reduce surprise or last-minute stress
+          </p>
+        </div>
+        <div class="flex flex-col bg-pink-50 p-4 rounded">
+          <h3 class="text-lg font-semibold text-pink-800 mb-2">Simple to Use</h3>
+          <p class="text-sm text-gray-700">
+            • Enter the last period date and typical cycle length<br/>
+            • The tracker automatically calculates her next period<br/>
+            • Effortless design so you can focus on being supportive
+          </p>
+        </div>
+        <div class="flex flex-col bg-pink-50 p-4 rounded">
+          <h3 class="text-lg font-semibold text-pink-800 mb-2">Privacy First</h3>
+          <p class="text-sm text-gray-700">
+            • Data stored only in your browser<br/>
+            • No unnecessary signups or personal data collection<br/>
+            • Fully respects her right to confidentiality and trust
+          </p>
+        </div>
+      </div>
+      <div class="mt-6 px-2">
+        <p class="text-gray-700 text-center">
+          Caring is a journey. By learning to recognize her changing needs, you’re showing
+          genuine empathy. If uncertainty arises, always communicate openly and encourage
+          professional healthcare support for any unusual symptoms.
+        </p>
+      </div>
+    </section>
+
+    <!-- FAQ Section -->
+    <section class="max-w-2xl mx-auto mt-12">
+      <h2 class="text-2xl font-bold text-pink-600 mb-6">Common Questions</h2>
+      <div class="space-y-4">
+        <div class="bg-white p-6 rounded-lg shadow-md">
+          <h3 class="font-bold text-gray-800">Why should I track her cycle?</h3>
+          <p class="text-gray-700">
+            Understanding her cycle helps you provide better emotional and physical support
+            when she needs it most.
+          </p>
+        </div>
+        <div class="bg-white p-6 rounded-lg shadow-md">
+          <h3 class="font-bold text-gray-800">How accurate is this tracker?</h3>
+          <p class="text-gray-700">
+            While every woman's cycle is unique, this tool provides general guidance based on
+            typical cycle patterns.
+          </p>
+        </div>
+        <div class="bg-white p-6 rounded-lg shadow-md">
+          <h3 class="font-bold text-gray-800">Is it okay to track someone else's cycle?</h3>
+          <p class="text-gray-700">
+            Always get consent and maintain open communication. This tool is meant to enhance
+            understanding and support, never to invade privacy.
+          </p>
+        </div>
+      </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="text-center mt-12 py-4 text-gray-600">
+      <p>Made with care for those who care. Share with other supportive partners.</p>
+    </footer>
+  </div>
+
+  <!-- JavaScript Reference -->
+  <script src="/care-calender/script.js" defer></script>
+  <script>
+    /*
+      Displays the current date in #currentDate. If you've already done this in script.js,
+      you can remove this snippet.
+    */
+    document.addEventListener("DOMContentLoaded", () => {
+      const currentDateEl = document.getElementById("currentDate");
+      if (currentDateEl) {
+        const now = new Date();
+        currentDateEl.textContent = now.toLocaleDateString("en-US", {
+          weekday: "long",
+          year: "numeric",
+          month: "long",
+          day: "numeric",
+        });
+      }
+    });
+  </script>
+</body>
+</html>

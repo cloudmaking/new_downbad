@@ -1,0 +1,36 @@
+/* Basic Styling - Customize as needed */
+body {
+    font-family: sans-serif;
+    background-color: #975454;
+    color: #333;
+}
+
+.container {
+    max-width: 960px;
+}
+
+.btn-primary {
+    @apply bg-pink-500 hover:bg-pink-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline;
+}
+
+.input-field {
+    @apply shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline;
+}
+
+.feature-card {
+    @apply bg-white rounded-lg shadow p-4;
+}
+
+.footer {
+    padding: 20px 0;
+    margin-top: 40px;
+    border-top: 1px solid #b84848;
+}
+
+.phase-card {
+    border: 1px solid #f4caca;
+    border-radius: 0.5rem;
+    background-color: #fce8e8;
+}
+
+/* Add more styles as needed to match the Tailwind classes */

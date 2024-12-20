@@ -66,6 +66,10 @@ app.get("/pages_per_day", (req, res) => {
   res.render("pages_per_day");
 });
 
+app.get("/period_tracker", (req, res) => {
+  res.render("period_tracker");
+});
+
 const PORT = process.env.PORT || 8080;
 server.listen(PORT, "0.0.0.0", () => {
   console.log(`Server listening on port ${PORT}...`);
