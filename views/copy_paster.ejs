@@ -1,0 +1,180 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Quick Copy - Easy Text Copying Tool</title>
+    <meta name="description" content="Save time with Quick Copy - a simple tool that lets you store and quickly copy multiple text snippets with just one click. Perfect for frequently used text, links, and messages.">
+    <meta name="keywords" content="text copy tool, clipboard manager, quick copy paste, multiple clipboard, text snippets, productivity tool">
+    <meta name="author" content="Your Name or Company">
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            background-color: #121212;
+            color: #e0e0e0;
+            margin: 0;
+            padding: 20px;
+            line-height: 1.6;
+        }
+        .container {
+            background-color: #1e1e1e;
+            padding: 30px;
+            border-radius: 12px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            max-width: 600px;
+            width: 100%;
+        }
+        h1 {
+            color: #bb86fc;
+            margin-bottom: 20px;
+            text-align: center;
+        }
+        .description {
+            margin-bottom: 20px;
+            text-align: center;
+            font-size: 0.9em;
+            color: #b0b0b0;
+        }
+        .input-group {
+            display: flex;
+            margin-bottom: 15px;
+            gap: 10px;
+        }
+        input {
+            flex-grow: 1;
+            padding: 10px;
+            border: 1px solid #333;
+            border-radius: 4px;
+            background-color: #2c2c2c;
+            color: #e0e0e0;
+        }
+        input:focus {
+            outline: none;
+            border-color: #bb86fc;
+        }
+        button {
+            padding: 10px 20px;
+            background-color: #bb86fc;
+            color: #000;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            font-weight: bold;
+            transition: background-color 0.3s;
+        }
+        button:hover {
+            background-color: #a370f7;
+        }
+        .copy-alert {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            padding: 10px 20px;
+            background-color: #03dac6;
+            color: #000;
+            border-radius: 4px;
+            display: none;
+            animation: fadeIn 0.3s ease-in-out;
+        }
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(-20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        .home-button {
+            display: block;
+            text-align: center;
+            margin-top: 20px;
+            color: #03dac6;
+            text-decoration: none;
+        }
+        .home-button:hover {
+            text-decoration: underline;
+        }
+        .donation-link {
+            text-align: center;
+            margin-top: 10px;
+            font-size: 0.9em;
+        }
+        .donation-link a {
+            color: #bb86fc;
+            text-decoration: none;
+        }
+        .donation-link a:hover {
+            text-decoration: underline;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Quick Copy</h1>
+        <p class="description">Store and instantly copy your frequently used text snippets with a single click.</p>
+        
+        <div class="input-group">
+            <input type="text" placeholder="Enter text 1" aria-label="Text field 1">
+            <button onclick="copyText(this)" aria-label="Copy text 1">Copy</button>
+        </div>
+        <div class="input-group">
+            <input type="text" placeholder="Enter text 2" aria-label="Text field 2">
+            <button onclick="copyText(this)" aria-label="Copy text 2">Copy</button>
+        </div>
+        <div class="input-group">
+            <input type="text" placeholder="Enter text 3" aria-label="Text field 3">
+            <button onclick="copyText(this)" aria-label="Copy text 3">Copy</button>
+        </div>
+        <div class="input-group">
+            <input type="text" placeholder="Enter text 4" aria-label="Text field 4">
+            <button onclick="copyText(this)" aria-label="Copy text 4">Copy</button>
+        </div>
+        <div class="input-group">
+            <input type="text" placeholder="Enter text 5" aria-label="Text field 5">
+            <button onclick="copyText(this)" aria-label="Copy text 5">Copy</button>
+        </div>
+
+        <a href="https://www.downbad.cloud" class="home-button">Return to Home</a>
+        <div class="donation-link">
+            <a href="https://www.paypal.com/donate/?hosted_button_id=66P4DZ3GAYA8N" target="_blank">Donate for site development</a>
+        </div>
+    </div>
+    <div class="copy-alert" id="copyAlert" role="alert" aria-live="polite">Text copied!</div>
+
+    <script>
+        function copyText(button) {
+            const input = button.previousElementSibling;
+            const text = input.value;
+            
+            if (text.trim() === '') {
+                showAlert('Please enter some text first!');
+                return;
+            }
+
+            const textArea = document.createElement('textarea');
+            textArea.value = text;
+            document.body.appendChild(textArea);
+            textArea.select();
+            
+            try {
+                document.execCommand('copy');
+                showAlert('Text copied!');
+            } catch (err) {
+                showAlert('Failed to copy text');
+            }
+            
+            document.body.removeChild(textArea);
+        }
+
+        function showAlert(message) {
+            const alert = document.getElementById('copyAlert');
+            alert.textContent = message;
+            alert.style.display = 'block';
+            
+            setTimeout(() => {
+                alert.style.display = 'none';
+            }, 2000);
+        }
+    </script>
+</body>
+</html>
