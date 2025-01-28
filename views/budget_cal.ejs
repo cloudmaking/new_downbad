@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="description" content="Manage your finances easily with our Basic Budget App. Calculate your future monthly balances, leftover amounts, and potential savings.">
+  <meta name="keywords" content="budget, finance, savings, leftover, monthly balance, budgeting tool, basic budget app">
+  <meta name="author" content="YourName">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Basic Budget App - Manage Your Finances</title>
+  <!-- Tailwind CSS CDN -->
+  <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="bg-gray-900 text-gray-100 min-h-screen flex items-center justify-center p-6">
+  <div class="w-full max-w-md bg-gray-800 rounded-lg shadow-lg p-6">
+    <h1 class="text-2xl font-bold text-center mb-4 text-indigo-400">Basic Budget App</h1>
+    <p class="text-center text-gray-400 mb-6">Calculate your remaining balance for upcoming months.</p>
+    
+    <!-- Current Balance -->
+    <div class="mb-4">
+      <label for="currentBalance" class="block mb-1 font-semibold">Current Balance</label>
+      <input 
+        type="number" 
+        id="currentBalance" 
+        class="w-full p-2 rounded bg-gray-700 focus:outline-none focus:ring-2 focus:ring-indigo-400"
+        value="5000" 
+      />
+    </div>
+
+    <!-- Monthly Income -->
+    <div class="mb-4">
+      <label for="monthlyIncome" class="block mb-1 font-semibold">Monthly Income</label>
+      <input 
+        type="number" 
+        id="monthlyIncome"
+        class="w-full p-2 rounded bg-gray-700 focus:outline-none focus:ring-2 focus:ring-indigo-400"
+        value="3000"
+      />
+    </div>
+
+    <!-- Monthly Rent + Bills -->
+    <div class="mb-4">
+      <label for="monthlyRentsBills" class="block mb-1 font-semibold">Total Monthly Rents & Bills</label>
+      <input 
+        type="number" 
+        id="monthlyRentsBills" 
+        class="w-full p-2 rounded bg-gray-700 focus:outline-none focus:ring-2 focus:ring-indigo-400"
+        value="1500" 
+      />
+    </div>
+
+    <!-- Estimated Weekly Expenses -->
+    <div class="mb-4">
+      <label for="weeklyExpenses" class="block mb-1 font-semibold">Estimated Weekly Expenses</label>
+      <input 
+        type="number" 
+        id="weeklyExpenses" 
+        class="w-full p-2 rounded bg-gray-700 focus:outline-none focus:ring-2 focus:ring-indigo-400"
+        value="200" 
+      />
+    </div>
+
+    <!-- Calculate Button -->
+    <button 
+      onclick="calculateBalance()" 
+      class="w-full bg-indigo-500 hover:bg-indigo-600 text-white font-semibold py-2 px-4 rounded"
+    >
+      Calculate
+    </button>
+
+    <!-- Results -->
+    <div class="mt-6">
+      <h2 class="text-xl font-semibold text-center mb-4 text-indigo-400">Upcoming Months</h2>
+      <div id="results" class="grid grid-cols-2 gap-4">
+        <!-- Month results will be rendered here -->
+      </div>
+    </div>
+
+    <!-- Monthly Saving Text Field -->
+    <div class="mt-6">
+      <label for="monthlySavingsDifference" class="block mb-1 font-semibold text-center">Monthly Saving</label>
+      <input 
+        type="text" 
+        id="monthlySavingsDifference" 
+        class="w-full p-2 rounded bg-gray-700 text-center text-xl focus:outline-none" 
+        readonly
+        placeholder="0" 
+      />
+    </div>
+
+    <!-- Links Section -->
+    <div class="mt-6 text-center">
+      <a href="https://www.downbad.cloud" class="home-button text-blue-400 hover:text-blue-300 underline block mb-2">
+        Return to Home
+      </a>
+      <div class="donation-link">
+        <a 
+          href="https://www.paypal.com/donate/?hosted_button_id=66P4DZ3GAYA8N" 
+          target="_blank"
+          class="text-blue-400 hover:text-blue-300 underline"
+        >
+          Donate for site development
+        </a>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    function calculateBalance() {
+      // Get input values
+      let currentBalance = parseFloat(document.getElementById('currentBalance').value) || 0;
+      const monthlyIncome = parseFloat(document.getElementById('monthlyIncome').value) || 0;
+      const monthlyRentsBills = parseFloat(document.getElementById('monthlyRentsBills').value) || 0;
+      const weeklyExpenses = parseFloat(document.getElementById('weeklyExpenses').value) || 0;
+
+      // Clear old results
+      const resultsDiv = document.getElementById('results');
+      resultsDiv.innerHTML = '';
+
+      // We'll store each month's leftover in an array
+      let leftovers = [];
+
+      // Calculate for the next 4 months
+      for (let month = 1; month <= 4; month++) {
+        currentBalance += monthlyIncome; 
+        currentBalance -= (monthlyRentsBills + (weeklyExpenses * 4));
+
+        const leftover = currentBalance.toFixed(2);
+        leftovers.push(leftover);
+
+        // Month card for display
+        const monthCard = document.createElement('div');
+        monthCard.className = 'bg-gray-700 rounded p-4 text-center';
+
+        const monthTitle = document.createElement('h3');
+        monthTitle.className = 'text-lg font-semibold mb-2 text-indigo-300';
+        monthTitle.textContent = `Month ${month}`;
+
+        const leftoverP = document.createElement('p');
+        leftoverP.className = 'text-gray-200';
+        leftoverP.textContent = `Remaining: ${leftover}`;
+
+        monthCard.appendChild(monthTitle);
+        monthCard.appendChild(leftoverP);
+        resultsDiv.appendChild(monthCard);
+      }
+
+      // Calculate Month2 leftover minus Month1 leftover
+      let monthlySavingsDiff = 0;
+      if (leftovers.length >= 2) {
+        monthlySavingsDiff = leftovers[1] - leftovers[0];
+      }
+
+      // Update the monthly savings difference field
+      document.getElementById('monthlySavingsDifference').value = monthlySavingsDiff.toFixed(2);
+    }
+  </script>
+</body>
+</html>
