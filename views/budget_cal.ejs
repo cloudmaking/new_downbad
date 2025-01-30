@@ -4,42 +4,47 @@
   <meta charset="UTF-8" />
   <meta
     name="description"
-    content="Manage your finances with precision using our Budget App. Get detailed insights into your future monthly balances, expenses, and savings."
+    content="Manage your finances with precision using our  Budget App. Get detailed insights into your future monthly balances, expenses, and savings."
   />
   <meta
     name="keywords"
     content="budget, finance, savings, expenses, monthly balance, budgeting tool, advanced budget app, detailed budgeting, financial management, income tracking"
   />
-  <meta name="author" content="YourName" />
+  <meta name="author" content="Downbad Cloud" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Budget App - Detailed Financial Management</title>
+  <title> Budget App - Detailed Financial Management</title>
   <!-- Tailwind CSS -->
   <script src="https://cdn.tailwindcss.com"></script>
   <!-- Chart.js -->
   <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <!-- Datepicker -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
+  <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
   <!-- Font Awesome Icons -->
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" integrity="sha512-9usAa10IRO0HhonpyAIVpjrylPvoDwiPUiKdWk5t3PyolY1cOd4DSE0Ga+ri4AuTroPR5aQvXU9xC6qOPnzFeg==" crossorigin="anonymous" referrerpolicy="no-referrer" />
 </head>
 
 <body class="bg-gray-900 text-gray-100 font-sans min-h-screen flex flex-col">
-  <header class="bg-gray-800 py-4">
-    <h1 class="text-3xl font-bold text-center text-indigo-400">
-      <i class="fas fa-chart-line mr-2"></i> Budget App
-    </h1>
-    <p class="text-center text-gray-400">Your detailed financial command center.</p>
+  <header class="bg-gray-800 py-6">
+    <div class="container mx-auto px-6">
+      <h1 class="text-3xl font-bold text-center text-indigo-400">
+        <i class="fas fa-chart-line mr-2"></i> Budget App <sup class="text-sm text-gray-500">v2</sup>
+      </h1>
+      <p class="text-center text-gray-400">Financial Clarity, Projected.</p>
+    </div>
   </header>
 
   <div class="container mx-auto p-6 flex-grow">
-    <div class="bg-gray-800 rounded-lg shadow-xl p-6 max-w-4xl mx-auto">
-      <section id="inputs-section" class="mb-8">
-        <h2 class="text-2xl font-semibold mb-4 text-indigo-300">
-          <i class="fas fa-edit mr-2"></i> Financial Inputs
+    <div class="bg-gray-800 rounded-xl shadow-xl p-8 max-w-5xl mx-auto">
+      <section id="inputs-section" class="mb-10">
+        <h2 class="text-2xl font-semibold mb-6 text-indigo-300 border-b border-gray-700 pb-2">
+          <i class="fas fa-edit mr-2"></i> Financial Inputs & Projections
         </h2>
 
         <!-- Current Balance -->
-        <div class="mb-4">
-          <label for="currentBalance" class="block mb-2 font-medium">
-            <i class="fas fa-wallet mr-1"></i> Current Balance
+        <div class="mb-6">
+          <label for="currentBalance" class="block mb-3 font-medium">
+            <i class="fas fa-wallet mr-1"></i> Starting Balance
           </label>
           <div class="relative">
             <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
@@ -48,85 +53,109 @@
             <input
               type="number"
               id="currentBalance"
-              class="w-full pl-7 pr-3 py-2 rounded bg-gray-700 border border-gray-700 focus:ring-indigo-500 focus:border-indigo-500 text-gray-100 placeholder-gray-500"
-              placeholder="Enter current balance"
+              class="w-full pl-7 pr-3 py-3 rounded-lg bg-gray-700 border border-gray-700 focus:ring-indigo-500 focus:border-indigo-500 text-gray-100 placeholder-gray-500"
+              placeholder="Enter starting balance"
             />
           </div>
+          <p class="text-sm text-gray-500 mt-1">Balance at the beginning of the projection period.</p>
         </div>
 
-        <!-- Income Section -->
+        <!-- Projection Start Date -->
         <div class="mb-6">
-          <h3 class="text-xl font-semibold mb-3 text-indigo-300">
-            <i class="fas fa-plus-circle mr-2"></i> Monthly Income
+          <label for="startDate" class="block mb-3 font-medium">
+            <i class="fas fa-calendar-alt mr-1"></i> Projection Start Date
+          </label>
+          <div class="relative">
+            <input
+              type="text"
+              id="startDate"
+              class="datepicker w-full pr-3 py-3 rounded-lg bg-gray-700 border border-gray-700 focus:ring-indigo-500 focus:border-indigo-500 text-gray-100 placeholder-gray-500"
+              placeholder="Select start date"
+            />
+            <div class="absolute inset-y-0 right-0 pr-3 flex items-center pointer-events-none">
+              <i class="fas fa-calendar text-gray-500"></i>
+            </div>
+          </div>
+          <p class="text-sm text-gray-500 mt-1">The date from which the budget projection begins.</p>
+        </div>
+
+
+        <!-- Income Section -->
+        <div class="mb-8">
+          <h3 class="text-xl font-semibold mb-4 text-indigo-300">
+            <i class="fas fa-plus-circle mr-2"></i> Monthly Income Sources
           </h3>
           <div id="incomesContainer"></div>
           <button
             type="button"
             onclick="addIncome()"
-            class="mt-2 bg-green-500 hover:bg-green-600 text-white font-semibold py-2 px-4 rounded"
+            class="mt-3 bg-green-600 hover:bg-green-700 text-white font-semibold py-3 px-5 rounded-lg"
           >
-            <i class="fas fa-plus mr-1"></i> Add Income
+            <i class="fas fa-plus mr-2"></i> Add Income Source
           </button>
+          <p class="text-sm text-gray-500 mt-1">Recurring monthly income.</p>
         </div>
 
         <!-- Bills Section -->
-        <div class="mb-6">
-          <h3 class="text-xl font-semibold mb-3 text-indigo-300">
-            <i class="fas fa-file-invoice-dollar mr-2"></i> Monthly Bills
+        <div class="mb-8">
+          <h3 class="text-xl font-semibold mb-4 text-indigo-300">
+            <i class="fas fa-file-invoice-dollar mr-2"></i> Monthly Bills & Subscriptions
           </h3>
           <div id="billsContainer"></div>
           <button
             type="button"
             onclick="addBill()"
-            class="mt-2 bg-red-500 hover:bg-red-600 text-white font-semibold py-2 px-4 rounded"
+            class="mt-3 bg-red-600 hover:bg-red-700 text-white font-semibold py-3 px-5 rounded-lg"
           >
-            <i class="fas fa-plus mr-1"></i> Add Bill
+            <i class="fas fa-plus mr-2"></i> Add Bill
           </button>
+          <p class="text-sm text-gray-500 mt-1">Recurring monthly expenses like rent, utilities, subscriptions.</p>
         </div>
 
         <!-- Expenses Section -->
         <div>
-          <h3 class="text-xl font-semibold mb-3 text-indigo-300">
-            <i class="fas fa-shopping-cart mr-2"></i> Weekly Expenses
+          <h3 class="text-xl font-semibold mb-4 text-indigo-300">
+            <i class="fas fa-shopping-cart mr-2"></i> Weekly Expenses (Averages)
           </h3>
           <div id="expensesContainer"></div>
           <button
             type="button"
             onclick="addExpense()"
-            class="mt-2 bg-yellow-500 hover:bg-yellow-600 text-white font-semibold py-2 px-4 rounded"
+            class="mt-3 bg-yellow-600 hover:bg-yellow-700 text-white font-semibold py-3 px-5 rounded-lg"
           >
-            <i class="fas fa-plus mr-1"></i> Add Expense
+            <i class="fas fa-plus mr-2"></i> Add Weekly Expense
           </button>
+          <p class="text-sm text-gray-500 mt-1">Average weekly spending on variable expenses like groceries, transport, entertainment.</p>
         </div>
 
         <button
           onclick="calculateBalance()"
-          class="w-full bg-indigo-600 hover:bg-indigo-700 text-white font-semibold py-3 px-6 rounded mt-6"
+          class="w-full bg-indigo-700 hover:bg-indigo-800 text-white font-semibold py-4 px-7 rounded-lg mt-8 text-xl"
         >
-          <i class="fas fa-calculator mr-2"></i> Calculate Financial Breakdown
+          <i class="fas fa-calculator mr-2"></i> Recalculate Financial Projections
         </button>
       </section>
 
-      <section id="results-section" class="mt-8">
-        <h2 class="text-2xl font-semibold text-center mb-6 text-indigo-400">
-          <i class="fas fa-chart-bar mr-2"></i> Monthly Financial Breakdown
+      <section id="results-section" class="mt-12">
+        <h2 class="text-2xl font-semibold text-center mb-8 text-indigo-400 border-b border-gray-700 pb-2">
+          <i class="fas fa-chart-bar mr-2"></i> Projected Monthly Financial Breakdown
         </h2>
 
-        <div id="results" class="mb-8">
+        <div id="results" class="mb-10 relative h-[400px]">
           <canvas id="budgetChart"></canvas>
         </div>
 
         <div id="resultsTableContainer" class="overflow-x-auto">
-          <table id="resultsTable" class="min-w-full table-auto">
-            <thead class="bg-gray-700">
+          <table id="resultsTable" class="min-w-full table-auto rounded-lg shadow-md bg-gray-700">
+            <thead class="bg-gray-600 text-gray-200">
               <tr>
-                <th class="px-4 py-2 text-left">Month</th>
-                <th class="px-4 py-2 text-left">Starting Balance</th>
-                <th class="px-4 py-2 text-left">Total Income</th>
-                <th class="px-4 py-2 text-left">Total Bills</th>
-                <th class="px-4 py-2 text-left">Total Expenses</th>
-                <th class="px-4 py-2 text-left">Ending Balance</th>
-                <th class="px-4 py-2 text-left">Savings</th>
+                <th class="px-5 py-3 border-b-2 border-gray-500 text-left text-sm font-semibold uppercase tracking-wider">Month</th>
+                <th class="px-5 py-3 border-b-2 border-gray-500 text-left text-sm font-semibold uppercase tracking-wider">Starting Balance</th>
+                <th class="px-5 py-3 border-b-2 border-gray-500 text-left text-sm font-semibold uppercase tracking-wider">Income</th>
+                <th class="px-5 py-3 border-b-2 border-gray-500 text-left text-sm font-semibold uppercase tracking-wider">Bills</th>
+                <th class="px-5 py-3 border-b-2 border-gray-500 text-left text-sm font-semibold uppercase tracking-wider">Expenses</th>
+                <th class="px-5 py-3 border-b-2 border-gray-500 text-left text-sm font-semibold uppercase tracking-wider">Ending Balance</th>
+                <th class="px-5 py-3 border-b-2 border-gray-500 text-left text-sm font-semibold uppercase tracking-wider">Savings</th>
               </tr>
             </thead>
             <tbody id="resultsTableBody" class="text-gray-300">
@@ -138,25 +167,25 @@
     </div>
   </div>
 
-  <footer class="bg-gray-800 py-4 mt-8">
+  <footer class="bg-gray-800 py-6 mt-12">
     <div class="container mx-auto px-6 text-center">
       <a
         href="https://www.downbad.cloud"
-        class="home-button text-blue-400 hover:text-blue-300 underline block mb-2"
+        class="home-button text-blue-400 hover:text-blue-300 underline block mb-3"
       >
-        <i class="fas fa-home mr-1"></i> Return to Home
+        <i class="fas fa-home mr-2"></i> Return to Downbad.Cloud
       </a>
-      <div class="donation-link">
+      <div class="donation-link mb-3">
         <a
           href="https://www.paypal.com/donate/?hosted_button_id=66P4DZ3GAYA8N"
           target="_blank"
           class="text-blue-400 hover:text-blue-300 underline"
         >
-          <i class="fas fa-heart mr-1"></i> Donate for site development
+          <i class="fas fa-coffee mr-2"></i> Support Site Development (Donate)
         </a>
       </div>
       <p class="text-gray-500 mt-2 text-sm">
-        © 2024 Budget App. Crafted with <i class="fas fa-code"></i> and <i class="fas fa-heart text-red-500"></i>.
+        © 2024 Downbad.Cloud | Crafted with <i class="fas fa-code"></i> & <i class="fas fa-heart text-red-500"></i> in the Cloud.
       </p>
     </div>
   </footer>
@@ -165,6 +194,10 @@
     document.addEventListener('DOMContentLoaded', initializeApp);
 
     function initializeApp() {
+      flatpickr(".datepicker", {
+        dateFormat: "Y-m-d",
+        initialDate: new Date(),
+      });
       loadSavedData();
       calculateBalance(); // Initial calculation on load
     }
@@ -172,6 +205,7 @@
     function loadSavedData() {
       const savedData = JSON.parse(localStorage.getItem('budgetAppData') || '{}');
       document.getElementById('currentBalance').value = savedData.currentBalance || '0';
+      document.getElementById('startDate').value = savedData.startDate || formatDate(new Date());
 
       if (savedData.incomes) {
         savedData.incomes.forEach(income => addIncome(income.name, income.amount));
@@ -197,6 +231,7 @@
     function saveAppData() {
       const appData = {
         currentBalance: document.getElementById('currentBalance').value,
+        startDate: document.getElementById('startDate').value,
         incomes: getItemsData('income-item'),
         bills: getItemsData('bill-item'),
         expenses: getItemsData('expense-item'),
@@ -221,29 +256,31 @@
     function createInputRow(containerId, type) {
       const container = document.getElementById(containerId);
       const div = document.createElement('div');
-      div.className = `input-item-group ${type}-item mb-3 flex space-x-2 items-center`;
+      div.className = `input-item-group ${type}-item mb-4 flex space-x-3 items-center`;
       div.innerHTML = `
-        <input
-          type="text"
-          placeholder="${type.charAt(0).toUpperCase() + type.slice(1)} Name"
-          class="${type}-name w-1/3 p-2 rounded bg-gray-700 border border-gray-700 focus:ring-indigo-500 focus:border-indigo-500 text-gray-100 placeholder-gray-500"
-          required
-        />
-        <div class="relative w-1/3">
+        <div class="flex-1">
+          <input
+            type="text"
+            placeholder="${type.charAt(0).toUpperCase() + type.slice(1)} Name"
+            class="${type}-name w-full p-3 rounded-lg bg-gray-700 border border-gray-700 focus:ring-indigo-500 focus:border-indigo-500 text-gray-100 placeholder-gray-500"
+            required
+          />
+        </div>
+        <div class="relative flex-1">
           <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
             <span class="text-gray-500">$</span>
           </div>
           <input
             type="number"
-            placeholder="Amount"
-            class="${type}-amount w-full pl-7 pr-3 py-2 rounded bg-gray-700 border border-gray-700 focus:ring-indigo-500 focus:border-indigo-500 text-gray-100 placeholder-gray-500"
+            placeholder="Monthly Amount"
+            class="${type}-amount w-full pl-7 pr-3 py-3 rounded-lg bg-gray-700 border border-gray-700 focus:ring-indigo-500 focus:border-indigo-500 text-gray-100 placeholder-gray-500"
             required
           />
         </div>
         <button
           type="button"
           onclick="removeRow(this)"
-          class="bg-red-600 hover:bg-red-700 text-white font-semibold py-2 px-4 rounded"
+          class="bg-red-600 hover:bg-red-700 text-white font-semibold py-3 px-5 rounded-lg"
           aria-label="Delete ${type}"
         >
           <i class="fas fa-trash-alt"></i>
@@ -280,6 +317,8 @@
       saveAppData(); // Save data before calculation
 
       let currentBalance = parseFloat(document.getElementById('currentBalance').value) || 0;
+      const startDateStr = document.getElementById('startDate').value;
+      const startDate = new Date(startDateStr);
       const monthlyResults = [];
 
       const incomes = getItemsData('income-item');
@@ -291,22 +330,28 @@
       let totalWeeklyExpenses = expenses.reduce((sum, item) => sum + (parseFloat(item.amount) || 0), 0);
       let totalMonthlyExpenses = totalWeeklyExpenses * 4; // Approximating weeks per month
 
-      let startingBalance = currentBalance;
+      let projectionBalance = currentBalance;
 
-      for (let month = 1; month <= 12; month++) {
-        startingBalance = currentBalance;
-        currentBalance += totalMonthlyIncome;
-        currentBalance -= totalMonthlyBills;
-        currentBalance -= totalMonthlyExpenses;
 
+      for (let month = 0; month < 12; month++) {
+        const projectionDate = new Date(startDate);
+        projectionDate.setMonth(startDate.getMonth() + month);
+        const monthLabel = formatDateToMonthYear(projectionDate);
+
+        const startingBalance = projectionBalance;
+        projectionBalance += totalMonthlyIncome;
+        projectionBalance -= totalMonthlyBills;
+        projectionBalance -= totalMonthlyExpenses;
         const savings = totalMonthlyIncome - totalMonthlyBills - totalMonthlyExpenses;
+
+
         monthlyResults.push({
-          month: month,
+          monthLabel: monthLabel,
           startingBalance: startingBalance,
           income: totalMonthlyIncome,
           bills: totalMonthlyBills,
           expenses: totalMonthlyExpenses,
-          endingBalance: currentBalance,
+          endingBalance: projectionBalance,
           savings: savings
         });
       }
@@ -323,7 +368,7 @@
       results.forEach(monthData => {
         const row = tableBody.insertRow();
 
-        row.insertCell().textContent = `Month ${monthData.month}`;
+        row.insertCell().textContent = monthData.monthLabel;
         row.insertCell().textContent = `$${monthData.startingBalance.toFixed(2)}`;
         row.insertCell().textContent = `$${monthData.income.toFixed(2)}`;
         row.insertCell().textContent = `$${monthData.bills.toFixed(2)}`;
@@ -354,7 +399,7 @@
         window.budgetChartInstance.destroy(); // Destroy existing chart if any
       }
 
-      const monthLabels = results.map(data => `Month ${data.month}`);
+      const monthLabels = results.map(data => data.monthLabel);
       const endingBalances = results.map(data => data.endingBalance);
 
       window.budgetChartInstance = new Chart(chartCanvas, {
@@ -365,8 +410,12 @@
             label: 'Projected Ending Balance',
             data: endingBalances,
             borderColor: 'rgb(75, 192, 192)',
-            tension: 0.1,
-            fill: false
+            borderWidth: 2,
+            tension: 0.4,
+            fill: false,
+            pointRadius: 3,
+            pointHoverRadius: 7,
+            backgroundColor: 'white'
           }]
         },
         options: {
@@ -378,7 +427,19 @@
               ticks: {
                 callback: function(value, index, values) {
                   return '$' + value;
-                }
+                },
+                color: 'white'
+              },
+              grid: {
+                color: 'rgba(255,255,255,0.1)'
+              }
+            },
+            x: {
+              ticks: {
+                color: 'white'
+              },
+              grid: {
+                color: 'rgba(255,255,255,0.1)'
               }
             }
           },
@@ -386,16 +447,36 @@
             legend: {
               labels: {
                 color: 'white'
-              }
+              },
+              align: 'center'
             },
             title: {
               display: true,
-              text: 'Projected Monthly Balances',
-              color: 'white'
+              text: '12-Month Balance Projection',
+              color: 'white',
+              font: {
+                size: 18
+              },
+              padding: {
+                top: 10,
+                bottom: 15
+              }
             }
           }
         }
       });
+    }
+
+    function formatDateToMonthYear(date) {
+      const monthNames = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
+      return `${monthNames[date.getMonth()]} ${date.getFullYear()}`;
+    }
+
+    function formatDate(date) {
+      const year = date.getFullYear();
+      const month = String(date.getMonth() + 1).padStart(2, '0');
+      const day = String(date.getDate()).padStart(2, '0');
+      return `${year}-${month}-${day}`;
     }
 
 
