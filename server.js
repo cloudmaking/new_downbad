@@ -78,8 +78,8 @@ app.get("/budget_cal", (req, res) => {
   res.render("budget_cal");
 });
 
-app.get("/adv_budget", (req, res) => {
-  res.render("adv_budget");
+app.get("/dev_budget_cal", (req, res) => {
+  res.render("dev_budget_cal");
 });
 
 const PORT = process.env.PORT || 8080;
