@@ -78,6 +78,10 @@ app.get("/budget_cal", (req, res) => {
   res.render("budget_cal");
 });
 
+app.get("/adv_budget", (req, res) => {
+  res.render("adv_budget");
+});
+
 const PORT = process.env.PORT || 8080;
 server.listen(PORT, "0.0.0.0", () => {
   console.log(`Server listening on port ${PORT}...`);
